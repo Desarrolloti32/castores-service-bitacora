@@ -15,5 +15,4 @@
 ## Documentación
 -------------
 - Generar peticiones en postman
-
-[link text](readme.md)
+[Documentacion de endpoints](docs.md)
