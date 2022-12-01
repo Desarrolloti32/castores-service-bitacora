@@ -24,6 +24,7 @@ public class BitacoraRepository{
     static final String queryFilterResumenViaje =" SELECT * FROM OPENQUERY( %s , '"
             + " SELECT "
             + "  tv.folio, "
+            + "  tv.idruta, "
             + "  tv.idunidad, "
             + "  tv.idcliente, "
             + "  tv.idoficinacliente, "
