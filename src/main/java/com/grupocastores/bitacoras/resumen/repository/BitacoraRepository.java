@@ -101,7 +101,7 @@ public class BitacoraRepository{
         }
         
         if( idViaje != 0 ) {
-            queryWherePart = queryWherePart + " tv.idviaje = "+idViaje+" AND ";
+            queryWherePart = queryWherePart + " tv.folio = "+idViaje+" AND ";
             queryWherePart = queryWherePart +"tv.estatus NOT IN(5) ";
         }
         
