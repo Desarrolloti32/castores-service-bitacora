@@ -1,4 +1,4 @@
-package com.grupocastores.bitacora;
+package com.grupocastores.bitacoras.resumen;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,10 +10,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableEurekaClient
 @EnableFeignClients
 @EntityScan({ "com.grupocastores.commons.castoresdb", "com.grupocastores.commons.inhouse", "com.grupocastores.commons.oficinas"})
-public class CastoresServiceBitacoraApplication {
+public class CastoresServiceBitacorasResumenApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CastoresServiceBitacoraApplication.class, args);
+        SpringApplication.run(CastoresServiceBitacorasResumenApplication.class, args);
     }
 
 }
