@@ -1,4 +1,4 @@
-package com.grupocastores.bitacora.controller;
+package com.grupocastores.bitacoras.resumen.controller;
 
 import java.util.List;
 
@@ -13,44 +13,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grupocastores.bitacora.service.IBitacoraService;
+import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
+import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 
 
 @RestController
-@RequestMapping(value ="/bitacora")
-public class BitacoraController {
+@RequestMapping(value ="/viajes")
+public class BitacorasController {
     
     @Autowired
     IBitacoraService bitacoraService;
     
-//    @RequestMapping("/findTalones/{mesAnio}/{idEsquema}/{tipoViaje}/{tipoUnidad}/{idCliente}/{idOficinaCliente}/{idOficinaDocumenta}")
-//    public ResponseEntity<List<TalonCustomResponse>> findTalones(
-//            @PathVariable("mesAnio") String mesAnio, 
-//            @PathVariable("idEsquema") int idEsquema,
-//            @PathVariable("tipoViaje") int tipoViaje,
-//            @PathVariable("tipoUnidad") int tipoUnidad,
-//            @PathVariable("idCliente") int idCliente,
-//            @PathVariable("idOficinaCliente") String idOficinaCliente,
-//            @PathVariable("idOficinaDocumenta") String idOficinaDocumenta,
-//            @RequestParam String determinantesOrigen,
-//            @RequestParam String determinantesDestino
-//            ) throws Exception{
-//        List<TalonCustomResponse> response = bitacoraService.findTalones(mesAnio, idEsquema, tipoViaje, tipoUnidad, idCliente, idOficinaCliente, idOficinaDocumenta, determinantesOrigen, determinantesDestino);
-//       
-//        
-//        return ResponseEntity.ok(response);
-//        
-//    } 
-//    
-//    @GetMapping("/findDetacoSumatoria/{claTalon}/{idOficinaDocumenta}")
-//    public ResponseEntity<DetaCo> fintDetacoSumatoria(
-//            @PathVariable("claTalon") String claTalon,       
-//            @PathVariable("idOficinaDocumenta") String idOficinaDocumenta) throws Exception{
-//        DetaCo response = bitacoraService.findDetacoSumatoria(claTalon,idOficinaDocumenta);
-//             
-//        return ResponseEntity.ok(response);
-//        
-//    } 
+    @RequestMapping("/filterViajes/{fechaInicio}/{fechaFin}/{idViaje}/{noEconomico}/{tipoUnidad}/{estatusViaje}/{idEsquema}/{idNegociacion}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}")
+    public ResponseEntity<List<BitacoraResumenViajesCustom>> filterViajes(
+            @PathVariable("fechaInicio") String fechaInicio, 
+            @PathVariable("fechaFin") String fechaFin,
+            @PathVariable("idViaje") int idViaje,
+            @PathVariable("noEconomico") int noEconomico,
+            @PathVariable("tipoUnidad") int tipoUnidad,
+            @PathVariable("estatusViaje") int estatusViaje,
+            @PathVariable("idEsquema") int idEsquema,
+            @PathVariable("idNegociacion") int idNegociacion,
+            @PathVariable("idCliente") int idCliente,
+            @PathVariable("idOficinaCliente") String idOficinaCliente,
+            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta
+          
+            ) throws Exception{
+        List<BitacoraResumenViajesCustom> response = bitacoraService.filterViajes(fechaInicio, fechaFin, idViaje, noEconomico, tipoUnidad, estatusViaje, idEsquema, idNegociacion, idCliente, idOficinaCliente, idoficinaDocumenta);
+       
+        
+        return ResponseEntity.ok(response);
+        
+    } 
+    
+    @GetMapping("/findDetacoSumatoria")
+    public ResponseEntity<String> fintDetacoSumatoria() throws Exception{
+        
+             
+        return ResponseEntity.ok("hola");
+        
+    } 
 //      
 //    @GetMapping("/getFolioViaje/{idFolio}/{idOficinaDocumenta}")
 //    public ResponseEntity<FolioDos> getFolioViaje(

@@ -8,11 +8,11 @@
         <version>2.2.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.grupocastores.bitacora</groupId>
-    <artifactId>castores-service-bitacora</artifactId>
+    <groupId>com.grupocastores.bitacorasResumen</groupId>
+    <artifactId>castores-service-bitacoras-resumen</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>castores-service-bitacora</name>
-    <description>Servicio para consumir procesos de bitacora</description>
+    <name>castores-service-bitacoras-resumen</name>
+    <description>Servicio para consumir procesos de bitacora -> resumen</description>
     
     <properties>
 		<java.version>1.8</java.version>
