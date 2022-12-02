@@ -28,8 +28,8 @@ public class BitacorasController {
     public ResponseEntity<List<BitacoraResumenViajesCustom>> filterViajes(
             @PathVariable("fechaInicio") String fechaInicio, 
             @PathVariable("fechaFin") String fechaFin,
-            @PathVariable("idViaje") int idViaje,
-            @PathVariable("noEconomico") int noEconomico,
+            @PathVariable("idViaje") String idViaje,
+            @PathVariable("noEconomico") String noEconomico,
             @PathVariable("tipoUnidad") int tipoUnidad,
             @PathVariable("estatusViaje") int estatusViaje,
             @PathVariable("idEsquema") int idEsquema,
@@ -46,11 +46,15 @@ public class BitacorasController {
         
     } 
     
-    @GetMapping("/findDetacoSumatoria")
-    public ResponseEntity<String> fintDetacoSumatoria() throws Exception{
+    @GetMapping("/getDetalleViaje/{idViaje}/{idNegociacion}/{idEsquemaViaje}/{idRuta}/")
+    public ResponseEntity<String> fintDetacoSumatoria(
+            @PathVariable("idCliente") int idCliente,
+            @PathVariable("idOficinaCliente") String idOficinaCliente,
+            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta) throws Exception{
+    List<BitacoraResumenViajesCustom> response = bitacoraService.getDetalleViaje(idCliente, idOficinaCliente, idoficinaDocumenta);
+       
         
-             
-        return ResponseEntity.ok("hola");
+        return ResponseEntity.ok(null);
         
     } 
 //      

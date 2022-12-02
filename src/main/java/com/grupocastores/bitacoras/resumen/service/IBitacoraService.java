@@ -9,5 +9,8 @@ import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 
 public interface IBitacoraService {
 
-    public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, int idViaje, int noEconomico, int tipoUnidad,
-            int estatusViaje, int idEsquema, int idNegociacion, int idClienteinhouse,String idOficinaCliente, String idoficinaDocumenta);}
+    public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, String idViaje, String noEconomico, int tipoUnidad,
+            int estatusViaje, int idEsquema, int idNegociacion, int idClienteinhouse,String idOficinaCliente, String idoficinaDocumenta);
+
+    public List<BitacoraResumenViajesCustom> getDetalleViaje(int idCliente, String idOficinaCliente,
+            String idoficinaDocumenta);}

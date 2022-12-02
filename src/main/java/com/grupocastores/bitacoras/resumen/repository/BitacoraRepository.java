@@ -72,13 +72,13 @@ public class BitacoraRepository{
             + " WHERE  %s  tv.idCliente = %s AND tv.idOficinacliente = \"%s\"  GROUP BY tv.idviaje; ');";
     
     
-    public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, int idViaje, int noEconomico, int tipoUnidad,
+    public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, String idViaje, String noEconomico, int tipoUnidad,
             int estatusViaje, int idEsquema, int idNegociacion, int idCliente,String idOficinaCliente, String linkedServer) {
       
         String queryWherePart = "";
       
         
-        if( idViaje == 0 && noEconomico==0 ) {
+        if( idViaje.equals(0) && noEconomico.equals(0) ) {
  
             queryWherePart = queryWherePart + " ( tv.fechaviaje BETWEEN \""+fechaInicio+"\" AND \""+fechaFin+"\")  ";
             if(tipoUnidad != 0) {            
@@ -100,12 +100,12 @@ public class BitacoraRepository{
             
         }
         
-        if( idViaje != 0 ) {
+        if( idViaje!="0" ) {
             queryWherePart = queryWherePart + " tv.folio = "+idViaje+" AND ";
             queryWherePart = queryWherePart +"tv.estatus NOT IN(5) ";
         }
         
-        if( noEconomico != 0 ) {
+        if( noEconomico !="0" ) {
             queryWherePart = queryWherePart + " cc.noeconomico = "+noEconomico+" AND ";
             queryWherePart = queryWherePart +" tv.estatus NOT IN(5) ";
             
