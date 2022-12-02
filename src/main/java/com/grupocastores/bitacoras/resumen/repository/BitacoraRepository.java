@@ -78,7 +78,7 @@ public class BitacoraRepository{
         String queryWherePart = "";
       
         
-        if( idViaje.equals(0) && noEconomico.equals(0) ) {
+        if( idViaje.equals("0") && noEconomico.equals("0") ) {
  
             queryWherePart = queryWherePart + " ( tv.fechaviaje BETWEEN \""+fechaInicio+"\" AND \""+fechaFin+"\")  ";
             if(tipoUnidad != 0) {            
@@ -100,12 +100,12 @@ public class BitacoraRepository{
             
         }
         
-        if( idViaje!="0" ) {
+        if( !idViaje.equals("0") ) {
             queryWherePart = queryWherePart + " tv.folio = "+idViaje+" AND ";
             queryWherePart = queryWherePart +"tv.estatus NOT IN(5) ";
         }
         
-        if( noEconomico !="0" ) {
+        if( !noEconomico.equals("0") ) {
             queryWherePart = queryWherePart + " cc.noeconomico = "+noEconomico+" AND ";
             queryWherePart = queryWherePart +" tv.estatus NOT IN(5) ";
             
@@ -121,6 +121,7 @@ public class BitacoraRepository{
                 idOficinaCliente),
                 BitacoraResumenViajesCustom.class
             );
+        List<BitacoraResumenViajesCustom> list = query.getResultList();
         
         return query.getResultList();
     }

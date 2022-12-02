@@ -46,17 +46,17 @@ public class BitacorasController {
         
     } 
     
-    @GetMapping("/getDetalleViaje/{idViaje}/{idNegociacion}/{idEsquemaViaje}/{idRuta}/")
-    public ResponseEntity<String> fintDetacoSumatoria(
-            @PathVariable("idCliente") int idCliente,
-            @PathVariable("idOficinaCliente") String idOficinaCliente,
-            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta) throws Exception{
-    List<BitacoraResumenViajesCustom> response = bitacoraService.getDetalleViaje(idCliente, idOficinaCliente, idoficinaDocumenta);
-       
-        
-        return ResponseEntity.ok(null);
-        
-    } 
+//    @GetMapping("/getDetalleViaje/{idViaje}/{idNegociacion}/{idEsquemaViaje}/{idRuta}/")
+//    public ResponseEntity<String> fintDetacoSumatoria(
+//            @PathVariable("idCliente") int idCliente,
+//            @PathVariable("idOficinaCliente") String idOficinaCliente,
+//            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta) throws Exception{
+//    List<BitacoraResumenViajesCustom> response = bitacoraService.getDetalleViaje(idCliente, idOficinaCliente, idoficinaDocumenta);
+//       
+//        
+//        return ResponseEntity.ok(null);
+//        
+//    } 
 //      
 //    @GetMapping("/getFolioViaje/{idFolio}/{idOficinaDocumenta}")
 //    public ResponseEntity<FolioDos> getFolioViaje(
