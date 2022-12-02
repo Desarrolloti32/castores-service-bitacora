@@ -38,12 +38,12 @@ public class BitacoraServiceImpl implements IBitacoraService{
     }
 
 
-    @Override
-    public List<BitacoraResumenViajesCustom> getDetalleViaje(int idCliente, String idOficinaCliente,
-            String idoficinaDocumenta) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    public List<BitacoraResumenViajesCustom> getDetalleViaje(int idCliente, String idOficinaCliente,
+//            String idoficinaDocumenta) {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
    
 
