@@ -29,12 +29,20 @@ public class BitacoraServiceImpl implements IBitacoraService{
 
 
     @Override
-    public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, int idViaje, int noEconomico, int tipoUnidad,
+    public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, String idViaje, String noEconomico, int tipoUnidad,
             int estatusViaje, int idEsquema, int idNegociacion, int idClienteinhouse, String idOficinaCliente, String idoficinaDocumenta) {
         Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
         List<BitacoraResumenViajesCustom> response = bitacoraRepository.filterViajes(fechaInicio, fechaFin, idViaje, noEconomico, tipoUnidad, estatusViaje, idEsquema, idNegociacion, idClienteinhouse, idOficinaCliente, DBPRUEBA);
         
         return response;
+    }
+
+
+    @Override
+    public List<BitacoraResumenViajesCustom> getDetalleViaje(int idCliente, String idOficinaCliente,
+            String idoficinaDocumenta) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
    
