@@ -10,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
+import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
+import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
+import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
+import com.grupocastores.commons.inhouse.Ruta;
+
 
 @Repository
 public class BitacoraRepository{
@@ -19,7 +24,6 @@ public class BitacoraRepository{
     
     @PersistenceContext
     private EntityManager entityManager;
-    
     
     static final String queryFilterResumenViaje =" SELECT * FROM OPENQUERY( %s , '"
             + " SELECT "
@@ -71,7 +75,19 @@ public class BitacoraRepository{
             + "    ON tv.idoficinadestino = cof2.idoficina "
             + " WHERE  %s  tv.idCliente = %s AND tv.idOficinacliente = \"%s\"  GROUP BY tv.idviaje; ');";
     
+    static final String queryGetNegociacion = 
+            "SELECT *FROM OPENQUERY(%s, 'SELECT nc.id_negociacion_cliente, nc.id_negociacion, n.desc_negociacion FROM bitacorasinhouse.negociaciones_clientes nc INNER JOIN bitacorasinhouse.negociaciones n ON n.id_negociacion = nc.id_negociacion WHERE id_negociacion_cliente = %s;');";
     
+    static final String queryGetEsquema =
+            "SELECT *FROM OPENQUERY(%s, 'SELECT id_esquema, nombre_esquema, estatus FROM bitacorasinhouse.esquemas WHERE estatus =1 AND id_esquema = %s');";
+    
+    static final String queryGetEstatusunidad =
+            "SELECT *FROM OPENQUERY(%s, 'SELECT cb.idunidad, ce.nombre   FROM camiones.bitacora cb INNER JOIN camiones.estatus ce ON cb.estatusunidad = ce.idstatus WHERE idunidad = %s');";
+    
+    static final String queryGetRuta =
+            "SELECT *FROM OPENQUERY(%s, 'SELECT * FROM talones.ruta WHERE idruta = %s');";
+    
+    @SuppressWarnings("unused")
     public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, String idViaje, String noEconomico, int tipoUnidad,
             int estatusViaje, int idEsquema, int idNegociacion, int idCliente,String idOficinaCliente, String linkedServer) {
       
@@ -125,6 +141,56 @@ public class BitacoraRepository{
         
         return query.getResultList();
     }
+    
+    
+    public BitacoraResumenViajesNegociacion getNegocioacion(int idNegociacion) {
+        Query query = entityManager.createNativeQuery(String.format(
+                queryGetNegociacion,
+                utilitiesRepository.getDb23(),
+                idNegociacion),
+                BitacoraResumenViajesNegociacion.class
+            );
+        
+        BitacoraResumenViajesNegociacion negociacion = (BitacoraResumenViajesNegociacion) query.getResultList().get(0);
+        return negociacion;
+    }
+    public Esquemasdocumentacion getEsquema( int idEsquemaViaje) {
+        Query query = entityManager.createNativeQuery(String.format(
+                queryGetEsquema,
+                utilitiesRepository.getDb23(),
+                idEsquemaViaje),
+                Esquemasdocumentacion.class
+            );
+        
+        Esquemasdocumentacion negociacion = (Esquemasdocumentacion) query.getResultList().get(0);
+        return negociacion;
+    }
+    
+    public EstatusunidadBitacoraResumen getEstatusUnidad( int idunidad) {
+        Query query = entityManager.createNativeQuery(String.format(
+                queryGetEstatusunidad,
+                utilitiesRepository.getDb13(),
+                idunidad),
+                EstatusunidadBitacoraResumen.class
+            );
+        
+        EstatusunidadBitacoraResumen estatus = (EstatusunidadBitacoraResumen) query.getResultList().get(0);
+        return estatus;
+    }
+    
+    public Ruta getRuta( int idRuta) {
+        Query query = entityManager.createNativeQuery(String.format(
+                queryGetRuta,
+                utilitiesRepository.getDb23(),
+                idRuta),
+                Ruta.class
+            );
+        
+        Ruta ruta = (Ruta) query.getResultList().get(0);
+        return ruta;
+    }
+
+
    
 
    

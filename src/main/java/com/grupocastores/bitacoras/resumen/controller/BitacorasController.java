@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
+import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
 
 
 @RestController
@@ -46,17 +47,22 @@ public class BitacorasController {
         
     } 
     
-//    @GetMapping("/getDetalleViaje/{idViaje}/{idNegociacion}/{idEsquemaViaje}/{idRuta}/")
-//    public ResponseEntity<String> fintDetacoSumatoria(
-//            @PathVariable("idCliente") int idCliente,
-//            @PathVariable("idOficinaCliente") String idOficinaCliente,
-//            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta) throws Exception{
-//    List<BitacoraResumenViajesCustom> response = bitacoraService.getDetalleViaje(idCliente, idOficinaCliente, idoficinaDocumenta);
-//       
-//        
-//        return ResponseEntity.ok(null);
-//        
-//    } 
+    @GetMapping("/getDetalleViaje/{idNegociacion}/{idEsquemaViaje}/{idRuta}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}/{idUnidad}/{noEconomico}")
+    public ResponseEntity<BitacoraResumenViajesDetail> getDetalleViaje(
+            @PathVariable("idNegociacion") int idNegociacion,
+            @PathVariable("idEsquemaViaje") int idEsquemaViaje,
+            @PathVariable("idRuta") int idRuta,
+            @PathVariable("idCliente") int idCliente,
+            @PathVariable("idOficinaCliente") String idOficinaCliente,
+            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta,
+            @PathVariable("idUnidad") int idUnidad,
+            @PathVariable("noEconomico") int noEconomico) throws Exception{
+        BitacoraResumenViajesDetail response = bitacoraService.getDetalleViaje(idNegociacion, idEsquemaViaje, idRuta,  idCliente, idOficinaCliente, idoficinaDocumenta, idUnidad, noEconomico);
+       
+        
+        return ResponseEntity.ok(response);
+        
+    } 
 //      
 //    @GetMapping("/getFolioViaje/{idFolio}/{idOficinaDocumenta}")
 //    public ResponseEntity<FolioDos> getFolioViaje(
