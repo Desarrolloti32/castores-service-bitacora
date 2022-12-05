@@ -39,6 +39,7 @@ public class BitacoraRepository{
             + "  tv.estatus, "
             + "  tes.nombre AS nombreestatus, "
             + "  tv.fechaviaje, "
+            + "  tv.fechamod, "
             + "  tet.idnegociacion, "
             + "  tet.idesquema, "
             + "  tv.idoficinaorigen, "
