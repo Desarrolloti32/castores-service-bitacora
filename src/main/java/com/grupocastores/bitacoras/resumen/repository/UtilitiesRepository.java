@@ -19,8 +19,10 @@ public class UtilitiesRepository {
     @PersistenceContext
     private EntityManager entityManager;
     
-    public static final String DB_23 = "PRUEBAS23";
-    public static final String DB_13 = "TIJUANAPRUEBA";
+    public static String DB_23 = "PRUEBAS23";
+   
+
+    public static String DB_13 = "PRUEBAS13";
     public static final String queryGetLinkedServerByIdOficina = 
             "SELECT * FROM syn.dbo.v_Oficinas where Oficina = \'%s\'";
     static final String queryGetPersonalByIdUsuario = 
@@ -80,5 +82,13 @@ public class UtilitiesRepository {
         if (list == null)
             throw new Exception("No se pudo obtener el registro del usuario: "+idUsuario );
         return (Personal) list.get(0);
+    }
+    
+    public static String getDb23() {
+        return DB_23;
+    }
+
+    public static String getDb13() {
+        return DB_13;
     }
 }
