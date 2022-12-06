@@ -1,7 +1,7 @@
 
 # DOCUMENTACION DE ENDPOINTS 
 ~~~
-### Este microservicio esta LIGADO al modulo de resumen de viajes
+### Este microservicio esta LIGADO al modulo de bitacoras y submodulo de resumen de viajes
 ~~~
     
 ## ENDPOINTS PARA RESUMEN DE VIAJES
