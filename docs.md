@@ -9,8 +9,7 @@
 
 ### Filtra los viajes dependiendo las especificaciones seleccionadas
 	Get(value = "/filterViajes/{fechaInicio}/{fechaFin}/{idViaje}/{noEconomico}/{tipoUnidad}/{estatusViaje}/{idEsquema}/{idNegociacion}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}")
-	
-    Response:
+	Response:
 `[
     {
         "folio": "22020300039",
