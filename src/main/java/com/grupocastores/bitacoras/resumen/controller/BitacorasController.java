@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
+import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
 
 
 @RestController
@@ -24,12 +25,20 @@ public class BitacorasController {
     @Autowired
     IBitacoraService bitacoraService;
     
+    /**
+     * filterViajes: Servicio para filtrar viajes.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return List<BitacoraResumenViajesCustom>
+     * @date 2022-12-06
+     */
     @RequestMapping("/filterViajes/{fechaInicio}/{fechaFin}/{idViaje}/{noEconomico}/{tipoUnidad}/{estatusViaje}/{idEsquema}/{idNegociacion}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}")
     public ResponseEntity<List<BitacoraResumenViajesCustom>> filterViajes(
             @PathVariable("fechaInicio") String fechaInicio, 
             @PathVariable("fechaFin") String fechaFin,
-            @PathVariable("idViaje") int idViaje,
-            @PathVariable("noEconomico") int noEconomico,
+            @PathVariable("idViaje") String idViaje,
+            @PathVariable("noEconomico") String noEconomico,
             @PathVariable("tipoUnidad") int tipoUnidad,
             @PathVariable("estatusViaje") int estatusViaje,
             @PathVariable("idEsquema") int idEsquema,
@@ -46,44 +55,30 @@ public class BitacorasController {
         
     } 
     
-    @GetMapping("/findDetacoSumatoria")
-    public ResponseEntity<String> fintDetacoSumatoria() throws Exception{
+    /**
+     * getDetalleViaje: Servicio para obtener el detalle del resumen de viaje.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenViajesDetail
+     * @date 2022-12-06
+     */
+    @GetMapping("/getDetalleViaje/{idNegociacion}/{idEsquemaViaje}/{idRuta}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}/{idUnidad}/{noEconomico}")
+    public ResponseEntity<BitacoraResumenViajesDetail> getDetalleViaje(
+            @PathVariable("idNegociacion") int idNegociacion,
+            @PathVariable("idEsquemaViaje") int idEsquemaViaje,
+            @PathVariable("idRuta") int idRuta,
+            @PathVariable("idCliente") int idCliente,
+            @PathVariable("idOficinaCliente") String idOficinaCliente,
+            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta,
+            @PathVariable("idUnidad") int idUnidad,
+            @PathVariable("noEconomico") int noEconomico) throws Exception{
+        BitacoraResumenViajesDetail response = bitacoraService.getDetalleViaje(idNegociacion, idEsquemaViaje, idRuta,  idCliente, idOficinaCliente, idoficinaDocumenta, idUnidad, noEconomico);
+       
         
-             
-        return ResponseEntity.ok("hola");
+        return ResponseEntity.ok(response);
         
     } 
-//      
-//    @GetMapping("/getFolioViaje/{idFolio}/{idOficinaDocumenta}")
-//    public ResponseEntity<FolioDos> getFolioViaje(
-//            @PathVariable("idFolio") int idFolio, @PathVariable("idOficinaDocumenta") String idOficinaDocumenta) throws Exception{
-//        FolioDos folio = bitacoraService.getFolioViaje(idFolio, idOficinaDocumenta);
-//        return ResponseEntity.ok(folio);
-//    }
-//    
-//    @GetMapping("/getFolioGuia/{idFolio}/{idOficinaDocumenta}")
-//    public ResponseEntity<FoliosGuias> getFolioTalon(
-//            @PathVariable("idFolio") int idFolio, @PathVariable("idOficinaDocumenta") String idOficinaDocumenta) throws Exception{
-//        FoliosGuias folio = bitacoraService.getFolioGuia(idFolio, idOficinaDocumenta);
-//        return ResponseEntity.ok(folio);
-//    }
-//    
-//    @PostMapping("/insertViaje")
-//    public ResponseEntity<Viajes> insertViajes(
-//          @RequestBody Viajes dataViaje) throws Exception{
-//      Viajes response = bitacoraService.insertViaje(dataViaje);
-//      if (response == null)
-//          return ResponseEntity.noContent().build();
-//      return ResponseEntity.ok(response);
-//    }
-//    @PutMapping("/updateViaje")
-//    public ResponseEntity<Viajes> updateViajes(
-//        @RequestBody Viajes dataViaje) throws Exception{
-//        Viajes response = bitacoraService.updateViajes(dataViaje);
-//        if (response == null)
-//            return ResponseEntity.noContent().build();
-//        return ResponseEntity.ok(response);
-//      }
-//    
+
       
 }
