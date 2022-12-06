@@ -37,7 +37,15 @@ public class BitacoraServiceImpl implements IBitacoraService{
     
     public static final String DBPRUEBA = "TIJUANAPRUEBA";
 
-
+    
+    /**
+     * filterViajes: Servicio para filtrar viajes.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return List<BitacoraResumenViajesCustom>
+     * @date 2022-12-06
+     */
     @Override
     public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, String idViaje, String noEconomico, int tipoUnidad,
             int estatusViaje, int idEsquema, int idNegociacion, int idClienteinhouse, String idOficinaCliente, String idoficinaDocumenta) {
@@ -46,8 +54,15 @@ public class BitacoraServiceImpl implements IBitacoraService{
         
         return response;
     }
-
-
+    
+    /**
+     * getDetalleViaje: Servicio para obtener el detalle del resumen de viaje.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenViajesDetail
+     * @date 2022-12-06
+     */
     @Override
     public BitacoraResumenViajesDetail getDetalleViaje(int idNegociacion, int idEsquemaViaje, int idRuta,
             int idCliente, String idOficinaCliente, String idoficinaDocumenta, int idUnidad, int noEconomico) {

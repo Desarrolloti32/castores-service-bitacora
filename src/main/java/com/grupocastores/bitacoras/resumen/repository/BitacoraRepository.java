@@ -88,6 +88,15 @@ public class BitacoraRepository{
     static final String queryGetRuta =
             "SELECT *FROM OPENQUERY(%s, 'SELECT * FROM talones.ruta WHERE idruta = %s');";
     
+    
+    /**
+     * filterViajes: funcion para ejecutar query de filtrar viajes.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return List<BitacoraResumenViajesCustom>
+     * @date 2022-12-06
+     */
     @SuppressWarnings("unused")
     public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, String idViaje, String noEconomico, int tipoUnidad,
             int estatusViaje, int idEsquema, int idNegociacion, int idCliente,String idOficinaCliente, String linkedServer) {
@@ -143,7 +152,14 @@ public class BitacoraRepository{
         return query.getResultList();
     }
     
-    
+    /**
+     * getNegocioacion: Funcion para ejecutar consulta de negociacion .
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenViajesNegociacion
+     * @date 2022-12-06
+     */
     public BitacoraResumenViajesNegociacion getNegocioacion(int idNegociacion) {
         Query query = entityManager.createNativeQuery(String.format(
                 queryGetNegociacion,
@@ -155,6 +171,15 @@ public class BitacoraRepository{
         BitacoraResumenViajesNegociacion negociacion = (BitacoraResumenViajesNegociacion) query.getResultList().get(0);
         return negociacion;
     }
+    
+    /**
+     * getEsquema: Funcion para ejecutar consulta de esquema .
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return Esquemasdocumentacion
+     * @date 2022-12-06
+     */
     public Esquemasdocumentacion getEsquema( int idEsquemaViaje) {
         Query query = entityManager.createNativeQuery(String.format(
                 queryGetEsquema,
@@ -167,6 +192,14 @@ public class BitacoraRepository{
         return negociacion;
     }
     
+    /**
+     * getEstatusUnidad: Funcion que ejecuta consulta para obtener estatus de unidad.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return EstatusunidadBitacoraResumen
+     * @date 2022-12-06
+     */
     public EstatusunidadBitacoraResumen getEstatusUnidad( int idunidad) {
         Query query = entityManager.createNativeQuery(String.format(
                 queryGetEstatusunidad,
@@ -179,6 +212,14 @@ public class BitacoraRepository{
         return estatus;
     }
     
+    /**
+     * getRuta: Funcion que ejecuta consulta para obtener ruta.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return Ruta
+     * @date 2022-12-06
+     */
     public Ruta getRuta( int idRuta) {
         Query query = entityManager.createNativeQuery(String.format(
                 queryGetRuta,
