@@ -14,4 +14,5 @@
 
 ## Documentación
 -------------
-- Generar peticiones en postman
+- Generar peticiones en postman 
+[Documentacion de endpoints!!!](docs.md)
