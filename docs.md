@@ -59,3 +59,12 @@ Response: `[
 
 ### Servicio para obtener el detalle del resumen de viaje
 	@Get(value = "/getDetalleViaje/{idNegociacion}/{idEsquemaViaje}/{idRuta}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}/{idUnidad}/{noEconomico}")
+
+Response: `{
+    "descripcionNegociacion": "DEDICADO TRACTO",
+    "descripcionEsquema": "Dedicado pago x viaje",
+    "descripcionRuta": "MJVS SILAO - VERACRUZ",
+    "estatusLiberacion": "test",
+    "gastoCasetas": 10041.4323,
+    "estatusUnidad": "VACIO"
+}`
