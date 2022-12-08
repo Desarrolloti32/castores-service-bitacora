@@ -79,6 +79,26 @@ public class BitacorasController {
         return ResponseEntity.ok(response);
         
     } 
+    
+    /**
+     * getDetalleViaje: Servicio para obtener el detalle del resumen de viaje.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenViajesDetail
+     * @date 2022-12-06
+     */
+    @GetMapping("/getTalonesByViaje/{idoficinaDocumenta}/{idViaje}")
+    public ResponseEntity<BitacoraResumenViajesDetail> getTalonesByViaje(    
+            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta,
+            @PathVariable("idViaje") int idViaje) throws Exception{
+        BitacoraResumenViajesDetail response = bitacoraService.getTalonesByViaje(idoficinaDocumenta, idViaje);
+       
+        
+        return ResponseEntity.ok(response);
+        
+    } 
+    
 
       
 }

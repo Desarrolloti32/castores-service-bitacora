@@ -16,12 +16,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.grupocastores.bitacoras.resumen.repository.BitacoraRepository;
 import com.grupocastores.bitacoras.resumen.repository.UtilitiesRepository;
+import com.grupocastores.bitacoras.resumen.service.client.IViajesDocumentacionClientRest;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
 import com.grupocastores.commons.inhouse.BitacoraViajesRequest;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
+import com.grupocastores.commons.inhouse.GuiaViajeCustom;
 import com.grupocastores.commons.inhouse.Ruta;
 import com.grupocastores.commons.oficinas.Servidores;
 
@@ -30,6 +32,9 @@ public class BitacoraServiceImpl implements IBitacoraService{
     
     @Autowired
     private BitacoraRepository bitacoraRepository;
+    
+    @Autowired
+    private IViajesDocumentacionClientRest viajesDocumentacionFeign;
     
     @Autowired
     private UtilitiesRepository utilitiesRepository;
@@ -85,6 +90,13 @@ public class BitacoraServiceImpl implements IBitacoraService{
         }
                 
         return listDetailResumenViaje;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public BitacoraResumenViajesDetail getTalonesByViaje(String idoficinaDocumenta, int idViaje) {
+        List<GuiaViajeCustom> list = (List<GuiaViajeCustom>) viajesDocumentacionFeign.getGuiasViaje(idViaje, idoficinaDocumenta);
+        return null;
     }
 
     

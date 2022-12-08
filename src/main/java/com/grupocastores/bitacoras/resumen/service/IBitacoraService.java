@@ -27,4 +27,15 @@ public interface IBitacoraService {
      */
     public BitacoraResumenViajesDetail getDetalleViaje(int idNegociacion, int idEsquemaViaje, int idRuta,
             int idCliente, String idOficinaCliente, String idoficinaDocumenta, int idUnidad, int noEconomico);
-    }
+    
+    /**
+     * getTalonesByViaje: Servicio para obtener talones por viaje.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @date 2022-12-07
+     */
+    public BitacoraResumenViajesDetail getTalonesByViaje(String idoficinaDocumenta, int idUnidad);
+  
+    
+}
