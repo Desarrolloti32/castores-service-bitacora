@@ -64,9 +64,8 @@ public class BitacorasController {
      * @return BitacoraResumenViajesDetail
      * @date 2022-12-06
      */
-    @GetMapping("/getDetalleViaje/{idViaje}/{idNegociacion}/{idEsquemaViaje}/{idRuta}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}/{idUnidad}/{noEconomico}")
+    @GetMapping("/getDetalleViaje//{idNegociacion}/{idEsquemaViaje}/{idRuta}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}/{idUnidad}/{noEconomico}")
     public ResponseEntity<BitacoraResumenViajesDetail> getDetalleViaje(
-            @PathVariable("idViaje") int idViaje,
             @PathVariable("idNegociacion") int idNegociacion,
             @PathVariable("idEsquemaViaje") int idEsquemaViaje,
             @PathVariable("idRuta") int idRuta,
@@ -75,7 +74,7 @@ public class BitacorasController {
             @PathVariable("idoficinaDocumenta") String idoficinaDocumenta,
             @PathVariable("idUnidad") int idUnidad,
             @PathVariable("noEconomico") int noEconomico) throws Exception{
-        BitacoraResumenViajesDetail response = bitacoraService.getDetalleViaje(idViaje, idNegociacion, idEsquemaViaje, idRuta,  idCliente, idOficinaCliente, idoficinaDocumenta, idUnidad, noEconomico);
+        BitacoraResumenViajesDetail response = bitacoraService.getDetalleViaje(idNegociacion, idEsquemaViaje, idRuta,  idCliente, idOficinaCliente, idoficinaDocumenta, idUnidad, noEconomico);
        
         
         return ResponseEntity.ok(response);

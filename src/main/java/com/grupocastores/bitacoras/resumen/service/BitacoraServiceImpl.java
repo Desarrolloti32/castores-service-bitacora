@@ -72,7 +72,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
      * @date 2022-12-06
      */
     @Override
-    public BitacoraResumenViajesDetail getDetalleViaje(int idViaje, int idNegociacion, int idEsquemaViaje, int idRuta,
+    public BitacoraResumenViajesDetail getDetalleViaje(int idNegociacion, int idEsquemaViaje, int idRuta,
             int idCliente, String idOficinaCliente, String idoficinaDocumenta, int idUnidad, int noEconomico) {
         
         Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
