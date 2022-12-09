@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
+import com.grupocastores.commons.inhouse.TalonCustomResponse;
 
 
 public interface IBitacoraService {
@@ -25,7 +26,7 @@ public interface IBitacoraService {
      * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
      * @date 2022-12-06
      */
-    public BitacoraResumenViajesDetail getDetalleViaje(int idNegociacion, int idEsquemaViaje, int idRuta,
+    public BitacoraResumenViajesDetail getDetalleViaje(int idViaje, int idNegociacion, int idEsquemaViaje, int idRuta,
             int idCliente, String idOficinaCliente, String idoficinaDocumenta, int idUnidad, int noEconomico);
     
     /**
@@ -35,7 +36,7 @@ public interface IBitacoraService {
      * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
      * @date 2022-12-07
      */
-    public BitacoraResumenViajesDetail getTalonesByViaje(String idoficinaDocumenta, int idUnidad);
+    public List<TalonCustomResponse> getTalonesByViaje(String idoficinaDocumenta, int idUnidad);
   
     
 }

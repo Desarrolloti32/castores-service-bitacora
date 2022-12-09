@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,7 +26,9 @@ import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
 import com.grupocastores.commons.inhouse.GuiaViajeCustom;
 import com.grupocastores.commons.inhouse.Ruta;
+import com.grupocastores.commons.inhouse.TalonCustomResponse;
 import com.grupocastores.commons.oficinas.Servidores;
+import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 @Service
 public class BitacoraServiceImpl implements IBitacoraService{
@@ -69,7 +72,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
      * @date 2022-12-06
      */
     @Override
-    public BitacoraResumenViajesDetail getDetalleViaje(int idNegociacion, int idEsquemaViaje, int idRuta,
+    public BitacoraResumenViajesDetail getDetalleViaje(int idViaje, int idNegociacion, int idEsquemaViaje, int idRuta,
             int idCliente, String idOficinaCliente, String idoficinaDocumenta, int idUnidad, int noEconomico) {
         
         Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
@@ -94,9 +97,21 @@ public class BitacoraServiceImpl implements IBitacoraService{
 
     @SuppressWarnings("unchecked")
     @Override
-    public BitacoraResumenViajesDetail getTalonesByViaje(String idoficinaDocumenta, int idViaje) {
-        List<GuiaViajeCustom> list = (List<GuiaViajeCustom>) viajesDocumentacionFeign.getGuiasViaje(idViaje, idoficinaDocumenta);
-        return null;
+    public  List<TalonCustomResponse> getTalonesByViaje(String idoficinaDocumenta, int idViaje) {
+        ResponseEntity<List<GuiaViajeCustom>> resEntityGuiasViaje =  viajesDocumentacionFeign.getGuiasViaje(idViaje, idoficinaDocumenta);
+       
+        List<TalonCustomResponse> listTalones = new ArrayList<TalonCustomResponse>();
+        if(resEntityGuiasViaje.getStatusCode()==HttpStatus.OK) {
+            List<GuiaViajeCustom> listGuiaViaje =resEntityGuiasViaje.getBody();
+            int listGuiaViajeSize = listGuiaViaje.size();
+            for(int i=0; i< listGuiaViajeSize; i++  ) {
+                ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesGuia(listGuiaViaje.get(i).getNoGuia(), idoficinaDocumenta);
+                if(resEntityTalonesGuia.getStatusCode()==HttpStatus.OK) {
+                    listTalones = resEntityTalonesGuia.getBody();
+                }
+            }
+        }
+        return listTalones;
     }
 
     
