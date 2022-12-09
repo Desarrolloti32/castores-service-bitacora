@@ -26,7 +26,7 @@ public interface IBitacoraService {
      * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
      * @date 2022-12-06
      */
-    public BitacoraResumenViajesDetail getDetalleViaje(int idViaje, int idNegociacion, int idEsquemaViaje, int idRuta,
+    public BitacoraResumenViajesDetail getDetalleViaje(int idNegociacion, int idEsquemaViaje, int idRuta,
             int idCliente, String idOficinaCliente, String idoficinaDocumenta, int idUnidad, int noEconomico);
     
     /**

@@ -241,19 +241,7 @@ public class BitacoraRepository{
         return ruta;
     }
     
-    /**
-     * getRuta: Funcion que ejecuta consulta para obtener ruta.
-     * 
-     * @version 0.0.1
-     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
-     * @return Ruta
-     * @date 2022-12-06
-     */
-    public Esquemasdocumentacion getTalonesByViaje(int idViaje) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+  
 
    
 
