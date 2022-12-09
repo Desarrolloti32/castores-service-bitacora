@@ -30,6 +30,8 @@ public class BitacoraRepository{
             + "  tv.folio, "
             + "  tv.idruta, "
             + "  tv.idunidad, "
+            + "  cur.unidad AS unidadurea, "
+            + "  cabi.idunidad AS unidaddiesel, "
             + "  tv.idcliente, "
             + "  tv.idoficinacliente, "
             + "  tv.tipounidad AS idtipounidad, "
@@ -64,6 +66,10 @@ public class BitacoraRepository{
             + "    ON tgma.cla_talon = tet.cla_talon "
             + "  INNER JOIN camiones.camiones cc "
             + "    ON tv.idunidad = cc.unidad "
+            + "  LEFT JOIN camiones.unidades_urea cur "
+            + "    ON cc.unidad = cur.unidad "
+            + "  LEFT JOIN camiones.bitacora cabi "
+            + "    ON cc.unidad = cabi.idunidad "
             + "  INNER JOIN camiones.tipounidad cti "
             + "    ON tv.tipounidad = cti.idtipounidad "
             + "  INNER JOIN talones.estatusviajes tes "
@@ -86,6 +92,9 @@ public class BitacoraRepository{
             "SELECT *FROM OPENQUERY(%s, 'SELECT cb.idunidad, ce.nombre   FROM camiones.bitacora cb INNER JOIN camiones.estatus ce ON cb.estatusunidad = ce.idstatus WHERE idunidad = %s');";
     
     static final String queryGetRuta =
+            "SELECT *FROM OPENQUERY(%s, 'SELECT * FROM talones.ruta WHERE idruta = %s');";
+    
+    static final String queryGetGuiasByViaje =
             "SELECT *FROM OPENQUERY(%s, 'SELECT * FROM talones.ruta WHERE idruta = %s');";
     
     
@@ -230,6 +239,19 @@ public class BitacoraRepository{
         
         Ruta ruta = (Ruta) query.getResultList().get(0);
         return ruta;
+    }
+    
+    /**
+     * getRuta: Funcion que ejecuta consulta para obtener ruta.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return Ruta
+     * @date 2022-12-06
+     */
+    public Esquemasdocumentacion getTalonesByViaje(int idViaje) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 

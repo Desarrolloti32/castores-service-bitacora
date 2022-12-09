@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
+import com.grupocastores.commons.inhouse.TalonCustomResponse;
 
 
 @RestController
@@ -63,8 +64,9 @@ public class BitacorasController {
      * @return BitacoraResumenViajesDetail
      * @date 2022-12-06
      */
-    @GetMapping("/getDetalleViaje/{idNegociacion}/{idEsquemaViaje}/{idRuta}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}/{idUnidad}/{noEconomico}")
+    @GetMapping("/getDetalleViaje/{idViaje}/{idNegociacion}/{idEsquemaViaje}/{idRuta}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}/{idUnidad}/{noEconomico}")
     public ResponseEntity<BitacoraResumenViajesDetail> getDetalleViaje(
+            @PathVariable("idViaje") int idViaje,
             @PathVariable("idNegociacion") int idNegociacion,
             @PathVariable("idEsquemaViaje") int idEsquemaViaje,
             @PathVariable("idRuta") int idRuta,
@@ -73,12 +75,32 @@ public class BitacorasController {
             @PathVariable("idoficinaDocumenta") String idoficinaDocumenta,
             @PathVariable("idUnidad") int idUnidad,
             @PathVariable("noEconomico") int noEconomico) throws Exception{
-        BitacoraResumenViajesDetail response = bitacoraService.getDetalleViaje(idNegociacion, idEsquemaViaje, idRuta,  idCliente, idOficinaCliente, idoficinaDocumenta, idUnidad, noEconomico);
+        BitacoraResumenViajesDetail response = bitacoraService.getDetalleViaje(idViaje, idNegociacion, idEsquemaViaje, idRuta,  idCliente, idOficinaCliente, idoficinaDocumenta, idUnidad, noEconomico);
        
         
         return ResponseEntity.ok(response);
         
     } 
+    
+    /**
+     * getDetalleViaje: Servicio para obtener el detalle del resumen de viaje.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenViajesDetail
+     * @date 2022-12-06
+     */
+    @GetMapping("/getTalonesByViaje/{idoficinaDocumenta}/{idViaje}")
+    public ResponseEntity<List<TalonCustomResponse>> getTalonesByViaje(    
+            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta,
+            @PathVariable("idViaje") int idViaje) throws Exception{
+        List<TalonCustomResponse> response = bitacoraService.getTalonesByViaje(idoficinaDocumenta, idViaje);
+       
+        
+        return ResponseEntity.ok(response);
+        
+    } 
+    
 
       
 }
