@@ -14,6 +14,7 @@ import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
 import com.grupocastores.commons.inhouse.Ruta;
+import com.grupocastores.commons.inhouse.TalonCustomResponse;
 
 
 @Repository
@@ -97,6 +98,73 @@ public class BitacoraRepository{
     
     static final String queryGetGuiasByViaje =
             "SELECT *FROM OPENQUERY(%s, 'SELECT * FROM talones.ruta WHERE idruta = %s');";
+    
+    static final String queryGetTalonDetail =
+            "SELECT *FROM OPENQUERY(%s, 'SELECT "
+            + "  t.cla_talon, "
+            + "  t.tipopago, "
+            + "  t.rfcorigen, "
+            + "  t.nomorigen, "
+            + "  t.calleorigen, "
+            + "  t.coloniaorigen, "
+            + "  t.cporigen, "
+            + "  t.telorigen, "
+            + "  cdo.nombre AS ciudadorigen, "
+            + "  ceo.nombre AS estadoorigen, "
+            + "  t.serecogera, "
+            + "  t.rfcdestino, "
+            + "  t.nomdestino, "
+            + "  t.calledestino, "
+            + "  t.coloniadestino, "
+            + "  t.cpdestino, "
+            + "  t.teldestino, "
+            + "  cdd.nombre AS ciudaddestino, "
+            + "  ced.nombre AS estadodestino, "
+            + "  t.seentregara, "
+            + "  t.suma_flete  AS sumaflete, "
+            + "  t.importeseguro, "
+            + "  t.casetas, "
+            + "  t.otroscargos, "
+            + "  t.revac, "
+            + "  t.completo, "
+            + "  t.recoleccion, "
+            + "  t.entrega,  "
+            + "  t.maniobras,  "
+            + "  t.ferry, "
+            + "  t.gps,  "
+            + "  t.importesubtotal,  "
+            + "  t.importeiva,  "
+            + "  t.importeiva_ret AS importeivaret,  "
+            + "  t.otras_lineas AS otraslineas,  "
+            + "  t.importetotal,  "
+            + "  t.val_decl AS valdecl, "
+            + "  deco.empaque, "
+            + "  co.etiquetas, "
+            + "  co.bultos, "
+            + "  deco.que_contiene AS quecontiene, "
+            + "  com.cons_ccp   AS consccp, "
+            + "  com.cantidad, "
+            + "  com.claveunidadpeso, "
+            + "  com.descripcion_unidad AS descripcionunidad, "
+            + "  com.claveprodservcp, "
+            + "  com.descripcion_claveprod AS descripcionclaveprod "
+            + "FROM "
+            + "  talones.tr%S t "
+            + "  INNER JOIN camiones.ciudades cdo "
+            + "    ON t.cdorigen = cdo.idciudad "
+            + "  INNER JOIN camiones.estados ceo "
+            + "    ON cdo.idestado = ceo.idestado "
+            + "  INNER JOIN camiones.ciudades cdd "
+            + "    ON t.cddestino = cdd.idciudad "
+            + "  INNER JOIN camiones.estados ced "
+            + "    ON cdd.idestado = ced.idestado "
+            + "  INNER JOIN talones.co%S co  "
+            + "    ON t.cla_talon = co.cla_talon "
+            + "  INNER JOIN talones.detaco deco  "
+            + "    ON t.cla_talon = deco.cla_talon "
+            + "  INNER JOIN cfdinomina.complementocp_mercancia com  "
+            + "    ON t.cla_talon = com.idper_fac "
+            + "WHERE t.cla_talon =\"%s\";');";
     
     
     /**
@@ -240,6 +308,29 @@ public class BitacoraRepository{
         
         Ruta ruta = (Ruta) query.getResultList().get(0);
         return ruta;
+    }
+    
+    /**
+     * detTalonDetail: Servicio para obtener el detalle del resumen de talones.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return List<TalonCustomResponse>
+     * @date 2022-12-13
+     */
+    public List<TalonCustomResponse> detTalonDetail(String tabla, String claTalon, String linkedServer) {
+        Query query = entityManager.createNativeQuery(String.format(
+                queryGetTalonDetail,
+                linkedServer,
+                tabla,
+                tabla,
+                claTalon),
+                TalonCustomResponse.class
+            );
+        
+        List<TalonCustomResponse> talones = (List<TalonCustomResponse>) query.getResultList();
+        return talones;
+        
     }
     
   

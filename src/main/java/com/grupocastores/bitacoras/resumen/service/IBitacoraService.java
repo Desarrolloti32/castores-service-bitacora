@@ -37,6 +37,16 @@ public interface IBitacoraService {
      * @date 2022-12-07
      */
     public List<TalonCustomResponse> getTalonesByViaje(String idoficinaDocumenta, int idUnidad);
+    
+    /**
+     * detTalonDetail: Servicio para obtener el detalle del resumen de talones.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return List<TalonCustomResponse>
+     * @date 2022-12-13
+     */
+    public List<TalonCustomResponse> getTalonDetail(String claTalon, String idoficinaDocumenta);
   
     
 }

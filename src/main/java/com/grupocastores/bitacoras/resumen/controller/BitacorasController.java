@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
+import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
@@ -82,11 +83,11 @@ public class BitacorasController {
     } 
     
     /**
-     * getDetalleViaje: Servicio para obtener el detalle del resumen de viaje.
+     * getDetalleViaje: Servicio para obtener talones por viaje.
      * 
      * @version 0.0.1
      * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
-     * @return BitacoraResumenViajesDetail
+     * @return List<TalonCustomResponse>
      * @date 2022-12-06
      */
     @GetMapping("/getTalonesByViaje/{idoficinaDocumenta}/{idViaje}")
@@ -94,6 +95,25 @@ public class BitacorasController {
             @PathVariable("idoficinaDocumenta") String idoficinaDocumenta,
             @PathVariable("idViaje") int idViaje) throws Exception{
         List<TalonCustomResponse> response = bitacoraService.getTalonesByViaje(idoficinaDocumenta, idViaje);
+       
+        
+        return ResponseEntity.ok(response);
+        
+    } 
+    
+    /**
+     * detTalonDetail: Servicio para obtener el detalle del resumen de talones.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return List<TalonCustomResponse>
+     * @date 2022-12-13
+     */
+    @GetMapping("/getDetalleTalon/{claTalon}/{idoficinaDocumenta}")
+    public ResponseEntity<List<TalonCustomResponse>> getTalonDetail(    
+            @PathVariable("claTalon") String claTalon,
+            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta) throws Exception{
+        List<TalonCustomResponse> response = bitacoraService.getTalonDetail(claTalon, idoficinaDocumenta);
        
         
         return ResponseEntity.ok(response);
