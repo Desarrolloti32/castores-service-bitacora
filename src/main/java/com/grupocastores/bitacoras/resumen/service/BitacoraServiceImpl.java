@@ -26,6 +26,7 @@ import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
 import com.grupocastores.commons.inhouse.GuiaViajeCustom;
 import com.grupocastores.commons.inhouse.Ruta;
+import com.grupocastores.commons.inhouse.TablaTalonesOficina;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
 import com.grupocastores.commons.oficinas.Servidores;
 import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
@@ -94,7 +95,15 @@ public class BitacoraServiceImpl implements IBitacoraService{
                 
         return listDetailResumenViaje;
     }
-
+    
+    /**
+     * getDetalleViaje: Servicio para obtener talones por viaje.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return List<TalonCustomResponse>
+     * @date 2022-12-06
+     */
     @SuppressWarnings("unchecked")
     @Override
     public  List<TalonCustomResponse> getTalonesByViaje(String idoficinaDocumenta, int idViaje) {
@@ -112,6 +121,28 @@ public class BitacoraServiceImpl implements IBitacoraService{
             }
         }
         return listTalones;
+    }
+    
+    /**
+     * detTalonDetail: Servicio para obtener el detalle del resumen de talones.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return List<TalonCustomResponse>
+     * @date 2022-12-13
+     */
+    @SuppressWarnings("null")
+    @Override
+    public List<TalonCustomResponse> getTalonDetail(String claTalon, String idoficinaDocumenta) {
+        Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
+        ResponseEntity<TablaTalonesOficina> responseTalon =  viajesDocumentacionFeign.getTablaTalon(claTalon, idoficinaDocumenta);
+        if(responseTalon.getStatusCode() == HttpStatus.OK) {
+            TablaTalonesOficina especificacion = responseTalon.getBody();
+            List<TalonCustomResponse> response = bitacoraRepository.detTalonDetail(especificacion.getTabla(), claTalon, DBPRUEBA );
+            
+            return response;
+        }
+        return null;
     }
 
     

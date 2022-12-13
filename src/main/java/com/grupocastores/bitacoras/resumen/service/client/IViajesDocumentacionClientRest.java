@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.grupocastores.commons.inhouse.GuiaViajeCustom;
+import com.grupocastores.commons.inhouse.TablaTalonesOficina;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
 
 @FeignClient("castores-service-viajes")
@@ -24,4 +25,8 @@ public interface IViajesDocumentacionClientRest {
             @PathVariable("idViaje") int idViaje,
             @PathVariable("idOficinaDocumenta") String idOficinaDocumenta
         );
+    
+    @GetMapping("documentacion/getTablaTalon/{claTalon}/{idOficinaDocumenta}")
+    public ResponseEntity<TablaTalonesOficina> getTablaTalon(
+            @PathVariable("claTalon") String claTalon, @PathVariable("idOficinaDocumenta") String idOficinaDocumenta);
 }
