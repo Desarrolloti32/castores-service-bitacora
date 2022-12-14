@@ -1,29 +1,23 @@
 package com.grupocastores.bitacoras.resumen.service;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.grupocastores.bitacoras.resumen.repository.BitacoraRepository;
 import com.grupocastores.bitacoras.resumen.repository.UtilitiesRepository;
+import com.grupocastores.bitacoras.resumen.service.client.IInhouseClientRest;
 import com.grupocastores.bitacoras.resumen.service.client.IViajesDocumentacionClientRest;
+import com.grupocastores.commons.castoresdb.Moneda;
 import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
-import com.grupocastores.commons.inhouse.BitacoraViajesRequest;
 import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
@@ -34,7 +28,6 @@ import com.grupocastores.commons.inhouse.TablaTalonesOficina;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
 import com.grupocastores.commons.oficinas.Personal;
 import com.grupocastores.commons.oficinas.Servidores;
-import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 @Service
 public class BitacoraServiceImpl implements IBitacoraService{
@@ -44,6 +37,9 @@ public class BitacoraServiceImpl implements IBitacoraService{
     
     @Autowired
     private IViajesDocumentacionClientRest viajesDocumentacionFeign;
+    
+    @Autowired
+    private IInhouseClientRest inhouseFeign;
     
     @Autowired
     private UtilitiesRepository utilitiesRepository;
@@ -165,18 +161,21 @@ public class BitacoraServiceImpl implements IBitacoraService{
         BitacoraResumenGuiaDetail guiaDetail = new BitacoraResumenGuiaDetail ();
         if(responseGuia.getStatusCode() == HttpStatus.OK) {
             GuMesAnio guia = responseGuia.getBody();
-            
+            Moneda moneda =bitacoraRepository.getMoneda(guia.getMoneda());
             Personal operador = utilitiesRepository.getPersonal(guia.getIdoperador());
-            ResponseEntity<CiudadesEstadoRequest> responseOrigen =  viajesDocumentacionFeign.findCiudadAndEstado(guia.getOrigen());
-            ResponseEntity<CiudadesEstadoRequest> responseDestino =  viajesDocumentacionFeign.findCiudadAndEstado(guia.getDestino());
-            if(operador!=null && responseGuia.getStatusCode() == HttpStatus.OK && responseDestino.getStatusCode() == HttpStatus.OK) {
+            ResponseEntity<CiudadesEstadoRequest> responseOrigen =  inhouseFeign.findCiudadAndEstado(guia.getOrigen());
+            ResponseEntity<CiudadesEstadoRequest> responseDestino =  inhouseFeign.findCiudadAndEstado(guia.getDestino());
+            if(guia != null && operador!=null && responseGuia.getStatusCode() == HttpStatus.OK && responseDestino.getStatusCode() == HttpStatus.OK) {
                 CiudadesEstadoRequest origen = responseOrigen.getBody();
                 CiudadesEstadoRequest destino = responseDestino.getBody();
+                guiaDetail.setNoGuia(noGuia);
                 guiaDetail.setUnidad(guia.getUnidad());
                 guiaDetail.setPlacas(guia.getPlacas());
                 guiaDetail.setOperador(operador.getNombre() + operador.getApematerno() + operador.getApematerno());
+                guiaDetail.setRemolque(guia.getRemolque());
                 guiaDetail.setOrigen(origen.getCiudad());
                 guiaDetail.setDestino(destino.getCiudad());
+                guiaDetail.setMoneda(moneda.getNombre());
                 return guiaDetail;
             }
         }

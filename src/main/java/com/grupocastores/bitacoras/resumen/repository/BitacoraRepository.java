@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.grupocastores.commons.castoresdb.Moneda;
 import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
@@ -167,6 +168,8 @@ public class BitacoraRepository{
             + "    ON t.cla_talon = com.idper_fac "
             + "WHERE t.cla_talon =\"%s\";');";
     
+    static final String queryGetMoneda = 
+            "SELECT * FROM moneda where id_moneda = %s";
     
     /**
      * filterViajes: funcion para ejecutar query de filtrar viajes.
@@ -331,6 +334,25 @@ public class BitacoraRepository{
         
         List<BitacoraResumenTalonDetail> talones = (List<BitacoraResumenTalonDetail>) query.getResultList();
         return talones;
+        
+    }
+    
+    /**
+     * getMoneda: Obtiene datos del tipo de moneda por su id.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return Moneda
+     * @date 2022-12-14
+     */
+    public Moneda getMoneda(int idMoneda) {
+        Query query = entityManager.createNativeQuery(String.format(
+                queryGetMoneda,
+                idMoneda),
+                Moneda.class
+            );
+        
+        return (Moneda) query.getResultList().get(0);
         
     }
     
