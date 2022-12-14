@@ -2,6 +2,8 @@ package com.grupocastores.bitacoras.resumen.service;
 
 import java.util.List;
 
+import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
+import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
@@ -46,7 +48,17 @@ public interface IBitacoraService {
      * @return List<TalonCustomResponse>
      * @date 2022-12-13
      */
-    public List<TalonCustomResponse> getTalonDetail(String claTalon, String idoficinaDocumenta);
+    public List<BitacoraResumenTalonDetail> getTalonDetail(String claTalon, String idoficinaDocumenta);
+
+    /**
+     * getDetalleGuia: Servicio para obtener el detalle de guia.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenGuiaDetail
+     * @date 2022-12-13
+     */
+    public BitacoraResumenGuiaDetail getDetalleGuia(String noGuia, String tabla, String idoficinaDocumenta) throws Exception;
   
     
 }

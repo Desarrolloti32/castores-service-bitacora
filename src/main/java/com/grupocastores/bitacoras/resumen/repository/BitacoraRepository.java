@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
@@ -318,17 +319,17 @@ public class BitacoraRepository{
      * @return List<TalonCustomResponse>
      * @date 2022-12-13
      */
-    public List<TalonCustomResponse> detTalonDetail(String tabla, String claTalon, String linkedServer) {
+    public List<BitacoraResumenTalonDetail> detTalonDetail(String tabla, String claTalon, String linkedServer) {
         Query query = entityManager.createNativeQuery(String.format(
                 queryGetTalonDetail,
                 linkedServer,
                 tabla,
                 tabla,
                 claTalon),
-                TalonCustomResponse.class
+                BitacoraResumenTalonDetail.class
             );
         
-        List<TalonCustomResponse> talones = (List<TalonCustomResponse>) query.getResultList();
+        List<BitacoraResumenTalonDetail> talones = (List<BitacoraResumenTalonDetail>) query.getResultList();
         return talones;
         
     }
