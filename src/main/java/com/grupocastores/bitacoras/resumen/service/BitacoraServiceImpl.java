@@ -18,16 +18,21 @@ import org.springframework.web.server.ResponseStatusException;
 import com.grupocastores.bitacoras.resumen.repository.BitacoraRepository;
 import com.grupocastores.bitacoras.resumen.repository.UtilitiesRepository;
 import com.grupocastores.bitacoras.resumen.service.client.IViajesDocumentacionClientRest;
+import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
+import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
 import com.grupocastores.commons.inhouse.BitacoraViajesRequest;
+import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
+import com.grupocastores.commons.inhouse.GuMesAnio;
 import com.grupocastores.commons.inhouse.GuiaViajeCustom;
 import com.grupocastores.commons.inhouse.Ruta;
 import com.grupocastores.commons.inhouse.TablaTalonesOficina;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
+import com.grupocastores.commons.oficinas.Personal;
 import com.grupocastores.commons.oficinas.Servidores;
 import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
@@ -114,7 +119,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
             List<GuiaViajeCustom> listGuiaViaje =resEntityGuiasViaje.getBody();
             int listGuiaViajeSize = listGuiaViaje.size();
             for(int i=0; i< listGuiaViajeSize; i++  ) {
-                ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesGuia(listGuiaViaje.get(i).getNoGuia(), idoficinaDocumenta);
+                ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesTrGuia(listGuiaViaje.get(i).getNoGuia(), idoficinaDocumenta);
                 if(resEntityTalonesGuia.getStatusCode()==HttpStatus.OK) {
                     listTalones = resEntityTalonesGuia.getBody();
                 }
@@ -133,18 +138,49 @@ public class BitacoraServiceImpl implements IBitacoraService{
      */
     @SuppressWarnings("null")
     @Override
-    public List<TalonCustomResponse> getTalonDetail(String claTalon, String idoficinaDocumenta) {
+    public List<BitacoraResumenTalonDetail> getTalonDetail(String claTalon, String idoficinaDocumenta) {
         Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
         ResponseEntity<TablaTalonesOficina> responseTalon =  viajesDocumentacionFeign.getTablaTalon(claTalon, idoficinaDocumenta);
         if(responseTalon.getStatusCode() == HttpStatus.OK) {
             TablaTalonesOficina especificacion = responseTalon.getBody();
-            List<TalonCustomResponse> response = bitacoraRepository.detTalonDetail(especificacion.getTabla(), claTalon, DBPRUEBA );
+            List<BitacoraResumenTalonDetail> response = bitacoraRepository.detTalonDetail(especificacion.getTabla(), claTalon, DBPRUEBA );
             
             return response;
         }
         return null;
     }
-
     
+    /**
+     * getDetalleGuia: Servicio para obtener el detalle de guia.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenGuiaDetail
+     * @date 2022-12-13
+     */
+    @Override
+    public BitacoraResumenGuiaDetail getDetalleGuia(String noGuia, String tabla, String idoficinaDocumenta) throws Exception {
+        Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
+        ResponseEntity<GuMesAnio> responseGuia =  viajesDocumentacionFeign.getGuMesAnio(noGuia,tabla, idoficinaDocumenta);
+        BitacoraResumenGuiaDetail guiaDetail = new BitacoraResumenGuiaDetail ();
+        if(responseGuia.getStatusCode() == HttpStatus.OK) {
+            GuMesAnio guia = responseGuia.getBody();
+            
+            Personal operador = utilitiesRepository.getPersonal(guia.getIdoperador());
+            ResponseEntity<CiudadesEstadoRequest> responseOrigen =  viajesDocumentacionFeign.findCiudadAndEstado(guia.getOrigen());
+            ResponseEntity<CiudadesEstadoRequest> responseDestino =  viajesDocumentacionFeign.findCiudadAndEstado(guia.getDestino());
+            if(operador!=null && responseGuia.getStatusCode() == HttpStatus.OK && responseDestino.getStatusCode() == HttpStatus.OK) {
+                CiudadesEstadoRequest origen = responseOrigen.getBody();
+                CiudadesEstadoRequest destino = responseDestino.getBody();
+                guiaDetail.setUnidad(guia.getUnidad());
+                guiaDetail.setPlacas(guia.getPlacas());
+                guiaDetail.setOperador(operador.getNombre() + operador.getApematerno() + operador.getApematerno());
+                guiaDetail.setOrigen(origen.getCiudad());
+                guiaDetail.setDestino(destino.getCiudad());
+                return guiaDetail;
+            }
+        }
+        return guiaDetail;
+    }   
     
 }

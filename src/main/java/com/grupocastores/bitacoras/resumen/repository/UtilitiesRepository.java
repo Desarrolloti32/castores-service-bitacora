@@ -28,6 +28,9 @@ public class UtilitiesRepository {
     static final String queryGetPersonalByIdUsuario = 
             "SELECT * FROM OPENQUERY("+ DB_13 +",'SELECT * FROM personal.personal p WHERE p.idusuario = \"%s\"');";
     
+    static final String queryGetPersonal = 
+            "SELECT * FROM OPENQUERY("+ DB_13 +",'SELECT * FROM personal.personal p WHERE p.idpersonal = \"%s\"');";
+    
     
     /**
      * executeStoredProcedure: Ejecuta un procedimiento alamcenado para Guardar, Editar
@@ -81,6 +84,26 @@ public class UtilitiesRepository {
         List<Personal> list = query.getResultList();
         if (list == null)
             throw new Exception("No se pudo obtener el registro del usuario: "+idUsuario );
+        return (Personal) list.get(0);
+    }
+    
+    /**
+     * getPersonal: Obtiene el personal por idpersonal.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @throws Exception 
+     * @date 2022-12-13
+     */
+    @SuppressWarnings("unchecked")
+    public Personal getPersonal (int idpersonal) throws Exception {
+        
+        Query query = entityManager.createNativeQuery(String.format(
+                queryGetPersonal, idpersonal),Personal.class);
+        
+        List<Personal> list = query.getResultList();
+        if (list == null)
+            throw new Exception("No se pudo obtener el registro del eprsonal: "+idpersonal );
         return (Personal) list.get(0);
     }
     

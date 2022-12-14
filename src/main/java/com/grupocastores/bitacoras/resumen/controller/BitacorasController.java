@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
+import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
@@ -110,10 +111,30 @@ public class BitacorasController {
      * @date 2022-12-13
      */
     @GetMapping("/getDetalleTalon/{claTalon}/{idoficinaDocumenta}")
-    public ResponseEntity<List<TalonCustomResponse>> getTalonDetail(    
+    public ResponseEntity<List<BitacoraResumenTalonDetail>> getTalonDetail(    
             @PathVariable("claTalon") String claTalon,
             @PathVariable("idoficinaDocumenta") String idoficinaDocumenta) throws Exception{
-        List<TalonCustomResponse> response = bitacoraService.getTalonDetail(claTalon, idoficinaDocumenta);
+        List<BitacoraResumenTalonDetail> response = bitacoraService.getTalonDetail(claTalon, idoficinaDocumenta);
+       
+        
+        return ResponseEntity.ok(response);
+        
+    } 
+    
+    /**
+     * getDetalleGuia: Servicio para obtener el detalle de guia.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenGuiaDetail>
+     * @date 2022-12-13
+     */
+    @GetMapping("/getDetalleGuia/{noGuia}/{tabla}/{idoficinaDocumenta}")
+    public ResponseEntity<BitacoraResumenGuiaDetail> getDetalleGuia(    
+            @PathVariable("noGuia") String noGuia,
+            @PathVariable("tabla") String tabla,
+            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta) throws Exception{
+        BitacoraResumenGuiaDetail response = bitacoraService.getDetalleGuia(noGuia, tabla,  idoficinaDocumenta);
        
         
         return ResponseEntity.ok(response);
