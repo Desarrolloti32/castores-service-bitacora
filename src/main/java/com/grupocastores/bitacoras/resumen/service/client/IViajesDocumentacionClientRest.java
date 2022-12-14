@@ -39,6 +39,5 @@ public interface IViajesDocumentacionClientRest {
             @PathVariable("tabla") String tabla, 
             @PathVariable String idOficinaDocumenta);
     
-    @GetMapping("documentacion/findCiudadAndEstado/{idCiudad}")
-    public ResponseEntity<CiudadesEstadoRequest> findCiudadAndEstado(@PathVariable("idCiudad") int idCiudad);
+
 }
