@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
 import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
 import com.grupocastores.commons.inhouse.GuMesAnio;
 import com.grupocastores.commons.inhouse.GuiaViajeCustom;
@@ -19,4 +20,7 @@ public interface IInhouseClientRest {
    
     @GetMapping("catalogo/findCiudadAndEstado/{idCiudad}")
     public ResponseEntity<CiudadesEstadoRequest> findCiudadAndEstado(@PathVariable("idCiudad") int idCiudad);
+    
+    @GetMapping("bitacora/findBitacoraViajeDetail/{idViaje}")
+    public ResponseEntity<List<BitacoraViajesRequestDetail>> findBitacoraViajeDetail(@PathVariable(name="idViaje") int idViaje);
 }

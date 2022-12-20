@@ -6,11 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
@@ -18,6 +14,7 @@ import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
+import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
 
 
@@ -135,6 +132,26 @@ public class BitacorasController {
             @PathVariable("tabla") String tabla,
             @PathVariable("idoficinaDocumenta") String idoficinaDocumenta) throws Exception{
         BitacoraResumenGuiaDetail response = bitacoraService.getDetalleGuia(noGuia, tabla,  idoficinaDocumenta);
+       
+        
+        return ResponseEntity.ok(response);
+        
+    } 
+    
+    /**
+     * getDetalleRuta: Servicio para obtener el detalle de ruta.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenGuiaDetail>
+     * @date 2022-12-18
+     */
+    @GetMapping("/getDetalleRuta/{idViaje}/{idOficinaCliente}/{idoficinaDocumenta}")
+    public ResponseEntity<List<BitacoraViajesRequestDetail>> getDetalleRuta(    
+            @PathVariable("idViaje") int idViaje,
+            @PathVariable("idOficinaCliente") String idOficinaCliente,
+            @PathVariable("idoficinaDocumenta") String idoficinaDocumenta) throws Exception{
+        List<BitacoraViajesRequestDetail> response = bitacoraService.getDetalleRuta(idViaje, idOficinaCliente,  idoficinaDocumenta);
        
         
         return ResponseEntity.ok(response);

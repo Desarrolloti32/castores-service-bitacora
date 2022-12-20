@@ -18,6 +18,7 @@ import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
+import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
 import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
@@ -139,7 +140,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         ResponseEntity<TablaTalonesOficina> responseTalon =  viajesDocumentacionFeign.getTablaTalon(claTalon, idoficinaDocumenta);
         if(responseTalon.getStatusCode() == HttpStatus.OK) {
             TablaTalonesOficina especificacion = responseTalon.getBody();
-            List<BitacoraResumenTalonDetail> response = bitacoraRepository.detTalonDetail(especificacion.getTabla(), claTalon, DBPRUEBA );
+            List<BitacoraResumenTalonDetail> response = bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, DBPRUEBA );
             
             return response;
         }
@@ -180,6 +181,38 @@ public class BitacoraServiceImpl implements IBitacoraService{
             }
         }
         return guiaDetail;
+    }
+    
+    /**
+     * getDetalleRuta: Servicio para obtener el detalle de ruta.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenGuiaDetail>
+     * @date 2022-12-18
+     */
+    @Override
+    public List<BitacoraViajesRequestDetail> getDetalleRuta(int idViaje, String idOficinaCliente, String idoficinaDocumenta) {
+        List<TalonCustomResponse> list = getTalonesByViaje(idoficinaDocumenta, idViaje);
+        
+        int listSize = list.size();
+        List<BitacoraViajesRequestDetail> listDetailViaje  = new ArrayList<BitacoraViajesRequestDetail>();
+        for (int i = 0; i < listSize; i++) {
+            
+            int idViajeParent = bitacoraRepository.getParentRuta(list.get(i).getClatalon());
+            if(idViajeParent != 0 ) {
+                ResponseEntity<List<BitacoraViajesRequestDetail>> viajeDetail = inhouseFeign.findBitacoraViajeDetail(idViajeParent);
+                
+                if(viajeDetail.getStatusCode() == HttpStatus.OK) {
+                    listDetailViaje = viajeDetail.getBody();
+                    if(!listDetailViaje.isEmpty()) {
+                        i = listSize;                   
+                    }
+                }
+            }
+        }
+            
+        return listDetailViaje;
     }   
     
 }
