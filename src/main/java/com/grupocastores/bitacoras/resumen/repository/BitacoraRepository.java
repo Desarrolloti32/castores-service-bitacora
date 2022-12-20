@@ -16,7 +16,6 @@ import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
 import com.grupocastores.commons.inhouse.Ruta;
-import com.grupocastores.commons.inhouse.TalonCustomResponse;
 
 
 @Repository
@@ -104,7 +103,8 @@ public class BitacoraRepository{
     static final String queryGetTalonDetail =
             "SELECT *FROM OPENQUERY(%s, 'SELECT "
             + "  t.cla_talon, "
-            + "  t.tipopago, "
+            + "  tip.nombre AS tipotalon, "
+            + "  pag.nombre AS tipopago, "
             + "  t.rfcorigen, "
             + "  t.nomorigen, "
             + "  t.calleorigen, "
@@ -149,7 +149,13 @@ public class BitacoraRepository{
             + "  com.claveunidadpeso, "
             + "  com.descripcion_unidad AS descripcionunidad, "
             + "  com.claveprodservcp, "
-            + "  com.descripcion_claveprod AS descripcionclaveprod "
+            + "  com.descripcion_claveprod AS descripcionclaveprod, "
+            + "  com.peso, "
+            + "  com.materialpeligroso, "
+            + "  com.cvematerialpeligroso, "
+            + "  com.tipoembalaje, "
+            + "  com.descripcion_embalaje, "
+            + "  com.valormercancia  "
             + "FROM "
             + "  talones.tr%S t "
             + "  INNER JOIN camiones.ciudades cdo "
@@ -166,10 +172,17 @@ public class BitacoraRepository{
             + "    ON t.cla_talon = deco.cla_talon "
             + "  INNER JOIN cfdinomina.complementocp_mercancia com  "
             + "    ON t.cla_talon = com.idper_fac "
+            + "  INNER JOIN talones.tipotalon tip"
+            + "    ON t.tp_dc = tip.idtipotalon "
+            + "  INNER JOIN talones.tipopago pag "
+            + "    ON t.tipopago = pag.idtipopago "
             + "WHERE t.cla_talon =\"%s\";');";
     
     static final String queryGetMoneda = 
             "SELECT * FROM moneda where id_moneda = %s";
+    
+    static final String queryGetidParentRuta =
+            "SELECT *FROM OPENQUERY(%s, 'SELECT bbv.id_viaje FROM bitacorasinhouse.bitacora_viajes bbv WHERE bbv.cla_talon != \"\" AND bbv.cla_talon != \"null\" AND cla_talon =\"%s\"');";
     
     /**
      * filterViajes: funcion para ejecutar query de filtrar viajes.
@@ -322,7 +335,7 @@ public class BitacoraRepository{
      * @return List<TalonCustomResponse>
      * @date 2022-12-13
      */
-    public List<BitacoraResumenTalonDetail> detTalonDetail(String tabla, String claTalon, String linkedServer) {
+    public List<BitacoraResumenTalonDetail> getTalonDetail(String tabla, String claTalon, String linkedServer) {
         Query query = entityManager.createNativeQuery(String.format(
                 queryGetTalonDetail,
                 linkedServer,
@@ -354,6 +367,22 @@ public class BitacoraRepository{
         
         return (Moneda) query.getResultList().get(0);
         
+    }
+
+    public int getParentRuta(String claTalon) {
+        Query query = entityManager.createNativeQuery(String.format(
+                queryGetidParentRuta,
+                utilitiesRepository.getDb23(),
+                claTalon
+                )
+                
+            );
+        
+        if( query.getResultList().isEmpty()) 
+            return 0;
+        
+        return (int) query.getResultList().get(0);
+
     }
     
   
