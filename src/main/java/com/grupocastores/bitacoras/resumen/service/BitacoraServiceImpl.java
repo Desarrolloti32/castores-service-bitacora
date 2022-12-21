@@ -18,6 +18,7 @@ import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
+import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
 import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
 import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
@@ -213,6 +214,34 @@ public class BitacoraServiceImpl implements IBitacoraService{
         }
             
         return listDetailViaje;
+    }
+    
+    
+    /**
+     * getVales: Servicio para obtener los vales por folio de viaje.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenGuiaDetail
+     * @date 2022-12-19
+     */
+    @Override
+    public List<BitacoraViajesDetalleVales> getVales(String folioViaje) {
+        List<Object[]>  tablaVales = bitacoraRepository.getTablaVales(folioViaje);
+        int tablaValesSize = tablaVales.size();
+        List<BitacoraViajesDetalleVales> listDetalleVales  = new ArrayList<BitacoraViajesDetalleVales>();
+        if(!tablaVales.isEmpty()) {  
+            tablaVales.forEach(item -> {
+                String idVale = (String)item[0];
+                String tabla = (String)item[1];
+                BitacoraViajesDetalleVales detalle = bitacoraRepository.getVales(idVale, tabla);
+                if(detalle != null) {
+                    listDetalleVales.add(detalle);
+                }
+            });
+        }
+        return listDetalleVales;
+
     }   
     
 }

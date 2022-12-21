@@ -14,6 +14,7 @@ import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
+import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
 import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
 
@@ -63,7 +64,7 @@ public class BitacorasController {
      * @return BitacoraResumenViajesDetail
      * @date 2022-12-06
      */
-    @GetMapping("/getDetalleViaje//{idNegociacion}/{idEsquemaViaje}/{idRuta}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}/{idUnidad}/{noEconomico}")
+    @GetMapping("/getDetalleViaje/{idNegociacion}/{idEsquemaViaje}/{idRuta}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}/{idUnidad}/{noEconomico}")
     public ResponseEntity<BitacoraResumenViajesDetail> getDetalleViaje(
             @PathVariable("idNegociacion") int idNegociacion,
             @PathVariable("idEsquemaViaje") int idEsquemaViaje,
@@ -152,6 +153,25 @@ public class BitacorasController {
             @PathVariable("idOficinaCliente") String idOficinaCliente,
             @PathVariable("idoficinaDocumenta") String idoficinaDocumenta) throws Exception{
         List<BitacoraViajesRequestDetail> response = bitacoraService.getDetalleRuta(idViaje, idOficinaCliente,  idoficinaDocumenta);
+       
+        
+        return ResponseEntity.ok(response);
+        
+    } 
+    
+    /**
+     * getVales: Servicio para obtener los vales por folio.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenGuiaDetail
+     * @date 2022-12-19
+     */
+    @GetMapping("/getVales/{folioViaje}")
+    public ResponseEntity<List<BitacoraViajesDetalleVales>> getValesByViaje(    
+            @PathVariable("folioViaje") String folioViaje
+           ) throws Exception{
+        List<BitacoraViajesDetalleVales> response = bitacoraService.getVales(folioViaje);
        
         
         return ResponseEntity.ok(response);

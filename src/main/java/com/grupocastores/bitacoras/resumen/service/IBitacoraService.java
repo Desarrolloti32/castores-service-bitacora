@@ -6,6 +6,7 @@ import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
+import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
 import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
 
@@ -70,6 +71,17 @@ public interface IBitacoraService {
      * @date 2022-12-18
      */
     public List<BitacoraViajesRequestDetail> getDetalleRuta(int idViaje, String idOficinaCliente, String idoficinaDocumenta2);
+    
+    
+    /**
+     * getVales: Servicio para obtener los vales por folio.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenGuiaDetail
+     * @date 2022-12-19
+     */
+    public List<BitacoraViajesDetalleVales> getVales(String folioViaje);
   
     
 }
