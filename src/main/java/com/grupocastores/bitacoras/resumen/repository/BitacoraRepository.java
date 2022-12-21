@@ -62,7 +62,7 @@ public class BitacoraRepository{
             + "    ON tv.idviaje = tgv.idviaje "
             + "  INNER JOIN talones.guias tg "
             + "    ON tgv.no_guia = tg.no_guia "
-            + "  INNER JOIN talones.tg112022 tgma "
+            + "  INNER JOIN talones.tg122022 tgma "
             + "    ON tg.no_guia = tgma.no_guia "
             + "  INNER JOIN talones.talones tt "
             + "    ON tgma.cla_talon = tt.cla_talon "
