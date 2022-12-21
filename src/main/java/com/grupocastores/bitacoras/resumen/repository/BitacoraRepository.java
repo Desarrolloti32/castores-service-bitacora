@@ -13,6 +13,7 @@ import com.grupocastores.commons.castoresdb.Moneda;
 import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
+import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
 import com.grupocastores.commons.inhouse.Ruta;
@@ -183,6 +184,12 @@ public class BitacoraRepository{
     
     static final String queryGetidParentRuta =
             "SELECT *FROM OPENQUERY(%s, 'SELECT bbv.id_viaje FROM bitacorasinhouse.bitacora_viajes bbv WHERE bbv.cla_talon != \"\" AND bbv.cla_talon != \"null\" AND cla_talon =\"%s\"');";
+    
+    static final String queryGetTablaVale =
+            "SELECT *FROM OPENQUERY(%s, 'SELECT  v.idVale, v.tabla FROM camiones.vales v WHERE folioviaje = \"%S\" ');";
+    
+    static final String queryGetDetalleVale =
+            "SELECT *FROM OPENQUERY(%s, 'SELECT v.idVale AS idvale, v.cantidad, v.cantidadRecibida AS cantidadrecibida, v.cantidadRecibidaG AS cantidadrecibidag, v.observaciones,  cati.nombre AS tipopago, cag.nombre AS tipogasto, v.fecha FROM camiones.vales%s v INNER JOIN camiones.tipopago cati ON  v.idTipoPago =cati.idTipoPago INNER JOIN camiones.tipogasto cag ON v.idgasto =  cag.idgasto  WHERE v.idVale = \"%S\"');";
     
     /**
      * filterViajes: funcion para ejecutar query de filtrar viajes.
@@ -368,7 +375,15 @@ public class BitacoraRepository{
         return (Moneda) query.getResultList().get(0);
         
     }
-
+    
+    /**
+     * getMoneda: Obtiene el idparent de un viaje de la tabla de solicitud de viaje.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return int
+     * @date 2022-12-19
+     */
     public int getParentRuta(String claTalon) {
         Query query = entityManager.createNativeQuery(String.format(
                 queryGetidParentRuta,
@@ -385,10 +400,53 @@ public class BitacoraRepository{
 
     }
     
-  
-
-   
-
-   
+    /**
+     * getVales: Servicio para obtener la tabla(mes anio) del vale por folio de viaje.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return List<Object[]>
+     * @date 2022-12-19
+     */
+    @SuppressWarnings("unchecked")
+    public List<Object[]> getTablaVales(String folioviaje) {
+        Query query = entityManager.createNativeQuery(String.format(
+                queryGetTablaVale,
+                utilitiesRepository.getDb13(),
+                folioviaje)
+               
+            );
+        
+        return (List<Object[]>) query.getResultList();
+        
+        
+    }
+    
+    /**
+     * getVales: Servicio para obtener los vales por idVale.
+     * 
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @return BitacoraResumenGuiaDetail
+     * @date 2022-12-19
+     */
+    public BitacoraViajesDetalleVales getVales(String idVale, String tabla) {
+        try {
+            
+            Query query = entityManager.createNativeQuery(String.format(
+                    queryGetDetalleVale,
+                    utilitiesRepository.getDb13(),
+                    tabla,
+                    idVale),
+                    BitacoraViajesDetalleVales.class
+                    
+                    );
+           
+            return (BitacoraViajesDetalleVales) query.getResultList().get(0);
+        } catch (Exception e) {
+            return null;
+            
+        }     
+    }   
    
 }
