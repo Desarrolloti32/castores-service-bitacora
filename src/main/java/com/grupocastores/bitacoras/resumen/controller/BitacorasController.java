@@ -1,5 +1,7 @@
 package com.grupocastores.bitacoras.resumen.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
+import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
 import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
@@ -177,6 +181,62 @@ public class BitacorasController {
         return ResponseEntity.ok(response);
         
     } 
+    
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * Consulta asistencias por fechas.
+     *
+     * @param fecha inicio
+     * @param fecha final
+     * @return el InhouseViajes
+     */
+    
+    @GetMapping(value = "/filter/{fechaInicio}/{fechaFinal}")
+    @ResponseBody
+    public Collection<AsistenciaOperadorDTO> filterAsistencias(
+            @PathVariable String fechaInicio, 
+            @PathVariable String fechaFinal)  
+    {
+        
+      List<AsistenciaOperadorDTO> listAsistenciaOperador = new ArrayList<>();  
+      for (AsistenciaOperadorDTO asistenciaOperador :  bitacoraService.filterAsistencias(fechaInicio, fechaFinal)) {
+          listAsistenciaOperador.add(asistenciaOperador);
+      }
+        return listAsistenciaOperador;
+    }
+    
+    
+    /**
+     * Consulta asistencias por fechas y idoperador.
+     *
+     * @param fecha inicio
+     * @param fecha final
+     * @return el InhouseViajes
+     */
+   @GetMapping(value = "/filter/{fechaInicio}/{fechaFinal}/{idOperador}")
+    @ResponseBody
+    public Collection<AsistenciaOperadorDTO> filterAsistenciasByIdoperador(
+            @PathVariable String fechaInicio, 
+            @PathVariable String fechaFinal,
+            @PathVariable int idOperador) 
+    {
+       List<AsistenciaOperadorDTO> listAsistenciaOperador = new ArrayList<>();  
+       for (AsistenciaOperadorDTO asistenciaOperador :  bitacoraService.filterAsistencias(fechaInicio, fechaFinal, idOperador)) {
+           listAsistenciaOperador.add(asistenciaOperador);
+       }
+         return listAsistenciaOperador;
+    }
     
 
       

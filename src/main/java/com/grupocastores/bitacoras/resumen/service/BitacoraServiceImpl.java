@@ -30,6 +30,7 @@ import com.grupocastores.commons.inhouse.TablaTalonesOficina;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
 import com.grupocastores.commons.oficinas.Personal;
 import com.grupocastores.commons.oficinas.Servidores;
+import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
 
 @Service
 public class BitacoraServiceImpl implements IBitacoraService{
@@ -243,5 +244,35 @@ public class BitacoraServiceImpl implements IBitacoraService{
         return listDetalleVales;
 
     }   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @Override
+    public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal) {
+//      OficinaViewDTO server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
+        List<AsistenciaOperadorDTO> list = bitacoraRepository.filterAsistencias(fechaInicio, fechaFinal);
+        return list;
+    }
+
+    @Override
+    public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal, int idOperador) {
+        List<AsistenciaOperadorDTO> list = bitacoraRepository.filterAsistencias(fechaInicio, fechaFinal, idOperador);
+        return list;
+    }
     
 }
