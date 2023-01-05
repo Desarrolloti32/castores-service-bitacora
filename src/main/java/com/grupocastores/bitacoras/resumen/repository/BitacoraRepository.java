@@ -17,6 +17,7 @@ import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
 import com.grupocastores.commons.inhouse.Ruta;
+import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
 
 
 @Repository
@@ -190,6 +191,20 @@ public class BitacoraRepository{
     
     static final String queryGetDetalleVale =
             "SELECT *FROM OPENQUERY(%s, 'SELECT v.idVale AS idvale, v.cantidad, v.cantidadRecibida AS cantidadrecibida, v.cantidadRecibidaG AS cantidadrecibidag, v.observaciones,  cati.nombre AS tipopago, cag.nombre AS tipogasto, v.fecha FROM camiones.vales%s v INNER JOIN camiones.tipopago cati ON  v.idTipoPago =cati.idTipoPago INNER JOIN camiones.tipogasto cag ON v.idgasto =  cag.idgasto  WHERE v.idVale = \"%S\"');";
+    
+    
+    static final String queryGetAsistencias = 
+            " SELECT * FROM OPENQUERY(%s, 'SELECT  "
+            + " p.idpersonal,  "
+            + " CONCAT(p.apepaterno,\" \", p.apematerno,\" \", p.nombre) AS operador,  "
+            + " DATE(fecha_hora ) AS fecha,  "
+            + " TIME(fecha_hora ) AS hora   "
+            + " FROM pol.checador_operadores ch "
+            + " INNER JOIN personal.personal p ON ch.id_personal = p.idpersonal  "
+            + " WHERE DATE(fecha_hora) BETWEEN  \"%s\" AND \"%s\"  %s ;');";
+
+    
+    
     
     /**
      * filterViajes: funcion para ejecutar query de filtrar viajes.
@@ -449,4 +464,55 @@ public class BitacoraRepository{
         }     
     }   
    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal) {
+        
+        String queryWherePart = "";
+        
+         Query query = entityManager.createNativeQuery(String.format(
+                    queryGetAsistencias,
+                    utilitiesRepository.getDb13(),
+                    fechaInicio,
+                    fechaFinal,
+                    queryWherePart),
+                 AsistenciaOperadorDTO.class
+                );
+            List<AsistenciaOperadorDTO> list = query.getResultList();
+            return list;     
+    }
+    
+    public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal, int idOperador) {
+        
+        String queryWherePart = " AND idpersonal = "+idOperador+" ";
+        
+         Query query = entityManager.createNativeQuery(String.format(
+                    queryGetAsistencias,
+                    utilitiesRepository.getDb13(),
+                    fechaInicio,
+                    fechaFinal,
+                    queryWherePart),
+                 AsistenciaOperadorDTO.class
+                );
+            List<AsistenciaOperadorDTO> list = query.getResultList();
+            return list;
+        
+    }
+      
 }

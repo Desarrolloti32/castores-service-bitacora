@@ -2,6 +2,7 @@ package com.grupocastores.bitacoras.resumen.service;
 
 import java.util.List;
 
+import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
 import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
@@ -82,6 +83,22 @@ public interface IBitacoraService {
      * @date 2022-12-19
      */
     public List<BitacoraViajesDetalleVales> getVales(String folioViaje);
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ///////////// MIGRAR AL MS CORRESPONDIENTE
+    
+    public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal);
+
+    public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal, int idOperador);
   
     
 }
