@@ -25,6 +25,7 @@ import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
 import com.grupocastores.commons.inhouse.GuMesAnio;
 import com.grupocastores.commons.inhouse.GuiaViajeCustom;
+import com.grupocastores.commons.inhouse.HorarioOperador;
 import com.grupocastores.commons.inhouse.Ruta;
 import com.grupocastores.commons.inhouse.TablaTalonesOficina;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
@@ -272,6 +273,12 @@ public class BitacoraServiceImpl implements IBitacoraService{
     @Override
     public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal, int idOperador) {
         List<AsistenciaOperadorDTO> list = bitacoraRepository.filterAsistencias(fechaInicio, fechaFinal, idOperador);
+        return list;
+    }
+
+    @Override
+    public List<HorarioOperador> filterHorario(int idunidad, int tipoOperador, int idOperador) {
+        List<HorarioOperador> list = bitacoraRepository.filterHorario(idunidad, tipoOperador, idOperador);
         return list;
     }
     
