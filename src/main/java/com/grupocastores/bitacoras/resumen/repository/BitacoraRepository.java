@@ -224,7 +224,7 @@ public class BitacoraRepository{
             + "FROM bitacorasinhouse.operadores_secundarios_unidad os  "
             + "INNER JOIN bitacorasinhouse.esquemas_pago ep ON os.idesquemapago = ep.idesquemapago  "
             + "INNER JOIN camiones.operadores o ON os.idoperador = o.idpersonal "
-            + " WHERE %s os.estatus = 0 AND os.idunidad = %S ');";
+            + " WHERE %s os.estatus = 1 ');";
     
     
     
@@ -539,6 +539,10 @@ public class BitacoraRepository{
 
     public List<HorarioOperador> filterHorario(int idunidad, int tipoOperador, int idOperador) {
         String queryWherePart = "";
+       
+        if( idunidad != 0)
+            queryWherePart = queryWherePart+"  os.idunidad = "+idunidad+" AND ";
+        
         if( tipoOperador != 0)
              queryWherePart = queryWherePart+"  os.tipooperador = "+tipoOperador+" AND ";
         
@@ -548,8 +552,8 @@ public class BitacoraRepository{
         Query query = entityManager.createNativeQuery(String.format(
                    queryGetHorariosOperador,
                    utilitiesRepository.getDb23(),
-                   queryWherePart,
-                   idunidad),
+                   queryWherePart
+                   ),
                 HorarioOperador.class
                );
            List<HorarioOperador> list = query.getResultList();
