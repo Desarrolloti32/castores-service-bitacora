@@ -99,6 +99,8 @@ public interface IBitacoraService {
     public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal);
 
     public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal, int idOperador);
+
+    public Object filterHorario(int idunidad, int tipoOperador, int idOperador);
   
     
 }

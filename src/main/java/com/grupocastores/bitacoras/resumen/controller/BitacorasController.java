@@ -210,8 +210,13 @@ public class BitacorasController {
     {
         
       List<AsistenciaOperadorDTO> listAsistenciaOperador = new ArrayList<>();  
-      for (AsistenciaOperadorDTO asistenciaOperador :  bitacoraService.filterAsistencias(fechaInicio, fechaFinal)) {
-          listAsistenciaOperador.add(asistenciaOperador);
+      List<AsistenciaOperadorDTO> asistenciaOperador =  bitacoraService.filterAsistencias(fechaInicio, fechaFinal);
+      if( asistenciaOperador.isEmpty() ) 
+          return listAsistenciaOperador;
+      
+      int size = asistenciaOperador.size();
+      for (int i = 0; i< size; i ++) {
+          listAsistenciaOperador.add(asistenciaOperador.get(i));
       }
         return listAsistenciaOperador;
     }
@@ -224,20 +229,50 @@ public class BitacorasController {
      * @param fecha final
      * @return el InhouseViajes
      */
-   @GetMapping(value = "/filter/{fechaInicio}/{fechaFinal}/{idOperador}")
+    @GetMapping(value = "/filter/{fechaInicio}/{fechaFinal}/{idOperador}")
     @ResponseBody
     public Collection<AsistenciaOperadorDTO> filterAsistenciasByIdoperador(
             @PathVariable String fechaInicio, 
             @PathVariable String fechaFinal,
             @PathVariable int idOperador) 
     {
-       List<AsistenciaOperadorDTO> listAsistenciaOperador = new ArrayList<>();  
-       for (AsistenciaOperadorDTO asistenciaOperador :  bitacoraService.filterAsistencias(fechaInicio, fechaFinal, idOperador)) {
-           listAsistenciaOperador.add(asistenciaOperador);
-       }
-         return listAsistenciaOperador;
+        List<AsistenciaOperadorDTO> listAsistenciaOperador = new ArrayList<>();  
+        List<AsistenciaOperadorDTO> asistenciaOperador =  bitacoraService.filterAsistencias(fechaInicio, fechaFinal, idOperador);
+        if( asistenciaOperador.isEmpty() ) 
+            return listAsistenciaOperador;
+        
+        int size = asistenciaOperador.size();
+        for (int i = 0; i< size; i ++) {
+            listAsistenciaOperador.add(asistenciaOperador.get(i));
+        }
+          return listAsistenciaOperador;
     }
     
+//    /**
+//     * Consulta asistencias por fechas y idoperador.
+//     *
+//     * @param fecha inicio
+//     * @param fecha final
+//     * @return el InhouseViajes
+//     */
+//    @GetMapping(value = "/filterHorario/{tipoOperador}/{idOperador}")
+//    @ResponseBody
+//    public Collection<AsistenciaOperadorDTO> filterAsistenciasByIdoperador(
+//            @PathVariable int idunidad, 
+//            @PathVariable int tipoOperador,
+//            @PathVariable int idOperador) 
+//    {
+//       List<AsistenciaOperadorDTO> listAsistenciaOperador = new ArrayList<>();  
+//       for (AsistenciaOperadorDTO asistenciaOperador :  bitacoraService.filterHorario(idunidad, tipoOperador, idOperador)) {
+//           listAsistenciaOperador.add(asistenciaOperador);
+//       }
+//         return listAsistenciaOperador;
+//    }
+    
+    
+    
+   
+   
 
       
 }

@@ -274,5 +274,11 @@ public class BitacoraServiceImpl implements IBitacoraService{
         List<AsistenciaOperadorDTO> list = bitacoraRepository.filterAsistencias(fechaInicio, fechaFinal, idOperador);
         return list;
     }
+
+    @Override
+    public Object filterHorario(int idunidad, int tipoOperador, int idOperador) {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
 }
