@@ -16,6 +16,7 @@ import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
 import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
 import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
+import com.grupocastores.commons.inhouse.HorarioOperador;
 import com.grupocastores.commons.inhouse.Ruta;
 import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
 
@@ -203,6 +204,27 @@ public class BitacoraRepository{
             + " INNER JOIN personal.personal p ON ch.id_personal = p.idpersonal  "
             + " WHERE DATE(fecha_hora) BETWEEN  \"%s\" AND \"%s\"  %s ;');";
 
+    static final String queryGetHorariosOperador =
+            " SELECT *FROM OPENQUERY(%s, ' SELECT  "
+            + "os.idunidad,  "
+            + "os.tipounidad,  "
+            + "os.idoperador,  "
+            + "os.idesquemapago,  "
+            + "ep.nombre AS esquemapago,  "
+            + "os.tipooperador,  "
+            + "os.ordenoperador,  "
+            + "os.horaentrada,  "
+            + "os.horasalida,  "
+            + "os.fechamod,  "
+            + "os.horamod,  "
+            + "os.idpersonalmod,  "
+            + "os.idoperadoresunidad,  "
+            + "o.nombre, "
+            + "os.estatus "
+            + "FROM bitacorasinhouse.operadores_secundarios_unidad os  "
+            + "INNER JOIN bitacorasinhouse.esquemas_pago ep ON os.idesquemapago = ep.idesquemapago  "
+            + "INNER JOIN camiones.operadores o ON os.idoperador = o.idpersonal "
+            + " WHERE %s os.estatus = 0 AND os.idunidad = %S ');";
     
     
     
@@ -513,6 +535,25 @@ public class BitacoraRepository{
             List<AsistenciaOperadorDTO> list = query.getResultList();
             return list;
         
+    }
+
+    public List<HorarioOperador> filterHorario(int idunidad, int tipoOperador, int idOperador) {
+        String queryWherePart = "";
+        if( tipoOperador != 0)
+             queryWherePart = queryWherePart+"  os.tipooperador = "+tipoOperador+" AND ";
+        
+        if( idOperador!= 0)
+            queryWherePart = queryWherePart+"  os.idoperador = "+idOperador+" AND ";
+        
+        Query query = entityManager.createNativeQuery(String.format(
+                   queryGetHorariosOperador,
+                   utilitiesRepository.getDb23(),
+                   queryWherePart,
+                   idunidad),
+                HorarioOperador.class
+               );
+           List<HorarioOperador> list = query.getResultList();
+           return list;
     }
       
 }

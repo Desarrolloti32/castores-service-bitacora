@@ -9,6 +9,7 @@ import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
 import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
 import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
+import com.grupocastores.commons.inhouse.HorarioOperador;
 import com.grupocastores.commons.inhouse.TalonCustomResponse;
 
 
@@ -100,7 +101,7 @@ public interface IBitacoraService {
 
     public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal, int idOperador);
 
-    public Object filterHorario(int idunidad, int tipoOperador, int idOperador);
+    public List<HorarioOperador> filterHorario(int idunidad, int tipoOperador, int idOperador);
   
     
 }
