@@ -166,7 +166,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         if(responseGuia.getStatusCode() == HttpStatus.OK) {
             GuMesAnio guia = responseGuia.getBody();
             Moneda moneda =bitacoraRepository.getMoneda(guia.getMoneda());
-            Personal operador = utilitiesRepository.getPersonal(guia.getIdoperador());
+            Personal operador = utilitiesRepository.getPersonal(guia.getIdOperador());
             ResponseEntity<CiudadesEstadoRequest> responseOrigen =  inhouseFeign.findCiudadAndEstado(guia.getOrigen());
             ResponseEntity<CiudadesEstadoRequest> responseDestino =  inhouseFeign.findCiudadAndEstado(guia.getDestino());
             if(guia != null && operador!=null && responseGuia.getStatusCode() == HttpStatus.OK && responseDestino.getStatusCode() == HttpStatus.OK) {
@@ -202,7 +202,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         List<BitacoraViajesRequestDetail> listDetailViaje  = new ArrayList<BitacoraViajesRequestDetail>();
         for (int i = 0; i < listSize; i++) {
             
-            int idViajeParent = bitacoraRepository.getParentRuta(list.get(i).getClatalon());
+            int idViajeParent = bitacoraRepository.getParentRuta(list.get(i).getClaTalon());
             if(idViajeParent != 0 ) {
                 ResponseEntity<List<BitacoraViajesRequestDetail>> viajeDetail = inhouseFeign.findBitacoraViajeDetail(idViajeParent);
                 
