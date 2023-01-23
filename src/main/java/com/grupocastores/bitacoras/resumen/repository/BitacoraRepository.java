@@ -15,7 +15,7 @@ import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
 import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
 import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
-import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
+import com.grupocastores.commons.inhouse.EstatusUnidadBitacoraResumen;
 import com.grupocastores.commons.inhouse.HorarioOperador;
 import com.grupocastores.commons.inhouse.Ruta;
 import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
@@ -339,15 +339,15 @@ public class BitacoraRepository{
      * @return EstatusunidadBitacoraResumen
      * @date 2022-12-06
      */
-    public EstatusunidadBitacoraResumen getEstatusUnidad( int idunidad) {
+    public EstatusUnidadBitacoraResumen getEstatusUnidad( int idunidad) {
         Query query = entityManager.createNativeQuery(String.format(
                 queryGetEstatusunidad,
                 utilitiesRepository.getDb13(),
                 idunidad),
-                EstatusunidadBitacoraResumen.class
+                EstatusUnidadBitacoraResumen.class
             );
         
-        EstatusunidadBitacoraResumen estatus = (EstatusunidadBitacoraResumen) query.getResultList().get(0);
+        EstatusUnidadBitacoraResumen estatus = (EstatusUnidadBitacoraResumen) query.getResultList().get(0);
         return estatus;
     }
     

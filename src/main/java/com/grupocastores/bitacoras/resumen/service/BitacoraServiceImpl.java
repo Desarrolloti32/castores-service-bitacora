@@ -22,7 +22,7 @@ import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
 import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
 import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
-import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
+import com.grupocastores.commons.inhouse.EstatusUnidadBitacoraResumen;
 import com.grupocastores.commons.inhouse.GuMesAnio;
 import com.grupocastores.commons.inhouse.GuiaViajeCustom;
 import com.grupocastores.commons.inhouse.HorarioOperador;
@@ -86,7 +86,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         BitacoraResumenViajesNegociacion negociacion = bitacoraRepository.getNegocioacion(idNegociacion);
         Esquemasdocumentacion esquema = bitacoraRepository.getEsquema(idEsquemaViaje);
         Ruta ruta = bitacoraRepository.getRuta(idRuta);
-        EstatusunidadBitacoraResumen estatusUnidad= bitacoraRepository.getEstatusUnidad(idUnidad);
+        EstatusUnidadBitacoraResumen estatusUnidad= bitacoraRepository.getEstatusUnidad(idUnidad);
         BitacoraResumenViajesDetail listDetailResumenViaje = new BitacoraResumenViajesDetail();
         
         if(negociacion != null && esquema != null && ruta != null && estatusUnidad != null) {
