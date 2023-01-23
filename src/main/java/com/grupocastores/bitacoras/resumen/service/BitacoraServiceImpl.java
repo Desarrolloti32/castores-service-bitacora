@@ -22,7 +22,7 @@ import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
 import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
 import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
 import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
-import com.grupocastores.commons.inhouse.EstatusunidadBitacoraResumen;
+import com.grupocastores.commons.inhouse.EstatusUnidadBitacoraResumen;
 import com.grupocastores.commons.inhouse.GuMesAnio;
 import com.grupocastores.commons.inhouse.GuiaViajeCustom;
 import com.grupocastores.commons.inhouse.HorarioOperador;
@@ -86,7 +86,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         BitacoraResumenViajesNegociacion negociacion = bitacoraRepository.getNegocioacion(idNegociacion);
         Esquemasdocumentacion esquema = bitacoraRepository.getEsquema(idEsquemaViaje);
         Ruta ruta = bitacoraRepository.getRuta(idRuta);
-        EstatusunidadBitacoraResumen estatusUnidad= bitacoraRepository.getEstatusUnidad(idUnidad);
+        EstatusUnidadBitacoraResumen estatusUnidad= bitacoraRepository.getEstatusUnidad(idUnidad);
         BitacoraResumenViajesDetail listDetailResumenViaje = new BitacoraResumenViajesDetail();
         
         if(negociacion != null && esquema != null && ruta != null && estatusUnidad != null) {
@@ -166,7 +166,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         if(responseGuia.getStatusCode() == HttpStatus.OK) {
             GuMesAnio guia = responseGuia.getBody();
             Moneda moneda =bitacoraRepository.getMoneda(guia.getMoneda());
-            Personal operador = utilitiesRepository.getPersonal(guia.getIdoperador());
+            Personal operador = utilitiesRepository.getPersonal(guia.getIdOperador());
             ResponseEntity<CiudadesEstadoRequest> responseOrigen =  inhouseFeign.findCiudadAndEstado(guia.getOrigen());
             ResponseEntity<CiudadesEstadoRequest> responseDestino =  inhouseFeign.findCiudadAndEstado(guia.getDestino());
             if(guia != null && operador!=null && responseGuia.getStatusCode() == HttpStatus.OK && responseDestino.getStatusCode() == HttpStatus.OK) {
@@ -202,7 +202,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         List<BitacoraViajesRequestDetail> listDetailViaje  = new ArrayList<BitacoraViajesRequestDetail>();
         for (int i = 0; i < listSize; i++) {
             
-            int idViajeParent = bitacoraRepository.getParentRuta(list.get(i).getClatalon());
+            int idViajeParent = bitacoraRepository.getParentRuta(list.get(i).getClaTalon());
             if(idViajeParent != 0 ) {
                 ResponseEntity<List<BitacoraViajesRequestDetail>> viajeDetail = inhouseFeign.findBitacoraViajeDetail(idViajeParent);
                 
