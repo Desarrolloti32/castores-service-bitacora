@@ -1,7 +1,7 @@
 
 # DOCUMENTACION DE ENDPOINTS 
 ~~~
-### Este microservicio esta LIGADO al modulo de resumen de viajes
+### Este microservicio esta LIGADO al modulo de bitacoras y submodulo de resumen de viajes
 ~~~
     
 ## ENDPOINTS PARA RESUMEN DE VIAJES
@@ -11,7 +11,7 @@
 	Get(value = "/filterViajes/{fechaInicio}/{fechaFin}/{idViaje}/{noEconomico}/{tipoUnidad}/{estatusViaje}/{idEsquema}/{idNegociacion}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}")
 	
 	
-
+```
 Response: `[
     {
         "folio": "22020300039",
@@ -56,10 +56,11 @@ Response: `[
         "nombreoperador": "CONTRERAS PEREZ ALEJANDRO"
     }
 ]`
+```
 
 ### Servicio para obtener el detalle del resumen de viaje
 	@Get(value = "/getDetalleViaje/{idNegociacion}/{idEsquemaViaje}/{idRuta}/{idCliente}/{idOficinaCliente}/{idoficinaDocumenta}/{idUnidad}/{noEconomico}")
-
+```
 Response: `{
     "descripcionNegociacion": "DEDICADO TRACTO",
     "descripcionEsquema": "Dedicado pago x viaje",
@@ -68,3 +69,4 @@ Response: `{
     "gastoCasetas": 10041.4323,
     "estatusUnidad": "VACIO"
 }`
+```
