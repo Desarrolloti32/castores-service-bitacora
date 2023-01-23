@@ -344,11 +344,7 @@ public class BitacoraRepository{
                 queryGetEstatusunidad,
                 utilitiesRepository.getDb13(),
                 idunidad),
-<<<<<<< HEAD
                 EstatusUnidadBitacoraResumen.class
-=======
-        		EstatusUnidadBitacoraResumen.class
->>>>>>> eaac21c55a5d2f5164be71efb6bec22c0d54f917
             );
         
         EstatusUnidadBitacoraResumen estatus = (EstatusUnidadBitacoraResumen) query.getResultList().get(0);
