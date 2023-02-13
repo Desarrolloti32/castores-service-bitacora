@@ -1,6 +1,6 @@
 # castores-service-inhouse
 
-## Versión: 0.0.0.0
+## Versión: 0.0.0.1
 - __Ticket/Proyecto:__ N/A
 - __Author:__  Oscar Guerra
 - __Fecha:__ 28/11/2022
