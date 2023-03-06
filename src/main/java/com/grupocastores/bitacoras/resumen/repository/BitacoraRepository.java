@@ -8,17 +8,6 @@ import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-//
-//import com.grupocastores.commons.castoresdb.Moneda;
-//import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
-//import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
-//import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
-//import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
-//import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
-//import com.grupocastores.commons.inhouse.EstatusUnidadBitacoraResumen;
-//import com.grupocastores.commons.inhouse.HorarioOperador;
-//import com.grupocastores.commons.inhouse.Ruta;
-//import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
 
 import com.grupocastores.bitacoras.resumen.DTO.AsistenciaOperadorDTO;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenTalonDetail;
