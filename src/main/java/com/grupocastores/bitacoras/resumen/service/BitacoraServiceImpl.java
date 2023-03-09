@@ -12,30 +12,50 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.grupocastores.bitacoras.resumen.DTO.AsistenciaOperadorDTO;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenGuiaDetail;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenTalonDetail;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenViajesCustom;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenViajesDetail;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesDetalleVales;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesRequestDetail;
+import com.grupocastores.bitacoras.resumen.DTO.CiudadesEstadoRequest;
+import com.grupocastores.bitacoras.resumen.DTO.EstatusUnidadBitacoraResumen;
+import com.grupocastores.bitacoras.resumen.DTO.GuiaViajeCustom;
+import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
+import com.grupocastores.bitacoras.resumen.DTO.Moneda;
+import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
 import com.grupocastores.bitacoras.resumen.repository.BitacoraRepository;
 import com.grupocastores.bitacoras.resumen.repository.UtilitiesRepository;
 import com.grupocastores.bitacoras.resumen.service.client.IInhouseClientRest;
 import com.grupocastores.bitacoras.resumen.service.client.IViajesDocumentacionClientRest;
-import com.grupocastores.commons.castoresdb.Moneda;
-import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
-import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
-import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
-import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
-import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
-import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
-import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
-import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
-import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
-import com.grupocastores.commons.inhouse.EstatusUnidadBitacoraResumen;
-import com.grupocastores.commons.inhouse.GuMesAnio;
-import com.grupocastores.commons.inhouse.GuiaViajeCustom;
-import com.grupocastores.commons.inhouse.HorarioOperador;
-import com.grupocastores.commons.inhouse.Ruta;
-import com.grupocastores.commons.inhouse.TablaTalonesOficina;
-import com.grupocastores.commons.inhouse.TalonCustomResponse;
-import com.grupocastores.commons.oficinas.Personal;
-import com.grupocastores.commons.oficinas.Servidores;
-import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
+import com.grupocastores.bitacoras.resumen.service.domain.BitacoraResumenViajesNegociacion;
+import com.grupocastores.bitacoras.resumen.service.domain.Esquemasdocumentacion;
+import com.grupocastores.bitacoras.resumen.service.domain.GuMesAnio;
+import com.grupocastores.bitacoras.resumen.service.domain.Personal;
+import com.grupocastores.bitacoras.resumen.service.domain.Ruta;
+import com.grupocastores.bitacoras.resumen.service.domain.Servidores;
+//import com.grupocastores.commons.castoresdb.Moneda;
+//import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
+//import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
+//import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
+//import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
+//import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
+//import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
+//import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
+//import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
+//import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
+//import com.grupocastores.commons.inhouse.EstatusUnidadBitacoraResumen;
+//import com.grupocastores.commons.inhouse.GuMesAnio;
+//import com.grupocastores.commons.inhouse.GuiaViajeCustom;
+//import com.grupocastores.commons.inhouse.HorarioOperador;
+//import com.grupocastores.commons.inhouse.Ruta;
+//import com.grupocastores.commons.inhouse.TablaTalonesOficina;
+//import com.grupocastores.commons.inhouse.TalonCustomResponse;
+//import com.grupocastores.commons.oficinas.Personal;
+//import com.grupocastores.commons.oficinas.Servidores;
+//import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
+import com.grupocastores.bitacoras.resumen.service.domain.TablaTalonesOficina;
 
 @Service
 public class BitacoraServiceImpl implements IBitacoraService{
@@ -160,7 +180,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         ResponseEntity<TablaTalonesOficina> responseTalon =  viajesDocumentacionFeign.getTablaTalon(claTalon, idoficinaDocumenta);
         if(responseTalon.getStatusCode() == HttpStatus.OK) {
             TablaTalonesOficina especificacion = responseTalon.getBody();
-            List<BitacoraResumenTalonDetail> response = bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, DBPRUEBA );
+            List<BitacoraResumenTalonDetail> response = bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, server.getServidorVinculado() );
             
             return response;
         }

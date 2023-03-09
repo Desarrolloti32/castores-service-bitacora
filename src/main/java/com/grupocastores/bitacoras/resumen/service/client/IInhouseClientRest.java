@@ -7,12 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
-import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
-import com.grupocastores.commons.inhouse.GuMesAnio;
-import com.grupocastores.commons.inhouse.GuiaViajeCustom;
-import com.grupocastores.commons.inhouse.TablaTalonesOficina;
-import com.grupocastores.commons.inhouse.TalonCustomResponse;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesRequestDetail;
+import com.grupocastores.bitacoras.resumen.DTO.CiudadesEstadoRequest;
+
+
 
 @FeignClient("castores-service-inhouse")
 public interface IInhouseClientRest {

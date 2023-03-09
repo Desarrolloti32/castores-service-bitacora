@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableFeignClients
-@EntityScan({ "com.grupocastores.commons.castoresdb", "com.grupocastores.commons.inhouse", "com.grupocastores.commons.oficinas"})
+@EntityScan({ "com.grupocastores.bitacoras.resumen.DTO", "com.grupocastores.bitacoras.resumen.service.domain"})
 public class CastoresServiceBitacorasResumenApplication {
 
     public static void main(String[] args) {
