@@ -1,7 +1,11 @@
 package com.grupocastores.bitacoras.resumen.service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,8 +68,21 @@ public class BitacoraServiceImpl implements IBitacoraService{
     public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, String idViaje, String noEconomico, int tipoUnidad,
             int estatusViaje, int idEsquema, int idNegociacion, int idClienteinhouse, String idOficinaCliente, String idoficinaDocumenta) {
         Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
-        List<BitacoraResumenViajesCustom> response = bitacoraRepository.filterViajes(fechaInicio, fechaFin, idViaje, noEconomico, tipoUnidad, estatusViaje, idEsquema, idNegociacion, idClienteinhouse, idOficinaCliente, DBPRUEBA);
+        List<BitacoraResumenViajesCustom> response = new ArrayList<>();
+
+        LocalDate inicio = LocalDate.parse(fechaInicio).withDayOfMonth(1);
+        LocalDate fin = LocalDate.parse(fechaFin).withDayOfMonth(1);
         
+        long numOfMonthsBetween = ChronoUnit.MONTHS.between(inicio, fin) + 1; 
+        List<LocalDate> fechas = IntStream.iterate(0, i -> i + 1)
+          .limit(numOfMonthsBetween)
+          .mapToObj(i -> inicio.plusMonths(i))
+          .collect(Collectors.toList()); 
+
+        fechas.stream().forEach(f -> {
+        	String tabla = "" + f.getMonthValue() + f.getYear();
+        	response.addAll(bitacoraRepository.filterViajes(fechaInicio, fechaFin, idViaje, noEconomico, tipoUnidad, estatusViaje, idEsquema, idNegociacion, idClienteinhouse, idOficinaCliente, tabla, DBPRUEBA));
+        });
         return response;
     }
     
