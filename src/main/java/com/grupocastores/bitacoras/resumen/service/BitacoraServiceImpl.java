@@ -2,11 +2,16 @@ package com.grupocastores.bitacoras.resumen.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
 
 import com.grupocastores.bitacoras.resumen.DTO.AsistenciaOperadorDTO;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenGuiaDetail;
@@ -19,6 +24,7 @@ import com.grupocastores.bitacoras.resumen.DTO.CiudadesEstadoRequest;
 import com.grupocastores.bitacoras.resumen.DTO.EstatusUnidadBitacoraResumen;
 import com.grupocastores.bitacoras.resumen.DTO.GuiaViajeCustom;
 import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
+import com.grupocastores.bitacoras.resumen.DTO.InsidenciasDTO;
 import com.grupocastores.bitacoras.resumen.DTO.Moneda;
 import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
 import com.grupocastores.bitacoras.resumen.repository.BitacoraRepository;
@@ -55,6 +61,9 @@ import com.grupocastores.bitacoras.resumen.service.domain.TablaTalonesOficina;
 
 @Service
 public class BitacoraServiceImpl implements IBitacoraService{
+    
+    
+    Logger logger = LoggerFactory.getLogger(BitacoraServiceImpl.class);
     
     @Autowired
     private BitacoraRepository bitacoraRepository;
@@ -268,7 +277,37 @@ public class BitacoraServiceImpl implements IBitacoraService{
     
     
     
-    
+    /**
+     * obtenerInsidencias: Consulta insidencias(tipo 1) o evidencias(tipo 2).
+     * 
+     * @param claTalon String
+     * @param tipo int
+   
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra] 
+     * @return InsidenciasDTO
+     * @date 2023-14-03
+     */
+    @Override
+    public InsidenciasDTO  obtenerInsidencias(String claTalon, int tipo) {
+
+        try {
+            StringJoiner joinerString = new StringJoiner("/");
+            joinerString.add(claTalon);
+            joinerString.add(""+tipo+"");
+           
+            
+            RestTemplate restTemplate = new RestTemplate();
+            String fooResourceUrl = "http://10.1.9.73:3200/api/resources/"+joinerString.toString();  
+            InsidenciasDTO response = restTemplate.getForObject(fooResourceUrl, InsidenciasDTO.class);
+            
+            return  response;    
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return null;
+        }
+             
+     }
     
     
     

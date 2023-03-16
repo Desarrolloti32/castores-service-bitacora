@@ -3,6 +3,7 @@ package com.grupocastores.bitacoras.resumen.controller;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.StringJoiner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.grupocastores.bitacoras.resumen.DTO.AsistenciaOperadorDTO;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenGuiaDetail;
@@ -20,6 +22,7 @@ import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenViajesDetail;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesDetalleVales;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesRequestDetail;
 import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
+import com.grupocastores.bitacoras.resumen.DTO.InsidenciasDTO;
 import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
 
@@ -185,7 +188,29 @@ public class BitacorasController {
     
 
 
-    
+    /**
+     * obtenerInsidencias: Obtiene incidencias o evidencias por talon.
+     * 
+     * @param claTalon String
+     * @param tipo int
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra] 
+     * @return Coordenada
+     * @date 2022-09-26
+     */
+
+    @GetMapping("/obtenerInsidencias/{claTalon}/{tipo}")
+    public InsidenciasDTO obtenerInsidencias(
+            @PathVariable("claTalon") String claTalon,
+            @PathVariable("tipo") int tipo) {
+        InsidenciasDTO response = bitacoraService.obtenerInsidencias(claTalon, tipo);
+        
+        if(response == null) {
+            return new InsidenciasDTO();
+        }
+        return response;      
+        
+     }
     
     
     
