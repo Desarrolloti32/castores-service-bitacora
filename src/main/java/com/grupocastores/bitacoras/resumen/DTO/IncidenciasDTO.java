@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonFormat(shape= JsonFormat.Shape.ARRAY)
 
-public class InsidenciasDTO  {
+public class IncidenciasDTO  {
    
     private String image;
 }

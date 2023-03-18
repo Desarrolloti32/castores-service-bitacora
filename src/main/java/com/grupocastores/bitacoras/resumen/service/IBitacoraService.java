@@ -10,7 +10,7 @@ import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenViajesDetail;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesDetalleVales;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesRequestDetail;
 import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
-import com.grupocastores.bitacoras.resumen.DTO.InsidenciasDTO;
+import com.grupocastores.bitacoras.resumen.DTO.IncidenciasDTO;
 import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
 
 
@@ -102,7 +102,7 @@ public interface IBitacoraService {
      * @return Coordenada
      * @date 2022-09-26
      */
-    InsidenciasDTO obtenerInsidencias(String claTalon, int tipo);
+    IncidenciasDTO obtenerIncidencias(String claTalon, int tipo);
   
     
     

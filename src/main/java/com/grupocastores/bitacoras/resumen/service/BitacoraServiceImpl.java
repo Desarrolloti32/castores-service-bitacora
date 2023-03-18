@@ -24,7 +24,7 @@ import com.grupocastores.bitacoras.resumen.DTO.CiudadesEstadoRequest;
 import com.grupocastores.bitacoras.resumen.DTO.EstatusUnidadBitacoraResumen;
 import com.grupocastores.bitacoras.resumen.DTO.GuiaViajeCustom;
 import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
-import com.grupocastores.bitacoras.resumen.DTO.InsidenciasDTO;
+import com.grupocastores.bitacoras.resumen.DTO.IncidenciasDTO;
 import com.grupocastores.bitacoras.resumen.DTO.Moneda;
 import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
 import com.grupocastores.bitacoras.resumen.repository.BitacoraRepository;
@@ -258,7 +258,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
     
     
     /**
-     * obtenerInsidencias: Consulta insidencias(tipo 1) o evidencias(tipo 2).
+     * obtenerIncidencias: Consulta incidencias(tipo 1) o evidencias(tipo 2).
      * 
      * @param claTalon String
      * @param tipo int
@@ -269,17 +269,13 @@ public class BitacoraServiceImpl implements IBitacoraService{
      * @date 2023-14-03
      */
     @Override
-    public InsidenciasDTO  obtenerInsidencias(String claTalon, int tipo) {
+    public IncidenciasDTO  obtenerIncidencias(String claTalon, int tipo) {
 
         try {
-            StringJoiner joinerString = new StringJoiner("/");
-            joinerString.add(claTalon);
-            joinerString.add(""+tipo+"");
            
-            
             RestTemplate restTemplate = new RestTemplate();
-            String fooResourceUrl = "http://10.1.9.73:3200/api/resources/"+joinerString.toString();  
-            InsidenciasDTO response = restTemplate.getForObject(fooResourceUrl, InsidenciasDTO.class);
+            String fooResourceUrl = "http://10.1.9.73:3200/api/resources/"+claTalon+"/"+tipo;  
+            IncidenciasDTO response = restTemplate.getForObject(fooResourceUrl, IncidenciasDTO.class);
             
             return  response;    
         } catch (Exception e) {

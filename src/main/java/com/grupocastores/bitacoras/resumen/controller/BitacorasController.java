@@ -22,7 +22,7 @@ import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenViajesDetail;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesDetalleVales;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesRequestDetail;
 import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
-import com.grupocastores.bitacoras.resumen.DTO.InsidenciasDTO;
+import com.grupocastores.bitacoras.resumen.DTO.IncidenciasDTO;
 import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
 
@@ -200,13 +200,13 @@ public class BitacorasController {
      */
 
     @GetMapping("/obtenerInsidencias/{claTalon}/{tipo}")
-    public InsidenciasDTO obtenerInsidencias(
+    public IncidenciasDTO obtenerInsidencias(
             @PathVariable("claTalon") String claTalon,
             @PathVariable("tipo") int tipo) {
-        InsidenciasDTO response = bitacoraService.obtenerInsidencias(claTalon, tipo);
+        IncidenciasDTO response = bitacoraService.obtenerIncidencias(claTalon, tipo);
         
         if(response == null) {
-            return new InsidenciasDTO();
+            return new IncidenciasDTO();
         }
         return response;      
         
