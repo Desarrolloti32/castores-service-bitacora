@@ -10,8 +10,9 @@ import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.stereotype.Repository;
 
-import com.grupocastores.commons.oficinas.Personal;
-import com.grupocastores.commons.oficinas.Servidores;
+import com.grupocastores.bitacoras.resumen.service.domain.Parametro;
+import com.grupocastores.bitacoras.resumen.service.domain.Personal;
+import com.grupocastores.bitacoras.resumen.service.domain.Servidores;
 
 @Repository
 public class UtilitiesRepository {
@@ -30,6 +31,9 @@ public class UtilitiesRepository {
     
     static final String queryGetPersonal = 
             "SELECT * FROM OPENQUERY("+ DB_13 +",'SELECT * FROM personal.personal p WHERE p.idpersonal = \"%s\"');";
+    
+    static final String queryGetParametro = 
+            "SELECT * FROM parametro WHERE clave = %s ";
     
     
     /**
@@ -106,6 +110,27 @@ public class UtilitiesRepository {
             throw new Exception("No se pudo obtener el registro del eprsonal: "+idpersonal );
         return (Personal) list.get(0);
     }
+    
+    /**
+     * getParametroByClave: Obtiene un parametro por clave de la tabla parametros
+     * 
+     * @param clave (String)
+     * @return Parametro
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra]
+     * @date 2023-03-18
+     */
+    @SuppressWarnings("unchecked")
+    public Parametro getParametroByClave(String clave) {
+        Query query = entityManager.createNativeQuery(String.format(queryGetParametro,
+                clave),Parametro.class
+            );
+      
+        if (query.getResultList().isEmpty())
+           return null;
+      
+        return  (Parametro) query.getResultList().get(0);
+    }
+    
     
     public static String getDb23() {
         return DB_23;

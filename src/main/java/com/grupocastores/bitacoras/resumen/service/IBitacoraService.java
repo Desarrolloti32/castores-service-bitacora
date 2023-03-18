@@ -2,15 +2,16 @@ package com.grupocastores.bitacoras.resumen.service;
 
 import java.util.List;
 
-import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
-import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
-import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
-import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
-import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
-import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
-import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
-import com.grupocastores.commons.inhouse.HorarioOperador;
-import com.grupocastores.commons.inhouse.TalonCustomResponse;
+import com.grupocastores.bitacoras.resumen.DTO.AsistenciaOperadorDTO;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenGuiaDetail;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenTalonDetail;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenViajesCustom;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenViajesDetail;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesDetalleVales;
+import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesRequestDetail;
+import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
+import com.grupocastores.bitacoras.resumen.DTO.IncidenciasDTO;
+import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
 
 
 public interface IBitacoraService {
@@ -86,7 +87,23 @@ public interface IBitacoraService {
     public List<BitacoraViajesDetalleVales> getVales(String folioViaje);
 
     
-    
+
+    /**
+     * obtenerCoordenadas: Obtiene coordenadas por dirección.
+     * 
+     * @param calle String
+     * @param numExt String
+     * @param colinia String
+     * @param cp String
+     * @param ciudad String
+     * @param estado String
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra] 
+     * @return Coordenada
+     * @date 2022-09-26
+     */
+    IncidenciasDTO obtenerIncidencias(String claTalon, int tipo);
+  
     
     
     
@@ -102,6 +119,8 @@ public interface IBitacoraService {
     public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal, int idOperador);
 
     public List<HorarioOperador> filterHorario(int idunidad, int tipoOperador, int idOperador);
-  
+
+   
+
     
 }
