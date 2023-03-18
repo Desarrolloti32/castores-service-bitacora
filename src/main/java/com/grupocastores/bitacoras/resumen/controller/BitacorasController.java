@@ -199,7 +199,7 @@ public class BitacorasController {
      * @date 2022-09-26
      */
 
-    @GetMapping("/obtenerInsidencias/{claTalon}/{tipo}")
+    @GetMapping("/obtenerIncidencias/{claTalon}/{tipo}")
     public IncidenciasDTO obtenerInsidencias(
             @PathVariable("claTalon") String claTalon,
             @PathVariable("tipo") int tipo) {

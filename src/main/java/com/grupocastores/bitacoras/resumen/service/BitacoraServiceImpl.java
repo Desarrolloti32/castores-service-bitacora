@@ -34,11 +34,11 @@ import com.grupocastores.bitacoras.resumen.service.client.IViajesDocumentacionCl
 import com.grupocastores.bitacoras.resumen.service.domain.BitacoraResumenViajesNegociacion;
 import com.grupocastores.bitacoras.resumen.service.domain.Esquemasdocumentacion;
 import com.grupocastores.bitacoras.resumen.service.domain.GuMesAnio;
+import com.grupocastores.bitacoras.resumen.service.domain.Parametro;
 import com.grupocastores.bitacoras.resumen.service.domain.Personal;
 import com.grupocastores.bitacoras.resumen.service.domain.Ruta;
 import com.grupocastores.bitacoras.resumen.service.domain.Servidores;
 import com.grupocastores.bitacoras.resumen.service.domain.TablaTalonesOficina;
-import com.grupocastores.commons.castoresdb.Parametro;
 
 @Service
 public class BitacoraServiceImpl implements IBitacoraService{
@@ -278,7 +278,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
                 return null;
             }
             RestTemplate restTemplate = new RestTemplate();
-            String urlIncidencia = parametro.getValor()+""+claTalon+"/"+tipo;  
+            String urlIncidencia = parametro.getValor()+"/"+claTalon+"/"+tipo;  
             IncidenciasDTO response = restTemplate.getForObject(urlIncidencia, IncidenciasDTO.class);
             
             return  response;    

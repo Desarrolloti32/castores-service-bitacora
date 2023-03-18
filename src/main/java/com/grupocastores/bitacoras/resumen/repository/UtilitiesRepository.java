@@ -10,9 +10,9 @@ import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.stereotype.Repository;
 
+import com.grupocastores.bitacoras.resumen.service.domain.Parametro;
 import com.grupocastores.bitacoras.resumen.service.domain.Personal;
 import com.grupocastores.bitacoras.resumen.service.domain.Servidores;
-import com.grupocastores.commons.castoresdb.Parametro;
 
 @Repository
 public class UtilitiesRepository {
