@@ -13,9 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.grupocastores.bitacoras.resumen.service.domain.Personal;
 import com.grupocastores.bitacoras.resumen.service.domain.Servidores;
 
-//import com.grupocastores.commons.oficinas.Personal;
-//import com.grupocastores.commons.oficinas.Servidores;
-
 @Repository
 public class UtilitiesRepository {
 

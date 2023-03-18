@@ -37,26 +37,6 @@ import com.grupocastores.bitacoras.resumen.service.domain.GuMesAnio;
 import com.grupocastores.bitacoras.resumen.service.domain.Personal;
 import com.grupocastores.bitacoras.resumen.service.domain.Ruta;
 import com.grupocastores.bitacoras.resumen.service.domain.Servidores;
-//import com.grupocastores.commons.castoresdb.Moneda;
-//import com.grupocastores.commons.inhouse.BitacoraResumenGuiaDetail;
-//import com.grupocastores.commons.inhouse.BitacoraResumenTalonDetail;
-//import com.grupocastores.commons.inhouse.BitacoraResumenViajesCustom;
-//import com.grupocastores.commons.inhouse.BitacoraResumenViajesDetail;
-//import com.grupocastores.commons.inhouse.BitacoraResumenViajesNegociacion;
-//import com.grupocastores.commons.inhouse.BitacoraViajesDetalleVales;
-//import com.grupocastores.commons.inhouse.BitacoraViajesRequestDetail;
-//import com.grupocastores.commons.inhouse.CiudadesEstadoRequest;
-//import com.grupocastores.commons.inhouse.Esquemasdocumentacion;
-//import com.grupocastores.commons.inhouse.EstatusUnidadBitacoraResumen;
-//import com.grupocastores.commons.inhouse.GuMesAnio;
-//import com.grupocastores.commons.inhouse.GuiaViajeCustom;
-//import com.grupocastores.commons.inhouse.HorarioOperador;
-//import com.grupocastores.commons.inhouse.Ruta;
-//import com.grupocastores.commons.inhouse.TablaTalonesOficina;
-//import com.grupocastores.commons.inhouse.TalonCustomResponse;
-//import com.grupocastores.commons.oficinas.Personal;
-//import com.grupocastores.commons.oficinas.Servidores;
-//import com.grupocastores.commons.inhouse.AsistenciaOperadorDTO;
 import com.grupocastores.bitacoras.resumen.service.domain.TablaTalonesOficina;
 
 @Service
