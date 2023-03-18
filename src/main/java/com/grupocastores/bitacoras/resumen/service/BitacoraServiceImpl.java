@@ -38,6 +38,7 @@ import com.grupocastores.bitacoras.resumen.service.domain.Personal;
 import com.grupocastores.bitacoras.resumen.service.domain.Ruta;
 import com.grupocastores.bitacoras.resumen.service.domain.Servidores;
 import com.grupocastores.bitacoras.resumen.service.domain.TablaTalonesOficina;
+import com.grupocastores.commons.castoresdb.Parametro;
 
 @Service
 public class BitacoraServiceImpl implements IBitacoraService{
@@ -272,12 +273,16 @@ public class BitacoraServiceImpl implements IBitacoraService{
     public IncidenciasDTO  obtenerIncidencias(String claTalon, int tipo) {
 
         try {
-           
+            Parametro parametro = utilitiesRepository.getParametroByClave("0017");
+            if( parametro == null ) {
+                return null;
+            }
             RestTemplate restTemplate = new RestTemplate();
-            String fooResourceUrl = "http://10.1.9.73:3200/api/resources/"+claTalon+"/"+tipo;  
-            IncidenciasDTO response = restTemplate.getForObject(fooResourceUrl, IncidenciasDTO.class);
+            String urlIncidencia = parametro.getValor()+""+claTalon+"/"+tipo;  
+            IncidenciasDTO response = restTemplate.getForObject(urlIncidencia, IncidenciasDTO.class);
             
             return  response;    
+          
         } catch (Exception e) {
             logger.error(e.getMessage());
             return null;
