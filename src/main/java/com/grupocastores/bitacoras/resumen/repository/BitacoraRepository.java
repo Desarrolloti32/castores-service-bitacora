@@ -64,7 +64,7 @@ public class BitacoraRepository{
             + "    ON tv.idviaje = tgv.idviaje "
             + "  INNER JOIN talones.guias tg "
             + "    ON tgv.no_guia = tg.no_guia "
-            + "  INNER JOIN talones.tg22023 tgma "
+            + "  INNER JOIN talones.tg32023 tgma "
             + "    ON tg.no_guia = tgma.no_guia "
             + "  INNER JOIN talones.talones tt "
             + "    ON tgma.cla_talon = tt.cla_talon "
@@ -266,7 +266,7 @@ public class BitacoraRepository{
                 queryWherePart = queryWherePart +" AND tet.idesquema = "+idEsquema+" ";
             }
             if(idNegociacion != 0) {
-                queryWherePart = queryWherePart +" AND tet.idnegociacion = "+tipoUnidad+" ";
+                queryWherePart = queryWherePart +" AND tet.idnegociacion = "+idNegociacion+" ";
             }
             
         }
