@@ -122,14 +122,14 @@ public class BitacoraServiceImpl implements IBitacoraService{
     @SuppressWarnings("unchecked")
     @Override
     public  List<TalonCustomResponse> getTalonesByViaje(String idoficinaDocumenta, int idViaje) {
-        ResponseEntity<List<GuiaViajeCustom>> resEntityGuiasViaje =  viajesDocumentacionFeign.getGuiasViaje(idViaje, idoficinaDocumenta);
+        ResponseEntity<List<GuiaViajeCustom>> resEntityGuiasViaje =  viajesDocumentacionFeign.getGuiasViaje(idViaje, "9801");
        
         List<TalonCustomResponse> listTalones = new ArrayList<TalonCustomResponse>();
         if(resEntityGuiasViaje.getStatusCode()==HttpStatus.OK) {
             List<GuiaViajeCustom> listGuiaViaje =resEntityGuiasViaje.getBody();
             int listGuiaViajeSize = listGuiaViaje.size();
             for(int i=0; i< listGuiaViajeSize; i++  ) {
-                ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesTrGuia(listGuiaViaje.get(i).getNoGuia(), idoficinaDocumenta);
+                ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesTrGuia(listGuiaViaje.get(i).getNoGuia(), "9801");
                 if(resEntityTalonesGuia.getStatusCode()==HttpStatus.OK) {
                     listTalones = resEntityTalonesGuia.getBody();
                 }
@@ -150,10 +150,10 @@ public class BitacoraServiceImpl implements IBitacoraService{
     @Override
     public List<BitacoraResumenTalonDetail> getTalonDetail(String claTalon, String idoficinaDocumenta) {
         Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
-        ResponseEntity<TablaTalonesOficina> responseTalon =  viajesDocumentacionFeign.getTablaTalon(claTalon, idoficinaDocumenta);
+        ResponseEntity<TablaTalonesOficina> responseTalon =  viajesDocumentacionFeign.getTablaTalon(claTalon, "9801");
         if(responseTalon.getStatusCode() == HttpStatus.OK) {
             TablaTalonesOficina especificacion = responseTalon.getBody();
-            List<BitacoraResumenTalonDetail> response = bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, server.getServidorVinculado() );
+            List<BitacoraResumenTalonDetail> response = bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, DBPRUEBA );
             
             return response;
         }
@@ -171,7 +171,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
     @Override
     public BitacoraResumenGuiaDetail getDetalleGuia(String noGuia, String tabla, String idoficinaDocumenta) throws Exception {
         Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
-        ResponseEntity<GuMesAnio> responseGuia =  viajesDocumentacionFeign.getGuMesAnio(noGuia,tabla, idoficinaDocumenta);
+        ResponseEntity<GuMesAnio> responseGuia =  viajesDocumentacionFeign.getGuMesAnio(noGuia,tabla, "9801");
         BitacoraResumenGuiaDetail guiaDetail = new BitacoraResumenGuiaDetail ();
         if(responseGuia.getStatusCode() == HttpStatus.OK) {
             GuMesAnio guia = responseGuia.getBody();
