@@ -266,7 +266,7 @@ public class BitacoraRepository{
                 queryWherePart = queryWherePart +" AND tet.idesquema = "+idEsquema+" ";
             }
             if(idNegociacion != 0) {
-                queryWherePart = queryWherePart +" AND tet.idnegociacion = "+tipoUnidad+" ";
+                queryWherePart = queryWherePart +" AND tet.idnegociacion = "+idNegociacion+" ";
             }
             
         }

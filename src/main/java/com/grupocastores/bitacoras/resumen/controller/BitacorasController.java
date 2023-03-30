@@ -20,6 +20,7 @@ import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenViajesDetail;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesDetalleVales;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesRequestDetail;
 import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
+import com.grupocastores.bitacoras.resumen.DTO.IncidenciasDTO;
 import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
 
@@ -183,17 +184,28 @@ public class BitacorasController {
         
     } 
     
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    /**
+     * obtenerInsidencias: Obtiene incidencias o evidencias por talon.
+     * 
+     * @param claTalon String
+     * @param tipo int
+     * @version 0.0.1
+     * @author Oscar Eduardo Guerra Salcedo [OscarGuerra] 
+     * @return Coordenada
+     * @date 2022-09-26
+     */
+    @GetMapping("/obtenerIncidencias/{claTalon}/{tipo}")
+    public IncidenciasDTO obtenerInsidencias(
+            @PathVariable("claTalon") String claTalon,
+            @PathVariable("tipo") int tipo) {
+        IncidenciasDTO response = bitacoraService.obtenerIncidencias(claTalon, tipo);
+        
+        if(response == null) {
+            return new IncidenciasDTO();
+        }
+        return response;      
+        
+     }
     
     /**
      * Consulta asistencias por fechas.

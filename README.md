@@ -1,10 +1,10 @@
-# castores-service-inhouse
+# castores-service-bitacora-resumen
 
-## Versión: 0.0.0.1
+## Versión: 1.0.0.0
 - __Ticket/Proyecto:__ N/A
-- __Author:__  Oscar Guerra
-- __Fecha:__ 28/11/2022
-- __Descripción:__ Creación de ms para el modulo de bitacora/bitacora del sistema inhouse.
+- __Author:__ Oscar Guerra
+- __Fecha:__ 02/05/2022
+- __Descripción:__ Migracion de endpoint para obtener incidencias.
 --------
 
 ## Configuración técnica
