@@ -64,7 +64,7 @@ public class BitacoraRepository{
             + "    ON tv.idviaje = tgv.idviaje "
             + "  INNER JOIN talones.guias tg "
             + "    ON tgv.no_guia = tg.no_guia "
-            + "  INNER JOIN talones.tg32023 tgma "
+            + "  INNER JOIN talones.tg%s tgma "
             + "    ON tg.no_guia = tgma.no_guia "
             + "  INNER JOIN talones.talones tt "
             + "    ON tgma.cla_talon = tt.cla_talon "
@@ -244,7 +244,7 @@ public class BitacoraRepository{
      */
     @SuppressWarnings("unused")
     public List<BitacoraResumenViajesCustom> filterViajes(String fechaInicio, String fechaFin, String idViaje, String noEconomico, int tipoUnidad,
-            int estatusViaje, int idEsquema, int idNegociacion, int idCliente,String idOficinaCliente, String linkedServer) {
+            int estatusViaje, int idEsquema, int idNegociacion, int idCliente,String idOficinaCliente, String tabla, String linkedServer) {
       
         String queryWherePart = "";
       
@@ -286,7 +286,7 @@ public class BitacoraRepository{
         Query query = entityManager.createNativeQuery(String.format(
                 queryFilterResumenViaje,
                 linkedServer,
-                
+                tabla,
                 queryWherePart,
                 idCliente,
                 idOficinaCliente),
