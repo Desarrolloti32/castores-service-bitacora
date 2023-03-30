@@ -91,7 +91,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
 
         fechas.stream().forEach(f -> {
         	String tabla = "" + f.getMonthValue() + f.getYear();
-        	response.addAll(bitacoraRepository.filterViajes(fechaInicio, fechaFin, idViaje, noEconomico, tipoUnidad, estatusViaje, idEsquema, idNegociacion, idClienteinhouse, idOficinaCliente, tabla, DBPRUEBA));
+        	response.addAll(bitacoraRepository.filterViajes(fechaInicio, fechaFin, idViaje, noEconomico, tipoUnidad, estatusViaje, idEsquema, idNegociacion, idClienteinhouse, idOficinaCliente, tabla, server.getServidorVinculado()));
         });
         return response;
     }
@@ -110,7 +110,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         
         BitacoraResumenViajesDetail listDetailResumenViaje = new BitacoraResumenViajesDetail();
         try {
-            Servidores server = utilitiesRepository.getLinkedServerByOfice("9801");
+            Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
             
             Esquemasdocumentacion esquema = bitacoraRepository.getEsquema(idEsquemaViaje);
             Ruta ruta = bitacoraRepository.getRuta(idRuta);
@@ -146,13 +146,13 @@ public class BitacoraServiceImpl implements IBitacoraService{
         
         List<TalonCustomResponse> listTalones = new ArrayList<TalonCustomResponse>();
         try {
-            ResponseEntity<List<GuiaViajeCustom>> resEntityGuiasViaje =  viajesDocumentacionFeign.getGuiasViaje(idViaje, "9801");
+            ResponseEntity<List<GuiaViajeCustom>> resEntityGuiasViaje =  viajesDocumentacionFeign.getGuiasViaje(idViaje, idoficinaDocumenta);
             
             if(resEntityGuiasViaje.getStatusCode()==HttpStatus.OK) {
                 List<GuiaViajeCustom> listGuiaViaje =resEntityGuiasViaje.getBody();
                 int listGuiaViajeSize = listGuiaViaje.size();
                 for(int i=0; i< listGuiaViajeSize; i++  ) {
-                    ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesTrGuia(listGuiaViaje.get(i).getNoGuia(), "9801");
+                    ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesTrGuia(listGuiaViaje.get(i).getNoGuia(), idoficinaDocumenta);
                     if(resEntityTalonesGuia.getStatusCode()==HttpStatus.OK) {
                         listTalones = resEntityTalonesGuia.getBody();
                     }
@@ -180,10 +180,10 @@ public class BitacoraServiceImpl implements IBitacoraService{
         try {
             
             Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
-            ResponseEntity<TablaTalonesOficina> responseTalon =  viajesDocumentacionFeign.getTablaTalon(claTalon, "9801");
+            ResponseEntity<TablaTalonesOficina> responseTalon =  viajesDocumentacionFeign.getTablaTalon(claTalon, idoficinaDocumenta);
             if(responseTalon.getStatusCode() == HttpStatus.OK) {
                 TablaTalonesOficina especificacion = responseTalon.getBody();
-                List<BitacoraResumenTalonDetail> response = bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, DBPRUEBA );
+                List<BitacoraResumenTalonDetail> response = bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, server.getServidorVinculado() );
                 
                 return response;
             }
@@ -207,7 +207,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         BitacoraResumenGuiaDetail guiaDetail = new BitacoraResumenGuiaDetail ();
         try {
             Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
-            ResponseEntity<GuMesAnio> responseGuia =  viajesDocumentacionFeign.getGuMesAnio(noGuia,tabla, "9801");
+            ResponseEntity<GuMesAnio> responseGuia =  viajesDocumentacionFeign.getGuMesAnio(noGuia,tabla, idoficinaDocumenta);
             if(responseGuia.getStatusCode() == HttpStatus.OK) {
                 GuMesAnio guia = responseGuia.getBody();
                 Moneda moneda =bitacoraRepository.getMoneda(guia.getMoneda());
