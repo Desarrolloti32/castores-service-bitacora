@@ -4,7 +4,7 @@
 - __Ticket/Proyecto:__ N/A
 - __Author:__ Oscar Guerra / Cynthia Fuentes
 - __Fecha:__ 30/03/2023
-- __Descripción:__ Migracion de endpoint para obtener incidencias.
+- __Descripción:__ Tg dinamico y correccón de catalogo de negociación.
 
 ## Versión: 1.0.0.0
 - __Ticket/Proyecto:__ N/A
