@@ -321,9 +321,11 @@ public class BitacoraServiceImpl implements IBitacoraService{
      * @return InsidenciasDTO
      * @date 2023-14-03
      */
+    @SuppressWarnings("unchecked")
     @Override
-    public IncidenciasDTO  obtenerIncidencias(String claTalon, int tipo) {
-
+    public  ArrayList<IncidenciasDTO>  obtenerIncidencias(String claTalon, int tipo) {
+        
+        ArrayList<IncidenciasDTO> listResources  = new ArrayList<IncidenciasDTO>();
         try {
             Parametro parametro = utilitiesRepository.getParametroByClave("0017");
             if( parametro == null ) {
@@ -331,13 +333,17 @@ public class BitacoraServiceImpl implements IBitacoraService{
             }
             RestTemplate restTemplate = new RestTemplate();
             String urlIncidencia = parametro.getValor()+"/"+claTalon+"/"+tipo;  
-            IncidenciasDTO response = restTemplate.getForObject(urlIncidencia, IncidenciasDTO.class);
+            ArrayList<IncidenciasDTO> response = restTemplate.getForObject(urlIncidencia, ArrayList.class);
             
-            return  response;    
+            if( response.size() > 0) {
+                listResources = response;
+            }
+            
+            return  listResources;    
           
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return null;
+            return listResources;
         }
              
      }

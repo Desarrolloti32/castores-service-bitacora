@@ -20,10 +20,10 @@ public class UtilitiesRepository {
     @PersistenceContext
     private EntityManager entityManager;
     
-    public static String DB_23 = "PRODUCCION23";
+    public static String DB_23 = "PRUEBAS23";
    
 
-    public static String DB_13 = "PRODUCCION13";
+    public static String DB_13 = "PRUEBAS13";
     public static final String queryGetLinkedServerByIdOficina = 
             "SELECT * FROM syn.dbo.v_Oficinas where Oficina = \'%s\'";
     static final String queryGetPersonalByIdUsuario = 
