@@ -126,7 +126,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
                     
             return listDetailResumenViaje;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return listDetailResumenViaje;
         }
         
@@ -160,7 +160,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
             }
             return listTalones; 
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return listTalones; 
         }
       
@@ -189,7 +189,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
             }
             return null;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return null;
         }
     }
@@ -229,7 +229,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
             }
             return guiaDetail;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return guiaDetail;
         }
         
@@ -267,7 +267,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
                 
             return listDetailViaje;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return listDetailViaje;
         }
         
@@ -302,7 +302,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
             }
             return listDetalleVales;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return listDetalleVales;
         }
 
@@ -342,7 +342,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
             return  listResources;    
           
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return listResources;
         }
              
