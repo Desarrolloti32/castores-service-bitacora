@@ -249,18 +249,14 @@ public class BitacoraServiceImpl implements IBitacoraService{
         
         try {
             List<TalonCustomResponse> list = getTalonesByViaje(idoficinaDocumenta, idViaje);
-            int listSize = list.size();
-            for (int i = 0; i < listSize; i++) {
-                
-                int idViajeParent = bitacoraRepository.getParentRuta(list.get(i).getClaTalon());
+           
+            
+            for (TalonCustomResponse talon : list) {
+                int idViajeParent = bitacoraRepository.getParentRuta(talon.getClaTalon());
                 if(idViajeParent != 0 ) {
                     ResponseEntity<List<BitacoraViajesRequestDetail>> viajeDetail = inhouseFeign.findBitacoraViajeDetail(idViajeParent);
-                    
                     if(viajeDetail.getStatusCode() == HttpStatus.OK) {
                         listDetailViaje = viajeDetail.getBody();
-                        if(!listDetailViaje.isEmpty()) {
-                            i = listSize;                   
-                        }
                     }
                 }
             }
@@ -289,6 +285,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
         try {
             
             List<Object[]>  tablaVales = bitacoraRepository.getTablaVales(folioViaje);
+            int tablaValesSize = tablaVales.size();
             if(!tablaVales.isEmpty()) {  
                 tablaVales.forEach(item -> {
                     String idVale = (String)item[0];
