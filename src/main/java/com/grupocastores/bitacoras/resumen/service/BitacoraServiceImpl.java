@@ -289,7 +289,6 @@ public class BitacoraServiceImpl implements IBitacoraService{
         try {
             
             List<Object[]>  tablaVales = bitacoraRepository.getTablaVales(folioViaje);
-            int tablaValesSize = tablaVales.size();
             if(!tablaVales.isEmpty()) {  
                 tablaVales.forEach(item -> {
                     String idVale = (String)item[0];
