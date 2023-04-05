@@ -325,7 +325,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
     @Override
     public  ArrayList<IncidenciasDTO>  obtenerIncidencias(String claTalon, int tipo) {
         
-        ArrayList<IncidenciasDTO> listResources  = new ArrayList<IncidenciasDTO>();
+      
         try {
             Parametro parametro = utilitiesRepository.getParametroByClave("0017");
             if( parametro == null ) {
@@ -335,15 +335,11 @@ public class BitacoraServiceImpl implements IBitacoraService{
             String urlIncidencia = parametro.getValor()+"/"+claTalon+"/"+tipo;  
             ArrayList<IncidenciasDTO> response = restTemplate.getForObject(urlIncidencia, ArrayList.class);
             
-            if( response.size() > 0) {
-                listResources = response;
-            }
-            
-            return  listResources;    
+            return  response;    
           
         } catch (Exception e) {
             logger.error(e.getLocalizedMessage(), e);
-            return listResources;
+            return  new ArrayList<IncidenciasDTO>();
         }
              
      }
