@@ -120,8 +120,6 @@ public class BitacoraServiceImpl implements IBitacoraService{
                 listDetailResumenViaje.setDescripcionEsquema(esquema.getNombreEsquema());
                 listDetailResumenViaje.setDescripcionRuta(ruta.getNombre());
                 listDetailResumenViaje.setEstatusUnidad(estatusUnidad.getNombreEstatus());
-                listDetailResumenViaje.setEstatusLiberacion("test");
-                listDetailResumenViaje.setGastoCasetas(10041.4323);
             }
                     
             return listDetailResumenViaje;
