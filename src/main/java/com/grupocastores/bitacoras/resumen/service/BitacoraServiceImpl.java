@@ -183,9 +183,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
             ResponseEntity<TablaTalonesOficina> responseTalon =  viajesDocumentacionFeign.getTablaTalon(claTalon, idoficinaDocumenta);
             if(responseTalon.getStatusCode() == HttpStatus.OK) {
                 TablaTalonesOficina especificacion = responseTalon.getBody();
-                List<BitacoraResumenTalonDetail> response = bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, server.getServidorVinculado() );
-                
-                return response;
+                return bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, server.getServidorVinculado() );
             }
             return null;
         } catch (Exception e) {
