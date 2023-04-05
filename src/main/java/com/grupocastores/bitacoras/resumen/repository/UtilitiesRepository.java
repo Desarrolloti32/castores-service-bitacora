@@ -107,7 +107,7 @@ public class UtilitiesRepository {
         
         List<Personal> list = query.getResultList();
         if (list == null)
-            throw new Exception("No se pudo obtener el registro del eprsonal: "+idpersonal );
+            return null;
         return (Personal) list.get(0);
     }
     

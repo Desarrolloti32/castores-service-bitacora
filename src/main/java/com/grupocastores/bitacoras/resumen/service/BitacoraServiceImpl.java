@@ -214,7 +214,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
                 Personal operador = utilitiesRepository.getPersonal(guia.getIdOperador());
                 ResponseEntity<CiudadesEstadoRequest> responseOrigen =  inhouseFeign.findCiudadAndEstado(guia.getOrigen());
                 ResponseEntity<CiudadesEstadoRequest> responseDestino =  inhouseFeign.findCiudadAndEstado(guia.getDestino());
-                if(guia != null && operador!=null && responseGuia.getStatusCode() == HttpStatus.OK && responseDestino.getStatusCode() == HttpStatus.OK) {
+                if(guia != null && operador !=null && responseOrigen.getStatusCode() == HttpStatus.OK && responseDestino.getStatusCode() == HttpStatus.OK) {
                     CiudadesEstadoRequest origen = responseOrigen.getBody();
                     CiudadesEstadoRequest destino = responseDestino.getBody();
                     guiaDetail.setNoGuia(noGuia);
