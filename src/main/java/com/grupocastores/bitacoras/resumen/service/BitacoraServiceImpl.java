@@ -151,9 +151,9 @@ public class BitacoraServiceImpl implements IBitacoraService{
             if(resEntityGuiasViaje.getStatusCode()==HttpStatus.OK) {
                 List<GuiaViajeCustom> listGuiaViaje =resEntityGuiasViaje.getBody();
                 for(GuiaViajeCustom guiaViaje : listGuiaViaje) {
-                    ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesTrGuia(listGuiaViaje.get(i).getNoGuia(), idoficinaDocumenta);
+                    ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesTrGuia(guiaViaje.getNoGuia(), idoficinaDocumenta);
                     if(resEntityTalonesGuia.getStatusCode()==HttpStatus.OK) {
-                        listTalones = resEntityTalonesGuia.getBody();
+                        return resEntityTalonesGuia.getBody();
                     }
                 }
             }
