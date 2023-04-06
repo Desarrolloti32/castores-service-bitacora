@@ -110,7 +110,6 @@ public class BitacoraServiceImpl implements IBitacoraService{
         
         BitacoraResumenViajesDetail listDetailResumenViaje = new BitacoraResumenViajesDetail();
         try {
-            Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
             
             Esquemasdocumentacion esquema = bitacoraRepository.getEsquema(idEsquemaViaje);
             Ruta ruta = bitacoraRepository.getRuta(idRuta);
@@ -201,7 +200,6 @@ public class BitacoraServiceImpl implements IBitacoraService{
     public BitacoraResumenGuiaDetail getDetalleGuia(String noGuia, String tabla, String idoficinaDocumenta) throws Exception {
         BitacoraResumenGuiaDetail guiaDetail = new BitacoraResumenGuiaDetail ();
         try {
-            Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
             ResponseEntity<GuMesAnio> responseGuia =  viajesDocumentacionFeign.getGuMesAnio(noGuia,tabla, idoficinaDocumenta);
             if(responseGuia.getStatusCode() == HttpStatus.OK) {
                 GuMesAnio guia = responseGuia.getBody();
