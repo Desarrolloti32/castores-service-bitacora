@@ -200,14 +200,11 @@ public class BitacorasController {
      */
 
     @GetMapping("/obtenerIncidencias/{claTalon}/{tipo}")
-    public IncidenciasDTO obtenerInsidencias(
+    public ArrayList<IncidenciasDTO> obtenerInsidencias(
             @PathVariable("claTalon") String claTalon,
             @PathVariable("tipo") int tipo) {
-        IncidenciasDTO response = bitacoraService.obtenerIncidencias(claTalon, tipo);
-        
-        if(response == null) {
-            return new IncidenciasDTO();
-        }
+        ArrayList<IncidenciasDTO> response = bitacoraService.obtenerIncidencias(claTalon, tipo);
+
         return response;      
         
      }

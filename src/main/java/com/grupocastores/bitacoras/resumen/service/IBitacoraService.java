@@ -1,5 +1,6 @@
 package com.grupocastores.bitacoras.resumen.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.grupocastores.bitacoras.resumen.DTO.AsistenciaOperadorDTO;
@@ -102,7 +103,7 @@ public interface IBitacoraService {
      * @return Coordenada
      * @date 2022-09-26
      */
-    IncidenciasDTO obtenerIncidencias(String claTalon, int tipo);
+    ArrayList<IncidenciasDTO> obtenerIncidencias(String claTalon, int tipo);
   
     
     
