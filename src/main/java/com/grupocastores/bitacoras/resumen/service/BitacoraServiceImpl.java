@@ -278,16 +278,16 @@ public class BitacoraServiceImpl implements IBitacoraService{
         try {
             
             List<Object[]>  tablaVales = bitacoraRepository.getTablaVales(folioViaje);
-            if(tablaVales != null) {  
-                tablaVales.forEach(item -> {
-                    String idVale = (String)item[0];
-                    String tabla = (String)item[1];
-                    BitacoraViajesDetalleVales detalle = bitacoraRepository.getVales(idVale, tabla);
-                    if(detalle != null) {
-                        listDetalleVales.add(detalle);
-                    }
-                });
-            }
+         
+            tablaVales.forEach(item -> {
+                String idVale = (String)item[0];
+                String tabla = (String)item[1];
+                BitacoraViajesDetalleVales detalle = bitacoraRepository.getVales(idVale, tabla);
+                if(detalle != null) {
+                    listDetalleVales.add(detalle);
+                }
+            });
+            
             return listDetalleVales;
         } catch (Exception e) {
             logger.error(e.getLocalizedMessage(), e);

@@ -394,9 +394,7 @@ public class BitacoraRepository{
                 claTalon),
                 BitacoraResumenTalonDetail.class
             );
-        if( query.getResultList().isEmpty()){
-            return null;
-        }
+        
         return (List<BitacoraResumenTalonDetail>) query.getResultList();
         
     }
@@ -461,9 +459,6 @@ public class BitacoraRepository{
                
             );
         
-        if(query.getResultList().isEmpty()) {
-            return null;
-        }
         return (List<Object[]>) query.getResultList();
         
         
