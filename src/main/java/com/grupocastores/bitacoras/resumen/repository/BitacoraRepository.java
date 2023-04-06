@@ -461,6 +461,9 @@ public class BitacoraRepository{
                
             );
         
+        if(query.getResultList().isEmpty()) {
+            return null;
+        }
         return (List<Object[]>) query.getResultList();
         
         
