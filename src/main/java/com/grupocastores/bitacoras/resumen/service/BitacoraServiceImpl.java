@@ -32,6 +32,7 @@ import com.grupocastores.bitacoras.resumen.DTO.GuiaViajeCustom;
 import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
 import com.grupocastores.bitacoras.resumen.DTO.IncidenciasDTO;
 import com.grupocastores.bitacoras.resumen.DTO.Moneda;
+import com.grupocastores.bitacoras.resumen.DTO.OperadoresSecundariosRequest;
 import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
 import com.grupocastores.bitacoras.resumen.DTO.UnidadOperadorRequest;
 import com.grupocastores.bitacoras.resumen.repository.BitacoraRepository;
@@ -46,7 +47,6 @@ import com.grupocastores.bitacoras.resumen.service.domain.Personal;
 import com.grupocastores.bitacoras.resumen.service.domain.Ruta;
 import com.grupocastores.bitacoras.resumen.service.domain.Servidores;
 import com.grupocastores.bitacoras.resumen.service.domain.TablaTalonesOficina;
-import com.grupocastores.commons.inhouse.OperadoresSecundariosRequest;
 
 @Service
 public class BitacoraServiceImpl implements IBitacoraService{

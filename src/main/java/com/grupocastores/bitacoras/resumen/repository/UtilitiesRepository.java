@@ -35,6 +35,8 @@ public class UtilitiesRepository {
     static final String queryGetParametro = 
             "SELECT * FROM parametro WHERE clave = %s ";
     
+    static final String queryFindPersonal =
+            "SELECT * FROM OPENQUERY(" + DB_13 + ", 'SELECT %s FROM personal.personal WHERE %s = %s;')";
     
     /**
      * executeStoredProcedure: Ejecuta un procedimiento alamcenado para Guardar, Editar
@@ -129,6 +131,28 @@ public class UtilitiesRepository {
            return null;
       
         return  (Parametro) query.getResultList().get(0);
+    }
+    
+    /**
+     * findPersonal: Encuentra el usuario por idPersonal o idUsuario
+     *   
+     * @param out (String)
+     * @param in (String)
+     * @param id (int)
+     * @return Object
+     * @author Cynthia Fuentes Amaro
+     * @date 2022-07-29
+     */ 
+    @SuppressWarnings("unchecked")
+    public Object findPersonal(String out, String in, String id) {
+        Query query = entityManager
+                .createNativeQuery(String.format(queryFindPersonal, out, in, id));
+        
+        List<Object> list = query.getResultList();
+        if (!list.isEmpty())
+            return list.get(0);
+        return null;
+
     }
     
     
