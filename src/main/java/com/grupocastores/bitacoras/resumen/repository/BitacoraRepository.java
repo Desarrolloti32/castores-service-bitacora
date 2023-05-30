@@ -395,8 +395,7 @@ public class BitacoraRepository{
                 BitacoraResumenTalonDetail.class
             );
         
-        List<BitacoraResumenTalonDetail> talones = (List<BitacoraResumenTalonDetail>) query.getResultList();
-        return talones;
+        return (List<BitacoraResumenTalonDetail>) query.getResultList();
         
     }
     

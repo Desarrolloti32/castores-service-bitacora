@@ -110,7 +110,6 @@ public class BitacoraServiceImpl implements IBitacoraService{
         
         BitacoraResumenViajesDetail listDetailResumenViaje = new BitacoraResumenViajesDetail();
         try {
-            Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
             
             Esquemasdocumentacion esquema = bitacoraRepository.getEsquema(idEsquemaViaje);
             Ruta ruta = bitacoraRepository.getRuta(idRuta);
@@ -120,13 +119,11 @@ public class BitacoraServiceImpl implements IBitacoraService{
                 listDetailResumenViaje.setDescripcionEsquema(esquema.getNombreEsquema());
                 listDetailResumenViaje.setDescripcionRuta(ruta.getNombre());
                 listDetailResumenViaje.setEstatusUnidad(estatusUnidad.getNombreEstatus());
-                listDetailResumenViaje.setEstatusLiberacion("test");
-                listDetailResumenViaje.setGastoCasetas(10041.4323);
             }
                     
             return listDetailResumenViaje;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return listDetailResumenViaje;
         }
         
@@ -150,17 +147,16 @@ public class BitacoraServiceImpl implements IBitacoraService{
             
             if(resEntityGuiasViaje.getStatusCode()==HttpStatus.OK) {
                 List<GuiaViajeCustom> listGuiaViaje =resEntityGuiasViaje.getBody();
-                int listGuiaViajeSize = listGuiaViaje.size();
-                for(int i=0; i< listGuiaViajeSize; i++  ) {
-                    ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesTrGuia(listGuiaViaje.get(i).getNoGuia(), idoficinaDocumenta);
+                for(GuiaViajeCustom guiaViaje : listGuiaViaje) {
+                    ResponseEntity<List<TalonCustomResponse>> resEntityTalonesGuia =  viajesDocumentacionFeign.getTalonesTrGuia(guiaViaje.getNoGuia(), idoficinaDocumenta);
                     if(resEntityTalonesGuia.getStatusCode()==HttpStatus.OK) {
-                        listTalones = resEntityTalonesGuia.getBody();
+                        return resEntityTalonesGuia.getBody();
                     }
                 }
             }
             return listTalones; 
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return listTalones; 
         }
       
@@ -183,13 +179,11 @@ public class BitacoraServiceImpl implements IBitacoraService{
             ResponseEntity<TablaTalonesOficina> responseTalon =  viajesDocumentacionFeign.getTablaTalon(claTalon, idoficinaDocumenta);
             if(responseTalon.getStatusCode() == HttpStatus.OK) {
                 TablaTalonesOficina especificacion = responseTalon.getBody();
-                List<BitacoraResumenTalonDetail> response = bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, server.getServidorVinculado() );
-                
-                return response;
+                return bitacoraRepository.getTalonDetail(especificacion.getTabla(), claTalon, server.getServidorVinculado() );
             }
             return null;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return null;
         }
     }
@@ -206,7 +200,6 @@ public class BitacoraServiceImpl implements IBitacoraService{
     public BitacoraResumenGuiaDetail getDetalleGuia(String noGuia, String tabla, String idoficinaDocumenta) throws Exception {
         BitacoraResumenGuiaDetail guiaDetail = new BitacoraResumenGuiaDetail ();
         try {
-            Servidores server = utilitiesRepository.getLinkedServerByOfice(idoficinaDocumenta);
             ResponseEntity<GuMesAnio> responseGuia =  viajesDocumentacionFeign.getGuMesAnio(noGuia,tabla, idoficinaDocumenta);
             if(responseGuia.getStatusCode() == HttpStatus.OK) {
                 GuMesAnio guia = responseGuia.getBody();
@@ -214,7 +207,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
                 Personal operador = utilitiesRepository.getPersonal(guia.getIdOperador());
                 ResponseEntity<CiudadesEstadoRequest> responseOrigen =  inhouseFeign.findCiudadAndEstado(guia.getOrigen());
                 ResponseEntity<CiudadesEstadoRequest> responseDestino =  inhouseFeign.findCiudadAndEstado(guia.getDestino());
-                if(guia != null && operador!=null && responseGuia.getStatusCode() == HttpStatus.OK && responseDestino.getStatusCode() == HttpStatus.OK) {
+                if(guia != null && operador !=null && responseOrigen.getStatusCode() == HttpStatus.OK && responseDestino.getStatusCode() == HttpStatus.OK) {
                     CiudadesEstadoRequest origen = responseOrigen.getBody();
                     CiudadesEstadoRequest destino = responseDestino.getBody();
                     guiaDetail.setNoGuia(noGuia);
@@ -229,7 +222,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
             }
             return guiaDetail;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return guiaDetail;
         }
         
@@ -249,25 +242,21 @@ public class BitacoraServiceImpl implements IBitacoraService{
         
         try {
             List<TalonCustomResponse> list = getTalonesByViaje(idoficinaDocumenta, idViaje);
-            int listSize = list.size();
-            for (int i = 0; i < listSize; i++) {
-                
-                int idViajeParent = bitacoraRepository.getParentRuta(list.get(i).getClaTalon());
+           
+            
+            for (TalonCustomResponse talon : list) {
+                int idViajeParent = bitacoraRepository.getParentRuta(talon.getClaTalon());
                 if(idViajeParent != 0 ) {
                     ResponseEntity<List<BitacoraViajesRequestDetail>> viajeDetail = inhouseFeign.findBitacoraViajeDetail(idViajeParent);
-                    
                     if(viajeDetail.getStatusCode() == HttpStatus.OK) {
                         listDetailViaje = viajeDetail.getBody();
-                        if(!listDetailViaje.isEmpty()) {
-                            i = listSize;                   
-                        }
                     }
                 }
             }
                 
             return listDetailViaje;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return listDetailViaje;
         }
         
@@ -289,20 +278,19 @@ public class BitacoraServiceImpl implements IBitacoraService{
         try {
             
             List<Object[]>  tablaVales = bitacoraRepository.getTablaVales(folioViaje);
-            int tablaValesSize = tablaVales.size();
-            if(!tablaVales.isEmpty()) {  
-                tablaVales.forEach(item -> {
-                    String idVale = (String)item[0];
-                    String tabla = (String)item[1];
-                    BitacoraViajesDetalleVales detalle = bitacoraRepository.getVales(idVale, tabla);
-                    if(detalle != null) {
-                        listDetalleVales.add(detalle);
-                    }
-                });
-            }
+         
+            tablaVales.forEach(item -> {
+                String idVale = (String)item[0];
+                String tabla = (String)item[1];
+                BitacoraViajesDetalleVales detalle = bitacoraRepository.getVales(idVale, tabla);
+                if(detalle != null) {
+                    listDetalleVales.add(detalle);
+                }
+            });
+            
             return listDetalleVales;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getLocalizedMessage(), e);
             return listDetalleVales;
         }
 
@@ -321,9 +309,11 @@ public class BitacoraServiceImpl implements IBitacoraService{
      * @return InsidenciasDTO
      * @date 2023-14-03
      */
+    @SuppressWarnings("unchecked")
     @Override
-    public IncidenciasDTO  obtenerIncidencias(String claTalon, int tipo) {
-
+    public  ArrayList<IncidenciasDTO>  obtenerIncidencias(String claTalon, int tipo) {
+        
+      
         try {
             Parametro parametro = utilitiesRepository.getParametroByClave("0017");
             if( parametro == null ) {
@@ -331,13 +321,13 @@ public class BitacoraServiceImpl implements IBitacoraService{
             }
             RestTemplate restTemplate = new RestTemplate();
             String urlIncidencia = parametro.getValor()+"/"+claTalon+"/"+tipo;  
-            IncidenciasDTO response = restTemplate.getForObject(urlIncidencia, IncidenciasDTO.class);
+            ArrayList<IncidenciasDTO> response = restTemplate.getForObject(urlIncidencia, ArrayList.class);
             
             return  response;    
           
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            return null;
+            logger.error(e.getLocalizedMessage(), e);
+            return  new ArrayList<IncidenciasDTO>();
         }
              
      }
