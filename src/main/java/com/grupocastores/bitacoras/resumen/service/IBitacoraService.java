@@ -13,6 +13,8 @@ import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesRequestDetail;
 import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
 import com.grupocastores.bitacoras.resumen.DTO.IncidenciasDTO;
 import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
+import com.grupocastores.bitacoras.resumen.DTO.UnidadOperadorRequest;
+import com.grupocastores.commons.inhouse.OperadoresSecundariosRequest;
 
 
 public interface IBitacoraService {
@@ -120,6 +122,10 @@ public interface IBitacoraService {
     public List<AsistenciaOperadorDTO> filterAsistencias(String fechaInicio, String fechaFinal, int idOperador);
 
     public List<HorarioOperador> filterHorario(int idunidad, int tipoOperador, int idOperador);
+
+    public List<UnidadOperadorRequest> getUnidadesCliente(int idClienteInhouse, int idTipoUnidad);
+
+    public List<OperadoresSecundariosRequest> getOperadoresAsignados(int idUnidad);
 
    
 

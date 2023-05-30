@@ -1,5 +1,7 @@
 package com.grupocastores.bitacoras.resumen.service;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
 import com.grupocastores.bitacoras.resumen.DTO.IncidenciasDTO;
 import com.grupocastores.bitacoras.resumen.DTO.Moneda;
 import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
+import com.grupocastores.bitacoras.resumen.DTO.UnidadOperadorRequest;
 import com.grupocastores.bitacoras.resumen.repository.BitacoraRepository;
 import com.grupocastores.bitacoras.resumen.repository.UtilitiesRepository;
 import com.grupocastores.bitacoras.resumen.service.client.IInhouseClientRest;
@@ -43,6 +46,7 @@ import com.grupocastores.bitacoras.resumen.service.domain.Personal;
 import com.grupocastores.bitacoras.resumen.service.domain.Ruta;
 import com.grupocastores.bitacoras.resumen.service.domain.Servidores;
 import com.grupocastores.bitacoras.resumen.service.domain.TablaTalonesOficina;
+import com.grupocastores.commons.inhouse.OperadoresSecundariosRequest;
 
 @Service
 public class BitacoraServiceImpl implements IBitacoraService{
@@ -91,7 +95,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
 
         fechas.stream().forEach(f -> {
         	String tabla = "" + f.getMonthValue() + f.getYear();
-        	response.addAll(bitacoraRepository.filterViajes(fechaInicio, fechaFin, idViaje, noEconomico, tipoUnidad, estatusViaje, idEsquema, idNegociacion, idClienteinhouse, idOficinaCliente, tabla, server.getServidorVinculado()));
+        	response.addAll(bitacoraRepository.filterViajes(fechaInicio, fechaFin, idViaje, noEconomico, tipoUnidad, estatusViaje, idEsquema, idNegociacion, idClienteinhouse, idOficinaCliente, tabla, DBPRUEBA));
         });
         return response;
     }
@@ -361,6 +365,64 @@ public class BitacoraServiceImpl implements IBitacoraService{
     public List<HorarioOperador> filterHorario(int idunidad, int tipoOperador, int idOperador) {
         List<HorarioOperador> list = bitacoraRepository.filterHorario(idunidad, tipoOperador, idOperador);
         return list;
+    }
+
+    /**
+     * getUnidadesCliente: Obtiene las unidades de un cliente inhouse
+     * 
+     * @param idClienteInhouse (int)
+     * @return List<UnidadOperadorRequest>
+     * @author Cynthia Fuentes Amaro
+     * @date 2022-10-28
+     */
+    @Override
+    public List<UnidadOperadorRequest> getUnidadesCliente(int idClienteInhouse, int idTipoUnidad) {
+        
+        List<Object []> lista = bitacoraRepository.getUnidadesCliente(idClienteInhouse, idTipoUnidad, utilitiesRepository.getDb23());
+        List<UnidadOperadorRequest> unidades = new ArrayList<>();
+        
+        if(lista != null ) {
+            lista.stream().forEach(i -> {
+                unidades.add(new UnidadOperadorRequest((int)i[0], (int)i[1], (int)i[2], (String)i[3], (String)i[4], (String)i[5], (String)i[6], 
+                    (int)i[7], (String)i[8], (String)i[9], i[18] != null ? ((Time)i[18]).toLocalTime() : null, i[19] != null ? ((Time)i[19]).toLocalTime() : null, // Operador 1
+                    0, "", "", null, null, // Operador 2
+                    (int)i[10], (String)i[11], i[12] != null ? ((String)i[12]).replaceAll("\r\n", "") : null, 
+                    i[13] != null ? ((String)i[13]).replaceAll("\r\n", "") : null, (String)i[14], (int)i[15], (String)i[16], (String)i[17], 
+                    i[20] != null ? (int)i[20] : 0, i[21] != null ? (String)i[21] : null));
+            });
+            
+             unidades.stream().filter(x -> x.getComplementoCliente() != null && x.getComplementoCliente().contains(x.getAliasInhouse())).collect(Collectors.toList());
+        }
+        
+        return unidades;
+        
+    }
+    
+    /**
+     * getOperadoresAsignados: Obtiene los operadores asignados a una unidad
+     * 
+     * @param idUnidad (int)
+     * @return List<OperadoresSecundariosRequest>
+     * @author Cynthia Fuentes Amaro
+     * @date 2022-11-02
+     */
+    @Override
+    public List<OperadoresSecundariosRequest> getOperadoresAsignados(int idUnidad) {
+        
+        List<Object []> lista = bitacoraRepository.getOperadoresAsignados(idUnidad);
+        List<OperadoresSecundariosRequest> operadores = new ArrayList<>();
+        
+        if(lista != null ) {
+            lista.stream().forEach(i -> {
+                String idUsuarioMod = (String) utilitiesRepository.findPersonal("idusuario", "idpersonal", String.valueOf((Integer)i[11]));
+                
+                operadores.add(new OperadoresSecundariosRequest((int)i[12], (int)i[0], (int)i[1], (int)i[2], (String)i[13], (int)i[3], (String)i[4], (int)i[5], (int)i[6], 
+                    ((Time)i[7]).toLocalTime(), ((Time)i[8]).toLocalTime(), (short)1, ((Date)i[9]).toLocalDate(), ((Time)i[10]).toLocalTime(), idUsuarioMod));
+            });
+        }
+        
+        return operadores;
+        
     }
     
 }
