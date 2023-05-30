@@ -24,7 +24,9 @@ import com.grupocastores.bitacoras.resumen.DTO.BitacoraViajesRequestDetail;
 import com.grupocastores.bitacoras.resumen.DTO.HorarioOperador;
 import com.grupocastores.bitacoras.resumen.DTO.IncidenciasDTO;
 import com.grupocastores.bitacoras.resumen.DTO.TalonCustomResponse;
+import com.grupocastores.bitacoras.resumen.DTO.UnidadOperadorRequest;
 import com.grupocastores.bitacoras.resumen.service.IBitacoraService;
+import com.grupocastores.commons.inhouse.OperadoresSecundariosRequest;
 
 
 @RestController
@@ -297,7 +299,36 @@ public class BitacorasController {
          return listaHorarioOperador;
     }
     
+    /**
+     * getUnidadesCliente: Obtiene los esquemas de pago del catálogo
+     * 
+     * @return List<EsquemasPago>
+     * @author Cynthia Fuentes Amaro
+     * @date 2023-05-26
+     */
+    @GetMapping(value = "/getUnidadesCliente/{idClienteInhouse}/{idTipoUnidad}")
+    public ResponseEntity<List<UnidadOperadorRequest>> getUnidadesCliente(@PathVariable("idClienteInhouse") int idClienteInhouse, @PathVariable("idTipoUnidad") int idTipoUnidad) {
+        List<UnidadOperadorRequest> list = bitacoraService.getUnidadesCliente(idClienteInhouse, idTipoUnidad);
+        if (list == null || list.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(list);
+    }
     
+    
+    /**
+     * getUnidadesCliente: Obtiene los esquemas de pago del catálogo
+     * 
+     * @return List<EsquemasPago>
+     * @author Cynthia Fuentes Amaro
+     * @date 2023-05-26
+     */
+    @GetMapping(value = {"/getOperadoresAsignados/{idUnidad}"})
+    public ResponseEntity<List<OperadoresSecundariosRequest>> getOperadoresAsignados(@PathVariable("idUnidad") int idUnidad) {
+        List<OperadoresSecundariosRequest> list = bitacoraService.getOperadoresAsignados(idUnidad);
+        if (list == null || list.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(list);
+    }
     
    
    

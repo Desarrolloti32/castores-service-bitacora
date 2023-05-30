@@ -58,7 +58,7 @@ public class BitacoraRepository{
             + "  cop.nombre AS nombreoperador "
             + " FROM "
             + "  talones.viajes tv "
-            + "  INNER JOIN talones.viajes_esquema_gasto tve "
+            + "  LEFT JOIN talones.viajes_esquema_gasto tve "
             + "    ON tv.idviaje = tve.idviaje "
             + "  INNER JOIN talones.guiaviaje tgv "
             + "    ON tv.idviaje = tgv.idviaje "
@@ -86,7 +86,7 @@ public class BitacoraRepository{
             + "    ON tv.idoficinaorigen = cof1.idoficina "
             + "  INNER JOIN castores.oficinas cof2  "
             + "    ON tv.idoficinadestino = cof2.idoficina "
-            + " WHERE  %s  tv.idCliente = %s AND tv.idOficinacliente = \"%s\"  GROUP BY tv.idviaje; ');";
+            + " WHERE  %s tve.idesquemagasto = 0 AND tv.idCliente = %s AND tv.idOficinacliente = \"%s\"  GROUP BY tv.idviaje; ');";
     
     static final String queryGetNegociacion = 
             "SELECT *FROM OPENQUERY(%s, 'SELECT nc.id_negociacion_cliente, nc.id_negociacion, n.desc_negociacion FROM bitacorasinhouse.negociaciones_clientes nc INNER JOIN bitacorasinhouse.negociaciones n ON n.id_negociacion = nc.id_negociacion WHERE id_negociacion_cliente = %s;');";
@@ -232,6 +232,16 @@ public class BitacoraRepository{
             + "INNER JOIN camiones.operadores o ON os.idoperador = o.idpersonal "
             + " WHERE %s os.estatus = 1 ');";
     
+    
+
+    static final String queryGetUnidadesCliente = 
+            "SELECT a.*, c.id_cliente_inhouse, c.alias_inhouse, c.rfc, o.horaentrada, o.horasalida, o.idesquemapago, o.nombre esquema FROM OPENQUERY (%s, 'SELECT u.idunidad, u.unidad, u.tipounidad, u.noeconomico, u.modelo, u.placas, c.marca, u.idoperador, o.idusuario, o.nombre, ur.idcliente, ur.idoficina, ur.cliente, ur.complementocliente, ur.observacion FROM monitoreo.unidades_renta ur LEFT JOIN camiones.unidades u ON ur.noeconomico = u.noeconomico LEFT JOIN camiones.camiones c ON u.unidad = c.unidad AND u.noeconomico = c.noeconomico AND u.idoperador = c.operador LEFT JOIN camiones.operadores o ON u.idoperador = o.idpersonal AND o.status = 1 WHERE u.estatus = 1 AND ur.estatus = 1 AND u.tipounidad = %s ') AS a " + 
+            "INNER JOIN OPENQUERY(%s, 'SELECT ci.id_cliente_inhouse, ci.alias_inhouse, b.rfc, c.idcliente FROM bitacorasinhouse.clientes_inhouse ci INNER JOIN bitacorasinhouse.clientes_inhouse_clientes2009 b ON ci.id_cliente_inhouse = b.id_cliente_inhouse INNER JOIN clientes.clientes2009 c ON b.id_cliente = c.idcliente AND b.rfc = c.rfc WHERE b.estatus = 1 AND c.status = 1 AND ci.id_cliente_inhouse = %s GROUP BY ci.alias_inhouse;') AS c ON /*a.idcliente = c.idcliente AND */a.complementocliente = c.alias_inhouse " + 
+            "LEFT JOIN OPENQUERY(%s, 'SELECT op.idoperador, op.idunidad, op.horaentrada, op.horasalida, op.idesquemapago, ep.nombre FROM bitacorasinhouse.operadores_secundarios_unidad op INNER JOIN bitacorasinhouse.esquemas_pago ep ON op.idesquemapago = ep.idesquemapago WHERE op.estatus = 1 AND op.tipooperador = 1 AND ep.estatus = 1;') AS o ON a.idoperador = o.idoperador AND a.idunidad = o.idunidad;";
+    
+    
+    static final String queryGetOperadoresAsignados = 
+            "SELECT a.*, b.nombre FROM OPENQUERY (%s, 'SELECT os.idunidad, os.tipounidad, os.idoperador, os.idesquemapago, ep.nombre esquemaPago, os.tipooperador, os.ordenoperador, os.horaentrada, os.horasalida, os.fechamod, os.horamod, os.idpersonalmod, os.idoperadoresunidad FROM bitacorasinhouse.operadores_secundarios_unidad os INNER JOIN bitacorasinhouse.esquemas_pago ep ON os.idesquemapago = ep.idesquemapago WHERE os.idunidad = \"%s\" AND os.estatus = 1;') AS a LEFT JOIN OPENQUERY(%s, 'SELECT idpersonal, nombre FROM camiones.operadores;') AS b ON a.idoperador = b.idpersonal ORDER BY 7;";
     
     
     /**
@@ -564,5 +574,40 @@ public class BitacoraRepository{
            List<HorarioOperador> list = query.getResultList();
            return list;
     }
-      
+
+    /**
+     * getUnidadesCliente: Obtiene las unidades de renta de un cliente
+     * 
+     * @param idClienteInhouse (int)
+     * @return List<Object[]>
+     * @author Cynthia Fuentes Amaro
+     * @param linkedServer 
+     * @param idTipoUnidad 
+     * @date 2022-10-28
+     */
+    @SuppressWarnings("unchecked")
+    public List<Object[]> getUnidadesCliente(int idClienteInhouse, int idTipoUnidad, String linkedServer) {
+        Query query = entityManager
+                .createNativeQuery(String.format(queryGetUnidadesCliente, utilitiesRepository.getDb13(), idTipoUnidad, linkedServer, idClienteInhouse, linkedServer));
+
+        return query.getResultList();
+
+    }
+    
+    /**
+     * getOperadoresAsignados: Obtiene los datos de los operadores asignados
+     * 
+     * @param idUnidad (int)
+     * @return List<Object[]>
+     * @author Cynthia Fuentes Amaro
+     * @date 2022-11-01
+     */
+    @SuppressWarnings("unchecked")
+    public List<Object[]> getOperadoresAsignados(int idUnidad) {
+        Query query = entityManager
+                .createNativeQuery(String.format(queryGetOperadoresAsignados,utilitiesRepository.getDb23(),  idUnidad, utilitiesRepository.getDb13()));
+
+        return query.getResultList();
+
+    }
 }
