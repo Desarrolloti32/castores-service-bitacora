@@ -65,9 +65,6 @@ public class BitacoraServiceImpl implements IBitacoraService{
     
     @Autowired
     private UtilitiesRepository utilitiesRepository;
-    
-    
-    public static final String DBPRUEBA = "TIJUANAPRUEBA";
 
     
     /**
@@ -95,7 +92,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
 
         fechas.stream().forEach(f -> {
         	String tabla = "" + f.getMonthValue() + f.getYear();
-        	response.addAll(bitacoraRepository.filterViajes(fechaInicio, fechaFin, idViaje, noEconomico, tipoUnidad, estatusViaje, idEsquema, idNegociacion, idClienteinhouse, idOficinaCliente, tabla, DBPRUEBA));
+        	response.addAll(bitacoraRepository.filterViajes(fechaInicio, fechaFin, idViaje, noEconomico, tipoUnidad, estatusViaje, idEsquema, idNegociacion, idClienteinhouse, idOficinaCliente, tabla, server.getServidorVinculado()));
         });
         return response;
     }
