@@ -104,7 +104,8 @@ public class BitacoraRepository{
             "SELECT *FROM OPENQUERY(%s, 'SELECT * FROM talones.ruta WHERE idruta = %s');";
     
     static final String queryGetTalonDetail =
-            "SELECT *FROM OPENQUERY(%s, 'SELECT "
+            "SELECT ofi.*, cdo.ciudadorigen, cdo.estadoorigen, cdd.ciudaddestino, cdd.estadodestino "
+            + "FROM OPENQUERY(%s, 'SELECT "
             + "  t.cla_talon, "
             + "  tip.nombre AS tipotalon, "
             + "  pag.nombre AS tipopago, "
@@ -114,8 +115,6 @@ public class BitacoraRepository{
             + "  t.coloniaorigen, "
             + "  t.cporigen, "
             + "  t.telorigen, "
-            + "  cdo.nombre AS ciudadorigen, "
-            + "  ceo.nombre AS estadoorigen, "
             + "  t.serecogera, "
             + "  t.rfcdestino, "
             + "  t.nomdestino, "
@@ -123,8 +122,6 @@ public class BitacoraRepository{
             + "  t.coloniadestino, "
             + "  t.cpdestino, "
             + "  t.teldestino, "
-            + "  cdd.nombre AS ciudaddestino, "
-            + "  ced.nombre AS estadodestino, "
             + "  t.seentregara, "
             + "  t.suma_flete  AS sumaflete, "
             + "  t.importeseguro, "
@@ -162,17 +159,11 @@ public class BitacoraRepository{
             + "  t.remision, "
             + "  t.ubicacion, "
             + "  cf.fecha, "
-            + "  cf.estatus  "
+            + "  cf.estatus,  "
+            + "  t.cdorigen, "
+            + "  t.cddestino "
             + " FROM "
             + "  talones.tr%S t "
-            + "  INNER JOIN camiones.ciudades_completos cdo "
-            + "    ON t.cdorigen = cdo.idciudad "
-            + "  INNER JOIN camiones.estados ceo "
-            + "    ON cdo.idestado = ceo.idestado "
-            + "  INNER JOIN camiones.ciudades_completos cdd "
-            + "    ON t.cddestino = cdd.idciudad "
-            + "  INNER JOIN camiones.estados ced "
-            + "    ON cdd.idestado = ced.idestado "
             + "  INNER JOIN talones.co%S co  "
             + "    ON t.cla_talon = co.cla_talon "
             + "  INNER JOIN talones.detaco deco  "
@@ -185,7 +176,23 @@ public class BitacoraRepository{
             + "    ON t.tipopago = pag.idtipopago "
             + "  INNER JOIN cfdinomina.cfdi cf "
             + "    ON t.cla_talon = cf.idper_fac "
-            + "WHERE t.cla_talon =\"%s\";');";
+            + "WHERE t.cla_talon =\"%s\";') AS ofi "
+            + "INNER JOIN OPENQUERY(%s, 'SELECT "
+            + "  idciudad, "
+            + "  cdo.nombre AS ciudadorigen, "
+            + "  ceo.nombre AS estadoorigen "
+            + " FROM "
+            + "  camiones.ciudades_completos cdo "
+            + "  INNER JOIN camiones.estados ceo "
+            + "    ON cdo.idestado = ceo.idestado;') AS cdo ON ofi.cdorigen = cdo.idciudad "
+            + "INNER JOIN OPENQUERY(%s, 'SELECT "
+            + "  idciudad, "
+            + "  cdd.nombre AS ciudaddestino, "
+            + "  ced.nombre AS estadodestino "
+            + " FROM "
+            + "  camiones.ciudades_completos cdd "
+            + "  INNER JOIN camiones.estados ced "
+            + "    ON cdd.idestado = ced.idestado;') AS cdd ON ofi.cddestino = cdd.idciudad ";
     
     static final String queryGetMoneda = 
             "SELECT * FROM moneda where id_moneda = %s";
@@ -401,7 +408,9 @@ public class BitacoraRepository{
                 linkedServer,
                 tabla,
                 tabla,
-                claTalon),
+                claTalon,
+                utilitiesRepository.getDb13(),
+                utilitiesRepository.getDb13()),
                 BitacoraResumenTalonDetail.class
             );
         
