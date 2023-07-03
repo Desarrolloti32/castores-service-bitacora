@@ -3,7 +3,6 @@ package com.grupocastores.bitacoras.resumen.controller;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.StringJoiner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.grupocastores.bitacoras.resumen.DTO.AsistenciaOperadorDTO;
 import com.grupocastores.bitacoras.resumen.DTO.BitacoraResumenGuiaDetail;
@@ -308,10 +306,10 @@ public class BitacorasController {
      */
     @GetMapping(value = "/getUnidadesCliente/{idClienteInhouse}/{idTipoUnidad}")
     public ResponseEntity<List<UnidadOperadorRequest>> getUnidadesCliente(@PathVariable("idClienteInhouse") int idClienteInhouse, @PathVariable("idTipoUnidad") int idTipoUnidad) {
-        List<UnidadOperadorRequest> list = bitacoraService.getUnidadesCliente(idClienteInhouse, idTipoUnidad);
-        if (list == null || list.isEmpty())
+        List<UnidadOperadorRequest> lstUnidades = bitacoraService.getUnidadesCliente(idClienteInhouse, idTipoUnidad);
+        if (lstUnidades == null || lstUnidades.isEmpty())
             return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(lstUnidades);
     }
     
     
@@ -324,10 +322,10 @@ public class BitacorasController {
      */
     @GetMapping(value = {"/getOperadoresAsignados/{idUnidad}"})
     public ResponseEntity<List<OperadoresSecundariosRequest>> getOperadoresAsignados(@PathVariable("idUnidad") int idUnidad) {
-        List<OperadoresSecundariosRequest> list = bitacoraService.getOperadoresAsignados(idUnidad);
-        if (list == null || list.isEmpty())
+        List<OperadoresSecundariosRequest> lstOperadores = bitacoraService.getOperadoresAsignados(idUnidad);
+        if (lstOperadores == null || lstOperadores.isEmpty())
             return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(lstOperadores);
     }
     
    

@@ -148,9 +148,9 @@ public class UtilitiesRepository {
         Query query = entityManager
                 .createNativeQuery(String.format(queryFindPersonal, out, in, id));
         
-        List<Object> list = query.getResultList();
-        if (!list.isEmpty())
-            return list.get(0);
+        List<Object> lstPersonal = query.getResultList();
+        if (!lstPersonal.isEmpty())
+            return lstPersonal.get(0);
         return null;
 
     }
