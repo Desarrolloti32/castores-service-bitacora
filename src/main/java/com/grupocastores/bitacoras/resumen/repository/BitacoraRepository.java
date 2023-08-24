@@ -86,7 +86,7 @@ public class BitacoraRepository{
             + "    ON tv.idoficinaorigen = cof1.idoficina "
             + "  INNER JOIN castores.oficinas cof2  "
             + "    ON tv.idoficinadestino = cof2.idoficina "
-            + " WHERE  %s tve.idesquemagasto = 0 AND tv.idCliente = %s AND tv.idOficinacliente = \"%s\"  GROUP BY tv.idviaje; ');";
+            + " WHERE  %s tv.idCliente = %s AND tv.idOficinacliente = \"%s\"  GROUP BY tv.idviaje; ');";
     
     static final String queryGetNegociacion = 
             "SELECT *FROM OPENQUERY(%s, 'SELECT nc.id_negociacion_cliente, nc.id_negociacion, n.desc_negociacion FROM bitacorasinhouse.negociaciones_clientes nc INNER JOIN bitacorasinhouse.negociaciones n ON n.id_negociacion = nc.id_negociacion WHERE id_negociacion_cliente = %s;');";

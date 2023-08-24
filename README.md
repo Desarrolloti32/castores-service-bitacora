@@ -1,12 +1,11 @@
 # castores-service-bitacora-resumen
 
-## Versión: 1.2.0.0
+## Versión: 1.2.1.0
 - __Ticket/Proyecto:__ N/A
 - __Author:__ Oscar Guerra / Cynthia Fuentes
-- __Fecha:__ 28/06/2023
+- __Fecha:__ 10/08/2023
 - __Descripción:__ 
-	- Feat: Se modifica consulta de ciudades para utilizar la tabla camiones.ciudades_completos
-	- Feat: se agrega servicio para consultar unidades y operadores
+	- Feat: Se remueve validacion de consulta para filtrar informacion de la tabla de bitacora
 
 --------
 
