@@ -58,8 +58,6 @@ public class BitacoraRepository{
             + "  cop.nombre AS nombreoperador "
             + " FROM "
             + "  talones.viajes tv "
-            + "  LEFT JOIN talones.viajes_esquema_gasto tve "
-            + "    ON tv.idviaje = tve.idviaje "
             + "  INNER JOIN talones.guiaviaje tgv "
             + "    ON tv.idviaje = tgv.idviaje "
             + "  INNER JOIN talones.guias tg "
