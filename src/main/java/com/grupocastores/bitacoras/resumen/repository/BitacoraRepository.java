@@ -273,7 +273,7 @@ public class BitacoraRepository{
                 queryWherePart = queryWherePart + " AND tv.tipounidad = "+tipoUnidad+" ";
             }
  
-            if(estatusViaje != 9999) {
+            if(estatusViaje != 0) {
                 queryWherePart = queryWherePart +" AND tv.estatus = "+estatusViaje+" ";
             }else {
                 queryWherePart = queryWherePart +" AND tv.estatus NOT IN(5) ";
@@ -289,7 +289,7 @@ public class BitacoraRepository{
         }
         
         if( !idViaje.equals("0") ) {
-            queryWherePart = queryWherePart + " tv.folio = "+idViaje+" AND ";
+            queryWherePart = queryWherePart + " tv.folio = \""+idViaje+"\" AND ";
             queryWherePart = queryWherePart +"tv.estatus NOT IN(5) ";
         }
         
@@ -309,9 +309,9 @@ public class BitacoraRepository{
                 idOficinaCliente),
                 BitacoraResumenViajesCustom.class
             );
-        List<BitacoraResumenViajesCustom> list = query.getResultList();
-        
         return query.getResultList();
+        
+        
     }
     
     /**
