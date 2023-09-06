@@ -68,11 +68,11 @@ public class BitacoraRepository{
             + "    ON tgma.cla_talon = tt.cla_talon "
             + "  INNER JOIN talones.especificacion_talon tet "
             + "    ON tgma.cla_talon = tet.cla_talon "
-            + "  INNER JOIN camiones.camiones cc "
+            + "  INNER JOIN camiones.camiones_copy cc "
             + "    ON tv.idunidad = cc.unidad "
             + "  LEFT JOIN camiones.unidades_urea cur "
             + "    ON cc.unidad = cur.unidad "
-            + "  LEFT JOIN camiones.bitacora cabi "
+            + "  LEFT JOIN camiones.bitacora_copia cabi "
             + "    ON cc.unidad = cabi.idunidad "
             + "  INNER JOIN camiones.tipounidad cti "
             + "    ON tv.tipounidad = cti.idtipounidad "
@@ -424,14 +424,14 @@ public class BitacoraRepository{
      * @return Moneda
      * @date 2022-12-14
      */
-    public Moneda getMoneda(int idMoneda) {
+    public List<Moneda> getMoneda(int idMoneda) {
         Query query = entityManager.createNativeQuery(String.format(
                 queryGetMoneda,
                 idMoneda),
                 Moneda.class
             );
         
-        return (Moneda) query.getResultList().get(0);
+        return  query.getResultList();
         
     }
     
