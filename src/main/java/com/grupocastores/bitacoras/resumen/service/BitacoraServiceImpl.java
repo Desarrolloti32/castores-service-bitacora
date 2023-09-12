@@ -203,9 +203,9 @@ public class BitacoraServiceImpl implements IBitacoraService{
             if(responseGuia.getStatusCode() == HttpStatus.OK) {
                 GuMesAnio guia = responseGuia.getBody();
                 String nombreMoneda = "Sin definir";
-                List<Moneda> moneda = bitacoraRepository.getMoneda(guia.getMoneda());
-                if(!moneda.isEmpty()) {
-                    nombreMoneda = moneda.get(0).getNombre();
+                List<Moneda> lstMoneda = bitacoraRepository.getMoneda(guia.getMoneda());
+                if(!lstMoneda.isEmpty()) {
+                    nombreMoneda = lstMoneda.get(0).getNombre();
                 }
                 Personal operador = utilitiesRepository.getPersonal(guia.getIdOperador());
                 ResponseEntity<CiudadesEstadoRequest> responseOrigen =  inhouseFeign.findCiudadAndEstado(guia.getOrigen());
