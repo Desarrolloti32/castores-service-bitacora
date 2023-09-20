@@ -58,8 +58,6 @@ public class BitacoraRepository{
             + "  cop.nombre AS nombreoperador "
             + " FROM "
             + "  talones.viajes tv "
-            + "  LEFT JOIN talones.viajes_esquema_gasto tve "
-            + "    ON tv.idviaje = tve.idviaje "
             + "  INNER JOIN talones.guiaviaje tgv "
             + "    ON tv.idviaje = tgv.idviaje "
             + "  INNER JOIN talones.guias tg "
@@ -273,7 +271,7 @@ public class BitacoraRepository{
                 queryWherePart = queryWherePart + " AND tv.tipounidad = "+tipoUnidad+" ";
             }
  
-            if(estatusViaje != 9999) {
+            if(estatusViaje != 0) {
                 queryWherePart = queryWherePart +" AND tv.estatus = "+estatusViaje+" ";
             }else {
                 queryWherePart = queryWherePart +" AND tv.estatus NOT IN(5) ";
@@ -289,7 +287,7 @@ public class BitacoraRepository{
         }
         
         if( !idViaje.equals("0") ) {
-            queryWherePart = queryWherePart + " tv.folio = "+idViaje+" AND ";
+            queryWherePart = queryWherePart + " tv.folio = \""+idViaje+"\" AND ";
             queryWherePart = queryWherePart +"tv.estatus NOT IN(5) ";
         }
         
@@ -309,9 +307,9 @@ public class BitacoraRepository{
                 idOficinaCliente),
                 BitacoraResumenViajesCustom.class
             );
-        List<BitacoraResumenViajesCustom> list = query.getResultList();
-        
         return query.getResultList();
+        
+        
     }
     
     /**
@@ -426,14 +424,14 @@ public class BitacoraRepository{
      * @return Moneda
      * @date 2022-12-14
      */
-    public Moneda getMoneda(int idMoneda) {
+    public List<Moneda> getMoneda(int idMoneda) {
         Query query = entityManager.createNativeQuery(String.format(
                 queryGetMoneda,
                 idMoneda),
                 Moneda.class
             );
         
-        return (Moneda) query.getResultList().get(0);
+        return  query.getResultList();
         
     }
     

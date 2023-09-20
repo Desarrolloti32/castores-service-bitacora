@@ -49,6 +49,7 @@ import com.grupocastores.bitacoras.resumen.service.domain.TablaTalonesOficina;
 public class BitacoraServiceImpl implements IBitacoraService{
     
     
+    
     Logger logger = LoggerFactory.getLogger(BitacoraServiceImpl.class);
     
     @Autowired
@@ -201,7 +202,11 @@ public class BitacoraServiceImpl implements IBitacoraService{
             ResponseEntity<GuMesAnio> responseGuia =  viajesDocumentacionFeign.getGuMesAnio(noGuia,tabla, idoficinaDocumenta);
             if(responseGuia.getStatusCode() == HttpStatus.OK) {
                 GuMesAnio guia = responseGuia.getBody();
-                Moneda moneda =bitacoraRepository.getMoneda(guia.getMoneda());
+                String nombreMoneda = "Sin definir";
+                List<Moneda> lstMoneda = bitacoraRepository.getMoneda(guia.getMoneda());
+                if(!lstMoneda.isEmpty()) {
+                    nombreMoneda = lstMoneda.get(0).getNombre();
+                }
                 Personal operador = utilitiesRepository.getPersonal(guia.getIdOperador());
                 ResponseEntity<CiudadesEstadoRequest> responseOrigen =  inhouseFeign.findCiudadAndEstado(guia.getOrigen());
                 ResponseEntity<CiudadesEstadoRequest> responseDestino =  inhouseFeign.findCiudadAndEstado(guia.getDestino());
@@ -215,7 +220,7 @@ public class BitacoraServiceImpl implements IBitacoraService{
                     guiaDetail.setRemolque(guia.getRemolque());
                     guiaDetail.setOrigen(origen.getCiudad());
                     guiaDetail.setDestino(destino.getCiudad());
-                    guiaDetail.setMoneda(moneda.getNombre());
+                    guiaDetail.setMoneda(nombreMoneda);
                 }
             }
             return guiaDetail;
