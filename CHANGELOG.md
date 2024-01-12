@@ -1,3 +1,10 @@
+## Versión: 1.2.3.0
+- __Ticket/Proyecto:__ N/A
+- __Author:__ Cynthia Fuentes
+- __Fecha:__ 11/01/2024
+- __Descripción:__ 
+	- Feat: Se agrega clasificación de completos en el servicio para consultar los detalles del talón.
+	
 ## Versión: 1.2.2.0
 - __Ticket/Proyecto:__ N/A
 - __Author:__ Oscar Guerra / Cynthia Fuentes

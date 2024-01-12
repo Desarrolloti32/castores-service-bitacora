@@ -174,4 +174,16 @@ public class BitacoraResumenTalonDetail {
     
     private int estatus;
     
+    @Column(name="servicio_full")  
+    private String servicioFull;
+    
+    @Column(name="servicio_contact_center")  
+    private String servicioContactCenter;
+    
+    @Column(name="id_clasificacion_completos")  
+    private Integer idClasificacionCompletos;
+    
+    @Column(name="nombre_clasificacion")  
+    private String nombreClasificacion;
+    
 }
